@@ -1,4 +1,9 @@
-<!DOCTYPE html>
+<?php
+if ($_SERVER['SERVER_NAME'] == "localhost") {
+    header('Location: http://127.0.0.1/' . $folder);
+    exit;
+}
+?>
 <html lang="en">
 
   <head>
