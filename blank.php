@@ -1,3 +1,10 @@
+<?php
+$path = $_SERVER['PHP_SELF'];
+$pieces = explode("/", $path);
+$folder = $pieces[1];
+
+require_once ($_SERVER['DOCUMENT_ROOT']."/$folder/system/inc/loader.inc.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -81,7 +88,7 @@
             <a class="dropdown-item" href="#">Settings</a>
             <a class="dropdown-item" href="#">Activity Log</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
+            <a class="dropdown-item" href="logout.php" data-toggle="modal" data-target="#logoutModal">Logout</a>
           </div>
         </li>
       </ul>
@@ -111,7 +118,7 @@
             <div class="dropdown-divider"></div>
             <h6 class="dropdown-header">Other Pages:</h6>
             <a class="dropdown-item" href="404.html">404 Page</a>
-            <a class="dropdown-item active" href="blank.html">Blank Page</a>
+            <a class="dropdown-item active" href="blank.php">Blank Page</a>
           </div>
         </li>
         <li class="nav-item">

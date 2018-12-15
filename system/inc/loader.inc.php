@@ -32,3 +32,4 @@ $GLOBALS['url_path'] = 'http://' . $_SERVER['SERVER_NAME'] . '/' . $folder . '/'
 $GLOBALS['mysql_db_name'] = $db_name;
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/' . $folder . '/system/auth/auth_main.php';
+
