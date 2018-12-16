@@ -43,6 +43,7 @@ if ($_SERVER['SERVER_NAME'] == "localhost") {
                            name="submit"
                            id="submit"
                            value="Prisijungti">
+                <a class="btn btn-primary btn-block" href="<?php echo $GLOBALS['url_path']."index.php"; ?>">Grįžti į pradinį langą</a>
         </div>
       </div>
     </div>

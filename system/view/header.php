@@ -32,7 +32,7 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div class="modal-body">Spauskite <b>atsijungti</b> jeigu tikrai norite baigti darbą</div>
+            <div class="modal-body">Spauskite <b>atsijungti</b> jeigu tikrai norite baigti darbą!</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Tęsti darbą</button>
                 <a class="btn btn-primary" href="<?php echo $GLOBALS['url_path']."system/auth/logout.php"; ?>">Atsijungti</a>

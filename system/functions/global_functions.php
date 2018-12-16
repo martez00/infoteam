@@ -50,14 +50,40 @@ function send_mysqli_query($mysqli, $sql, $return_insert_id = false, $do_not_ech
     $sql = str_ireplace("TYPE=HEAP", " ", $sql);
     $rezultatas = mysqli_query($mysqli, $sql);
     $e = mysqli_error($mysqli);
-    if ($e && !$do_not_echo_error) {
-           echo "<div class=warning>" . __("Klaida dirbant programa. Patikrinkite programos nustatymus, vedamą informaciją.", "klaida_dirbant_programa", "global_functions") . "<br>" . __("Jei problema išlieka, rašykite į <b>pagalba@infotransport.eu</b>.", "jei_problema_islieka", "global_functions") . "<br><span style='color:red;'><b>* " . __("Jei problemą iššaukė vartotojo veiksmai, jos sprendimas gali būti apmokestinamas.", "jei_problema_issauke", "global_functions") . "</b></span><br><br><b>" . __("Vykdant SQL užklausą:", "vykdant_sql", "global_functions") . "</b><br><span class='found' >" . trim($sql) . "</span><br><br><b>" . __("Gauta klaida:", "erroras", "global_functions") . "</b><br><span class='found' >$e</span></div>";
+
+    if ($e && $do_not_echo_error==false) {
+           echo "<div>Klaida dirbant programa. Patikrinkite programos nustatymus, vedamą informaciją. Jei problema išlieka, rašykite susisiekita su programos kūrėjais.<br>Vykdant SQL užklausą:" . trim($sql) . "<br><b>Gauta klaida:$e</div>";
     }
 
-    if ($return_insert_id && $rezultatas) {
+    if ($return_insert_id==true && $rezultatas) {
         $insert_id = mysqli_insert_id($mysqli);
         $rezultatas = $insert_id;
     }
 
     return $rezultatas;
+}
+
+function InsertField($mysqli, $insert_arr, $table, $register_for_tracking = false, $return_insert_id = false){
+    $columns="";
+    $values="";
+    foreach ($insert_arr as $key => $value){
+        $columns .= " `$key`,";
+        $values .= " '" . trim($value) . "',";
+    }
+    $sql = "INSERT INTO $table (" . substr($columns, 0, -1) . ") VALUES (" . substr($values, 0, -1) . ")";
+    $insert_id = send_mysqli_query($mysqli, $sql, true);
+    if($register_for_tracking==true){
+        if(isset($_SESSION['user_id'])) {
+            $who_made['value'] = ", '".$_SESSION['user_id']."''";
+            $who_made['name'] = ", `made_by`";
+        }
+        else {
+            $who_made['value'] = "";
+            $who_made['name'] = "";
+        }
+        $sql_tracking = "INSERT INTO tracking_made_actions (`action`, `action_date`, `table_name`, `record_id` ".$who_made['name'].") VALUES ('I', '".date("Y-m-d H:i:s", strtotime("now"))."', '$table', '$insert_id' ".$who_made['value'].")";
+        send_mysqli_query($mysqli, $sql_tracking);
+    }
+    if($return_insert_id==true)
+        return $insert_id;
 }

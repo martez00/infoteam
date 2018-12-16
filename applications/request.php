@@ -103,9 +103,8 @@ require_once ($_SERVER['DOCUMENT_ROOT']."/$folder/system/inc/loader.inc.php");
                     </div>
                 </div>
                 <input class="btn btn-primary btn-block" type="submit"
-                       name="submit"
-                       id="submit"
                        value="Patvirtinti">
+                <a class="btn btn-primary btn-block" href="<?php echo $GLOBALS['url_path']."index.php"; ?>">Grįžti į pradinį langą</a>
             </form>
         </div>
     </div>
