@@ -1,5 +1,6 @@
 <?php
 if ((isset($_POST['username']) && isset($_POST['password']))) {
+    unset($error_login_string);
     $auth_query = "SELECT * FROM `users` WHERE `user_name`='" .
             str_replace("'", "", stripslashes($_POST['username'])) .
             "' AND `password`= '" .
@@ -21,11 +22,8 @@ if ((isset($_POST['username']) && isset($_POST['password']))) {
         $_SESSION['created_date']=$user_res['created_date'];
         $_SESSION['created_by']=$user_res['created_by'];
     } else {
-        $error_string = "<p>Prisijungti nepavyko! Neteisingi prisijungimo duomenys.</p>";
-        $error_string .= "<p>Authentication failed! You entered an incorrect username or password!</p>";
-        $error_string .= "<p>Неверный логин или пароль!</p>";
-        echo "<div class='error'>$error_string</div>";
-        unset($error_string);
+        $error_login_string = "<p>Prisijungti nepavyko! Neteisingi prisijungimo duomenys.</p>";
+        $error_login_string = "<div class='alert alert-danger mx-auto mt-3'>$error_login_string</div>";
     }
 }
 if (!isset($_SESSION['user']) || $_SESSION['user_id'] < 1) {

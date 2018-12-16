@@ -24,6 +24,10 @@ if ($_SERVER['SERVER_NAME'] == "localhost") {
 
     <div class="container">
       <div class="card card-login mx-auto mt-5">
+          <?php
+          if(isset($error_login_string))
+              echo $error_login_string;
+          ?>
         <div class="card-header">Prisijungimas</div>
         <div class="card-body">
             <form name="form" id="form" action="<?php echo $GLOBALS['url_path']."main/index.php" ?>" method="post">
