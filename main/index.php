@@ -28,15 +28,15 @@ require_once ($_SERVER['DOCUMENT_ROOT']."/$folder/system/inc/loader.inc.php");
             <!-- Breadcrumbs-->
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="index.html">Dashboard</a>
+                    <a href="<?php echo $GLOBALS['url_path']."main"; ?>">InfoTeam</a>
                 </li>
-                <li class="breadcrumb-item active">Blank Page</li>
+                <li class="breadcrumb-item active">Pradinis langas</li>
             </ol>
 
             <!-- Page Content -->
-            <h1>Blank Page</h1>
+            <h1>Kas yra InfoTeam?</h1>
             <hr>
-            <p>This is a great starting point for new custom pages.</p>
+            <p>Tai inovatyvi sistema, padėsianti jum moderniai, greitai ir patogiai valdyti procesus futbolo klubo viduje!</p>
 
         </div>
         <!-- /.container-fluid -->
