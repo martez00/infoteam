@@ -1,3 +1,6 @@
+<?php
+$file = end($pieces);
+?>
 <!-- Sidebar -->
 <ul class="sidebar navbar-nav">
     <li class="nav-item">
@@ -12,7 +15,7 @@
             <span>Prašymai</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-            <a class="dropdown-item" href="<?php echo $GLOBALS['url_path']."applications/new_applications.php"; ?>">Nauji prašymai</a>
+            <a class="dropdown-item <?php if($file=="new_applications.php") echo "active"; ?>" href="<?php echo $GLOBALS['url_path']."applications/new_applications.php"; ?>">Nauji prašymai</a>
             <a class="dropdown-item" href="register.html">Atidėti prašymai</a>
             <a class="dropdown-item" href="forgot-password.html">Patvirtinti prašymai</a>
             <a class="dropdown-item" href="forgot-password.html">Atmesti prašymai</a>
