@@ -16,3 +16,4 @@
 
     <!-- Custom styles for this template-->
     <link href="<?php echo $GLOBALS['url_path']; ?>css/sb-admin.css" rel="stylesheet">
+

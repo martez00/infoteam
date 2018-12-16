@@ -88,7 +88,7 @@ require_once ($_SERVER['DOCUMENT_ROOT']."/$folder/system/inc/loader.inc.php");
             <a class="dropdown-item" href="#">Settings</a>
             <a class="dropdown-item" href="#">Activity Log</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="logout.php" data-toggle="modal" data-target="#logoutModal">Logout</a>
+            <a class="dropdown-item" href="<?php echo $GLOBALS['url_path']."system/auth/logout.php"; ?>" data-toggle="modal" data-target="#logoutModal">Logout</a>
           </div>
         </li>
       </ul>

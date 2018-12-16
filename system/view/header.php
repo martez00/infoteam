@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-    <a class="navbar-brand mr-1" href="<?php echo $GLOBALS['url_path']."index.php"; ?>">InfoTeam</a>
+    <a class="navbar-brand mr-1" href="<?php echo $GLOBALS['url_path']."main/index.php"; ?>">InfoTeam</a>
 
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
         <i class="fas fa-bars"></i>
@@ -15,7 +15,7 @@
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="#">Nustatymai</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="<?php echo $GLOBALS['url_path']."logout.php"; ?>" data-toggle="modal" data-target="#logoutModal">Atsijungti</a>
+                <a class="dropdown-item" href="<?php echo $GLOBALS['url_path']."system/auth/logout.php"; ?>" data-toggle="modal" data-target="#logoutModal">Atsijungti</a>
             </div>
         </li>
     </ul>
@@ -35,7 +35,7 @@
             <div class="modal-body">Spauskite <b>atsijungti</b> jeigu tikrai norite baigti darbą</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Tęsti darbą</button>
-                <a class="btn btn-primary" href="<?php echo $GLOBALS['url_path']."logout.php"; ?>">Atsijungti</a>
+                <a class="btn btn-primary" href="<?php echo $GLOBALS['url_path']."system/auth/logout.php"; ?>">Atsijungti</a>
             </div>
         </div>
     </div>

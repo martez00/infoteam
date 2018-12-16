@@ -3,54 +3,33 @@ $path = $_SERVER['PHP_SELF'];
 $pieces = explode("/", $path);
 $folder = $pieces[1];
 
+$do_not_start_session=1;
 require_once ($_SERVER['DOCUMENT_ROOT']."/$folder/system/inc/loader.inc.php");
-require 'config.php';
-
 ?>
 <!DOCTYPE html>
 <html>
 
 <head>
+
     <?php require ($_SERVER['DOCUMENT_ROOT']."/$folder/system/inc/head.inc.php"); ?>
-    <title>InfoTeam - Pagrindinis</title>
+    <title>InfoTeam - Teikti prašymą</title>
+
 </head>
 
-<body id="page-top">
-    <?php require ($_SERVER['DOCUMENT_ROOT']."/$folder/system/view/header.php"); ?>
+<body class="bg-dark">
 
-
-<div id="wrapper">
-    <?php require ($_SERVER['DOCUMENT_ROOT']."/$folder/system/view/sidebar.php"); ?>
-
-    <div id="content-wrapper">
-
-        <div class="container-fluid">
-
-            <!-- Breadcrumbs-->
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a href="index.html">Dashboard</a>
-                </li>
-                <li class="breadcrumb-item active">Blank Page</li>
-            </ol>
-
-            <!-- Page Content -->
-            <h1>Blank Page</h1>
-            <hr>
-            <p>This is a great starting point for new custom pages.</p>
-
+<div class="container">
+    <div class="card card-register mx-auto mt-5">
+        <div class="card-header">InfoTeam – inovatyvus klubo valdymas!</div>
+        <div class="card-body">
+            <a class="btn btn-primary btn-block" href="<?php echo $GLOBALS['url_path']."main"; ?>">Darbuotojams</a>
+            <a class="btn btn-primary btn-block" href="<?php echo $GLOBALS['url_path']."applications/request.php"; ?>">Teikti prašymą į klubą</a>
         </div>
-        <!-- /.container-fluid -->
-
-        <?php require ($_SERVER['DOCUMENT_ROOT']."/$folder/system/view/footer.php"); ?>
-
     </div>
-    <!-- /.content-wrapper -->
-
 </div>
-<!-- /#wrapper -->
 
-    <?php require ($_SERVER['DOCUMENT_ROOT']."/$folder/system/inc/scripts.inc.php"); ?>
+<?php require ($_SERVER['DOCUMENT_ROOT']."/$folder/system/inc/scripts.inc.php"); ?>
+
 </body>
 
 </html>

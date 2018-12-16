@@ -31,6 +31,6 @@ if ((isset($_POST['username']) && isset($_POST['password']))) {
 if (!isset($_SESSION['user']) || $_SESSION['user_id'] < 1) {
     session_unset();
     $_SESSION = array();
-    require $_SERVER['DOCUMENT_ROOT'] . "/" . $folder . '/login.php';
+    require $_SERVER['DOCUMENT_ROOT'] . "/" . $folder . '/system/auth/login.php';
     exit;
 }
