@@ -87,3 +87,24 @@ function InsertField($mysqli, $insert_arr, $table, $register_for_tracking = fals
     if($return_insert_id==true)
         return $insert_id;
 }
+
+function UpdateField($mysqli, $update_arr, $table, $register_for_tracking = false, $update_id){
+    $update_text="";
+    foreach ($update_arr as $key => $value){
+       $update_text .="`$key`='$value',";
+    }
+    $sql = "UPDATE $table SET ".substr($update_text, 0, -1)." WHERE id='$update_id'";
+    send_mysqli_query($mysqli, $sql);
+    if($register_for_tracking==true){
+        if(isset($_SESSION['user_id'])) {
+            $who_made['value'] = ", '".$_SESSION['user_id']."'";
+            $who_made['name'] = ", `made_by`";
+        }
+        else {
+            $who_made['value'] = "";
+            $who_made['name'] = "";
+        }
+        $sql_tracking = "INSERT INTO tracking_made_actions (`action`, `action_date`, `table_name`, `record_id` ".$who_made['name'].") VALUES ('U', '".date("Y-m-d H:i:s", strtotime("now"))."', '$table', '$update_id' ".$who_made['value'].")";
+        send_mysqli_query($mysqli, $sql_tracking);
+    }
+}

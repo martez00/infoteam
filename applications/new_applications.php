@@ -55,9 +55,10 @@ $nauji_prasymai = mfa_kaip_array($mysqli, "SELECT * from applications_to_club wh
                             </thead>
                             <tbody>
                             <?php
-                            foreach ($nauji_prasymai as $prasymas) {
-                                echo "<tr>
-<td><a class='btn btn-block btn-danger' href='".$GLOBALS['url_path']."index.php'>REDAGUOTI</a></td>
+                            if(is_array($nauji_prasymai) || is_object($nauji_prasymai)) {
+                                foreach ($nauji_prasymai as $prasymas) {
+                                    echo "<tr>
+<td><a class='btn btn-block btn-danger' href='" . $GLOBALS['url_path'] . "applications/edit_application.php?id=".$prasymas['id']."'>REDAGUOTI</a></td>
 <td>" . $prasymas['name'] . "</td>
 <td>" . $prasymas['surname'] . "</td>
 <td>" . $prasymas['personal_code'] . "</td>
@@ -65,6 +66,7 @@ $nauji_prasymai = mfa_kaip_array($mysqli, "SELECT * from applications_to_club wh
 <td>" . $prasymas['birth_date'] . "</td>
 <td>" . $prasymas['created_date'] . "</td>
 </tr>";
+                                }
                             }
                             ?>
                             </tbody>

@@ -5,7 +5,7 @@ $folder = $pieces[1];
 
 $do_not_start_session=1;
 require_once ($_SERVER['DOCUMENT_ROOT']."/$folder/system/inc/loader.inc.php");
-if(isset($_POST)) {
+if(!empty($_POST)) {
     $application_arr = $_POST;
     $id=InsertField($mysqli, $application_arr, "applications_to_club", true, true);
     $text="Mielas <b>$application_arr[name] $application_arr[surname]</b>, Jūsų prašymas pateiktas. Apie tolimesnę eigą laukite informacijos iš klubo vadovų!";
