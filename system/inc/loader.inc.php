@@ -37,3 +37,4 @@ if(!isset($do_not_start_session))
 
 require $_SERVER['DOCUMENT_ROOT'] . '/' . $folder . '/system/functions/global_functions.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/' . $folder . '/functions/lists.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/' . $folder . '/functions/other_functions.php';

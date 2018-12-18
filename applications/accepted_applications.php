@@ -4,14 +4,14 @@ $pieces = explode("/", $path);
 $folder = $pieces[1];
 
 require_once($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/loader.inc.php");
-$nauji_prasymai = mfa_kaip_array($mysqli, "SELECT * from applications_to_club where status='0'");
+$patvirtinti_prasymai = mfa_kaip_array($mysqli, "SELECT * from applications_to_club where status='1'");
 ?>
 <!DOCTYPE html>
 <html>
 
 <head>
     <?php require($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/head.inc.php"); ?>
-    <title>InfoTeam - Nauji prašymai</title>
+    <title>InfoTeam - Patvirtinti prašymai</title>
 </head>
 
 <body id="page-top">
@@ -31,16 +31,16 @@ $nauji_prasymai = mfa_kaip_array($mysqli, "SELECT * from applications_to_club wh
                     <a href="<?php echo $GLOBALS['url_path'] . "main"; ?>">InfoTeam</a>
                 </li>
                 <li class="breadcrumb-item">Prašymai</li>
-                <li class="breadcrumb-item active">Nauji prašymai</li>
+                <li class="breadcrumb-item active">Patvirtinti prašymai</li>
             </ol>
 
             <div class="card mb-3">
                 <div class="card-header">
                     <i class="fas fa-table"></i>
-                    Nauji prašymai
+                    Patvirtinti prašymai
                 </div>
                 <div class="card-body">
-                    <?php echo return_applications_table($nauji_prasymai); ?>
+                    <?php echo return_applications_table($patvirtinti_prasymai); ?>
                 </div>
 
             </div>
@@ -55,6 +55,8 @@ $nauji_prasymai = mfa_kaip_array($mysqli, "SELECT * from applications_to_club wh
 
 </div>
 <!-- /#wrapper -->
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js">
 <?php require ($_SERVER['DOCUMENT_ROOT']."/$folder/system/inc/scripts.inc.php"); ?>
 <!-- Page level plugin JavaScript-->
 <script src="<?php echo $GLOBALS['url_path']; ?>vendor/datatables/jquery.dataTables.js"></script>
