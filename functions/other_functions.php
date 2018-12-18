@@ -23,8 +23,8 @@ function return_applications_table($prasymai)
 <td><a class='btn btn-block btn-danger' href='" . $GLOBALS['url_path'] . "applications/edit_application.php?id=".$prasymas['id']."'>REDAGUOTI</a></td>
 <td>" . $prasymas['name'] . "</td>
 <td>" . $prasymas['surname'] . "</td>
-<td>" . $prasymas['personal_code'] . "</td>
-<td>" . $prasymas['position_in_field'] . "</td>
+<td>" . $prasymas['country'] . "</td>
+<td>" . positions_list($prasymas['position_in_field'], true) . "</td>
 <td>" . $prasymas['birth_date'] . "</td>
 <td>" . $prasymas['created_date'] . "</td>
 </tr>";

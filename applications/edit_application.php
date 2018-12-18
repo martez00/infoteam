@@ -15,6 +15,10 @@ if (isset($id)) {
         UpdateField($mysqli, $application_arr, "applications_to_club", true, $id, true);
     }
     $prasymo_arr = mfa($mysqli, "SELECT * from applications_to_club where id='$id'");
+    if($prasymo_arr['status']==0) $kokie_prasymai="Nauji prašymai";
+    else if($prasymo_arr['status']==1) $kokie_prasymai="Patvirtinti prašymai";
+    else if($prasymo_arr['status']==2) $kokie_prasymai="Atidėti prašymai";
+    else if($prasymo_arr['status']==3) $kokie_prasymai="Atmesti prašymai";
     if (!isset($prasymo_arr['status']) || $prasymo_arr['status'] == 0) $nepatvirtintas = true;
     else $nepatvirtintas = false;
 } else {
@@ -76,6 +80,7 @@ if (isset($id)) {
                         <a href="<?php echo $GLOBALS['url_path'] . "main"; ?>">InfoTeam</a>
                     </li>
                     <li class="breadcrumb-item">Prašymai</li>
+                    <li class="breadcrumb-item"><?php echo $kokie_prasymai; ?></li>
                     <li class="breadcrumb-item">Prašymo redagavimas</li>
                     <li class="breadcrumb-item active"><?php echo $prasymo_arr['name'] . " " . $prasymo_arr['surname'] ?></li>
                 </ol>
@@ -117,8 +122,8 @@ if (isset($id)) {
                                 </div>
                                 <div class="col-md-2">
                                     <label for="country">Šalis:</label>
-                                    <input type="text" class="form-control" id="country" name="country"
-                                           value="<?php echo $prasymo_arr['country']; ?>">
+                                    <select name="country" id="country" form="form"
+                                            class="form-control"><?php echo countries_list($prasymo_arr['country']); ?></select>
                                 </div>
                                 <div class="col-md-2">
                                     <label for="birth_date">Gimimo data:</label>

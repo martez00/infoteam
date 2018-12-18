@@ -42,8 +42,8 @@ require_once ($_SERVER['DOCUMENT_ROOT']."/$folder/system/inc/loader.inc.php");
                                 <input type="text" id="personal_code" name="personal_code" class="form-control" placeholder="Asmens kodas" required="required" autofocus="autofocus">
                         </div>
                         <div class="col-md-6">
-                                <label for="country" class="font-weight-bold">Šalis</label>
-                                <input type="text" id="country" name="country" class="form-control" placeholder="Šalis">
+                            <label for="country" class="font-weight-bold">Šalis</label>
+                            <select name="country" id="country" form="form" class="form-control"><?php echo  countries_list(""); ?></select>
                         </div>
                     </div>
                 </div>
