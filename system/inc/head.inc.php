@@ -17,3 +17,7 @@
     <!-- Custom styles for this template-->
     <link href="<?php echo $GLOBALS['url_path']; ?>css/sb-admin.css" rel="stylesheet">
 
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />

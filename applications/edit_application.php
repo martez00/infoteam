@@ -12,7 +12,7 @@ if (isset($id)) {
     if (!empty($_POST)) {
         unset($_POST['id']);
         $application_arr = $_POST;
-        UpdateField($mysqli, $application_arr, "applications_to_club", true, $id);
+        UpdateField($mysqli, $application_arr, "applications_to_club", true, $id, true);
     }
     $prasymo_arr = mfa($mysqli, "SELECT * from applications_to_club where id='$id'");
     if (!isset($prasymo_arr['status']) || $prasymo_arr['status'] == 0) $nepatvirtintas = true;
@@ -30,7 +30,7 @@ if (isset($id)) {
 <!DOCTYPE html>
 <html>
 <head>
-    <?php require($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/head.inc.php"); ?>
+    <?php require_once($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/head.inc.php"); ?>
     <title>InfoTeam - Nauji prašymai</title>
     <style>
         .toast {
@@ -39,7 +39,6 @@ if (isset($id)) {
     </style>
     <script>
         function set_application_status(id, status) {
-            console.log(status);
             $.post("<?= $GLOBALS['url_path'] ?>/ajax/ajax_functions_return.php", {
                     'do': "set_application_status_ajax",
                     'id': id,
@@ -49,9 +48,6 @@ if (isset($id)) {
                     data = JSON.parse(data);
                     is_done=data.done;
                     if(is_done==1){
-                        toastr.options = {
-                            positionClass: 'toast-top-center'
-                        };
                         if(status==1)
                             toastr.success("Aplikacija patvirtinta!");
                         else if(status==2)
@@ -64,10 +60,8 @@ if (isset($id)) {
         }
     </script>
 </head>
-
 <body id="page-top">
 <?php require($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/view/header.php"); ?>
-
 <form name="form" id="form" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
     <div id="wrapper">
         <?php require($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/view/sidebar.php"); ?>
@@ -95,7 +89,7 @@ if (isset($id)) {
                             echo "<div class='col-md-4'><a class='btn btn-primary btn-block btn-warning' onclick='set_application_status(\"$id\", 2)'>Atidėti</a></div>";
                             echo "<div class='col-md-4'><a class='btn btn-primary btn-block btn-danger' onclick='set_application_status(\"$id\", 3)'>Atmesti</a></div></div>";
                         } else {
-                            echo "<input class='btn btn-primary btn-block' type='submit' value='Išsaugoti'>";
+                            echo "<input class='btn btn-primary btn-block' onclick='toastr.info(\"Aplikacija atnaujinta!\");' type='submit' value='Išsaugoti'>";
                         }
                         ?>
                     </div>
@@ -198,12 +192,6 @@ if (isset($id)) {
 </div>
 <!-- /#wrapper -->
 <?php require($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/scripts.inc.php"); ?>
-<!-- Page level plugin JavaScript-->
-<script src="<?php echo $GLOBALS['url_path']; ?>vendor/datatables/jquery.dataTables.js"></script>
-<script src="<?php echo $GLOBALS['url_path']; ?>vendor/datatables/dataTables.bootstrap4.js"></script>
-
-<!-- Demo scripts for this page-->
-<script src="<?php echo $GLOBALS['url_path']; ?>js/demo/datatables-demo.js"></script>
 </body>
 
 </html>
