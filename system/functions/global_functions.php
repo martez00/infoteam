@@ -11,7 +11,7 @@ function gor($mysqli, $sql)
     $r = mysqli_query($mysqli, $sql);
     if ($e = mysqli_error($mysqli))
         echo "<div class='error'>$e<p><pre>$sql</pre></p></div>";
-    return reset(mysqli_fetch_row($r));
+    return mysqli_fetch_row($r)[0];
 }
 
 function mfa($mysqli, $sql)

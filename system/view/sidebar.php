@@ -1,5 +1,8 @@
 <?php
 $file = end($pieces);
+$not_reviewed_applications=gor($mysqli, "SELECT COUNT(id) from applications_to_club where status='0'");
+if(!isset($not_reviewed_applications) || $not_reviewed_applications==0) $not_reviewed_applications="";
+else $not_reviewed_applications="<span class='badge-pill badge-danger' data-toggle='tooltip' title='Naujos aplikacijos!'>$not_reviewed_applications</span>";
 ?>
 <!-- Sidebar -->
 <ul class="sidebar navbar-nav">
@@ -12,7 +15,8 @@ $file = end($pieces);
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fas fa-fw fa-folder"></i>
-            <span>Prašymai</span>
+            <span>Prašymai <?php echo $not_reviewed_applications; ?></span>
+
         </a>
         <div class="dropdown-menu" aria-labelledby="pagesDropdown">
             <a class="dropdown-item <?php if($file=="new_applications.php") echo "active"; ?>" href="<?php echo $GLOBALS['url_path']."applications/new_applications.php"; ?>">Nauji prašymai</a>
