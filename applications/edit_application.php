@@ -32,6 +32,11 @@ if (isset($id)) {
 <head>
     <?php require($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/head.inc.php"); ?>
     <title>InfoTeam - Nauji prašymai</title>
+    <style>
+        .toast {
+            opacity: 1 !important;
+        }
+    </style>
     <script>
         function set_application_status(id, status) {
             console.log(status);
@@ -44,7 +49,16 @@ if (isset($id)) {
                     data = JSON.parse(data);
                     is_done=data.done;
                     if(is_done==1){
-                        window.location = "<?php echo $GLOBALS['url_path'] . "applications/edit_application.php?id=".$id; ?>";
+                        toastr.options = {
+                            positionClass: 'toast-top-center'
+                        };
+                        if(status==1)
+                            toastr.success("Aplikacija patvirtinta!");
+                        else if(status==2)
+                            toastr.warning("Aplikacija atidėta!");
+                        else if(status==3)
+                            toastr.error("Aplikacija atmesta!");
+                        setTimeout(function(){window.location = "<?php echo $GLOBALS['url_path'] . "applications/edit_application.php?id=".$id; ?>"} , 350);
                     }
                 });
         }
