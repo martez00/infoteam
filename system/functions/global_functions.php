@@ -74,7 +74,7 @@ function InsertField($mysqli, $insert_arr, $table, $register_for_tracking = fals
     $insert_id = send_mysqli_query($mysqli, $sql, true);
     if($register_for_tracking==true){
         if(isset($_SESSION['user_id'])) {
-            $who_made['value'] = ", '".$_SESSION['user_id']."''";
+            $who_made['value'] = ", '".$_SESSION['user_id']."'";
             $who_made['name'] = ", `made_by`";
         }
         else {

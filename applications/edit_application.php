@@ -15,10 +15,11 @@ if (isset($id)) {
         UpdateField($mysqli, $application_arr, "applications_to_club", true, $id, true);
     }
     $prasymo_arr = mfa($mysqli, "SELECT * from applications_to_club where id='$id'");
-    if($prasymo_arr['status']==0) $kokie_prasymai="Nauji prašymai";
-    else if($prasymo_arr['status']==1) $kokie_prasymai="Patvirtinti prašymai";
-    else if($prasymo_arr['status']==2) $kokie_prasymai="Atidėti prašymai";
-    else if($prasymo_arr['status']==3) $kokie_prasymai="Atmesti prašymai";
+    $prasymo_notes_arr=mfa_kaip_array($mysqli, "SELECT * from applications_notes where applications_to_club_id='$id'");
+    if ($prasymo_arr['status'] == 0) $kokie_prasymai = "Nauji prašymai";
+    else if ($prasymo_arr['status'] == 1) $kokie_prasymai = "Patvirtinti prašymai";
+    else if ($prasymo_arr['status'] == 2) $kokie_prasymai = "Atidėti prašymai";
+    else if ($prasymo_arr['status'] == 3) $kokie_prasymai = "Atmesti prašymai";
     if (!isset($prasymo_arr['status']) || $prasymo_arr['status'] == 0) $nepatvirtintas = true;
     else $nepatvirtintas = false;
 } else {
@@ -50,16 +51,53 @@ if (isset($id)) {
                 }
                 , function (data) {
                     data = JSON.parse(data);
-                    is_done=data.done;
-                    if(is_done==1){
-                        if(status==1)
+                    is_done = data.done;
+                    if (is_done == 1) {
+                        if (status == 1)
                             toastr.success("Aplikacija patvirtinta!");
-                        else if(status==2)
+                        else if (status == 2)
                             toastr.warning("Aplikacija atidėta!");
-                        else if(status==3)
+                        else if (status == 3)
                             toastr.error("Aplikacija atmesta!");
-                        setTimeout(function(){window.location = "<?php echo $GLOBALS['url_path'] . "applications/edit_application.php?id=".$id; ?>"} , 350);
+                        setTimeout(function () {
+                            window.location = "<?php echo $GLOBALS['url_path'] . "applications/edit_application.php?id=" . $id; ?>"
+                        }, 350);
                     }
+                });
+        }
+
+        function add_application_note(id) {
+            var pastaba;
+            pastaba = document.getElementById("add_note").value;
+            if(!pastaba || pastaba==""){
+                toastr.error("Neįvedėte pastabos!");
+            }
+            else {
+                $.post("<?= $GLOBALS['url_path'] ?>/ajax/ajax_functions_return.php", {
+                        'do': "add_application_note_ajax",
+                        'id': id,
+                        'note': pastaba
+                    }
+                    , function (data) {
+                        data = JSON.parse(data);
+                        $('#pastabos_content').html(data.text);
+                        document.getElementById("add_note").value="";
+                        toastr.success("Pastaba įvesta!");
+                    });
+            }
+        }
+
+        function delete_application_note(note_id, id){
+            $.post("<?= $GLOBALS['url_path'] ?>/ajax/ajax_functions_return.php", {
+                    'do': "delete_application_note_ajax",
+                    'id': id,
+                    'note_id': note_id
+                }
+                , function (data) {
+                    data = JSON.parse(data);
+                    $('#pastabos_content').html(data.text);
+                    document.getElementById("add_note").value="";
+                    toastr.success("Pastaba įvesta!");
                 });
         }
     </script>
@@ -136,11 +174,11 @@ if (isset($id)) {
                                             class="form-control"><?php echo positions_list($prasymo_arr['position_in_field']); ?></select>
                                 </div>
                                 <?php
-                                if($nepatvirtintas == false){
+                                if ($nepatvirtintas == false) {
                                     echo "<div class='col-md-2'>
                                     <label for='status'>Statusas</label>
                                     <select name='status' id='status' form='form'
-                                            class='form-control'>".applications_status_list($prasymo_arr['status'])."</select>
+                                            class='form-control'>" . applications_status_list($prasymo_arr['status']) . "</select>
                                 </div>";
                                 }
                                 ?>
@@ -182,6 +220,35 @@ if (isset($id)) {
                             <label for="other">Kita informacija</label>
                             <textarea name="other" id="other" class="form-control" rows="3"
                                       size="500"><?php echo $prasymo_arr['other']; ?></textarea>
+                        </div>
+                        <div class="form-group">
+                            <h5>Pastabos</h5>
+                            <hr>
+                        </div>
+                        <div class="form-group">
+                            <div class='form-row'>
+                                <div class="col-md-8">
+                                    <input type="text" id="add_note" class="form-control" placeholder="Jūsų pastaba...">
+                                </div>
+                                <div class="col-md-4">
+                                    <a class="btn btn-primary btn-block" style="color:white"
+                                       onclick='add_application_note("<?php echo $id; ?>")'>PRIDĖTI PASTABĄ</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div id="pastabos_content">
+                                    <ul>
+                               <?php
+                                    if(is_array($prasymo_notes_arr)){
+                                        foreach($prasymo_notes_arr as $note){
+                                            $note_id=$note['id'];
+                                            echo "<li>".$note['note']." <a class='btn-danger' onclick='delete_application_note(\"$note_id\", \"$id\")'>X</a></li>";
+                                        }
+                                    }
+                               ?>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
