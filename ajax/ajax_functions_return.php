@@ -26,16 +26,21 @@ switch ($_POST['do']) {
         }
         $id=InsertField($mysqli, $application_note_arr, "applications_notes", true, true);
         if(isset($app_id)){
-            $div_text="<ul>";
-            $prasymo_notes_arr=mfa_kaip_array($mysqli, "SELECT * from applications_notes where applications_to_club_id='$app_id'");
-            if(is_array($prasymo_notes_arr)) {
-                foreach ($prasymo_notes_arr as $note) {
-                    $div_text .= "<li>" . $note['note'] . "</li>";
-                }
-            }
-            $div_text .="</ul>";
+         $div_text=format_applications_notes($mysqli, $app_id);
         }
         echo json_encode(array("text" => "$div_text"));
         break;
-
+    case 'delete_application_note_ajax':
+        if (isset($_POST['id'])) {
+            $app_id=$_POST['id'];
+        }
+        if (isset($_POST['note_id'])) {
+            $note_id = $_POST['note_id'];
+        }
+        DeleteField($mysqli, $_POST['note_id'], "applications_notes", true);
+        if(isset($app_id)){
+            $div_text=format_applications_notes($mysqli, $app_id);
+        }
+        echo json_encode(array("text" => "$div_text"));
+        break;
 }

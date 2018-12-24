@@ -15,7 +15,6 @@ if (isset($id)) {
         UpdateField($mysqli, $application_arr, "applications_to_club", true, $id, true);
     }
     $prasymo_arr = mfa($mysqli, "SELECT * from applications_to_club where id='$id'");
-    $prasymo_notes_arr=mfa_kaip_array($mysqli, "SELECT * from applications_notes where applications_to_club_id='$id'");
     if ($prasymo_arr['status'] == 0) $kokie_prasymai = "Nauji prašymai";
     else if ($prasymo_arr['status'] == 1) $kokie_prasymai = "Patvirtinti prašymai";
     else if ($prasymo_arr['status'] == 2) $kokie_prasymai = "Atidėti prašymai";
@@ -97,7 +96,7 @@ if (isset($id)) {
                     data = JSON.parse(data);
                     $('#pastabos_content').html(data.text);
                     document.getElementById("add_note").value="";
-                    toastr.success("Pastaba įvesta!");
+                    toastr.success("Pastaba ištrinta!");
                 });
         }
     </script>
@@ -237,16 +236,7 @@ if (isset($id)) {
                             </div>
                             <div class="form-group">
                                 <div id="pastabos_content">
-                                    <ul>
-                               <?php
-                                    if(is_array($prasymo_notes_arr)){
-                                        foreach($prasymo_notes_arr as $note){
-                                            $note_id=$note['id'];
-                                            echo "<li>".$note['note']." <a class='btn-danger' onclick='delete_application_note(\"$note_id\", \"$id\")'>X</a></li>";
-                                        }
-                                    }
-                               ?>
-                                    </ul>
+                               <?php echo format_applications_notes($mysqli, $id); ?>
                                 </div>
                             </div>
                         </div>
