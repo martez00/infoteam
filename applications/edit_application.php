@@ -261,7 +261,7 @@ if (isset($id)) {
                     <div class="modal-body">
                             <div class="form-group">
                                 <label for="note" class="col-form-label">Pastaba:</label>
-                                <input type="text" class="form-control" name="note" id="note">
+                                <input type="text" class="form-control" id="note">
                             </div>
                     </div>
                     <div class="modal-footer">
@@ -283,7 +283,7 @@ if (isset($id)) {
         // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
         var modal = $(this)
-        modal.find('input[name="note"]').val(note);
+        modal.find('input[id="note"]').val(note);
     })
 </script>
 </body>
