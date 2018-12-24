@@ -42,7 +42,7 @@ function format_applications_notes($mysqli, $id){
     if(is_array($prasymo_notes_arr)){
         foreach($prasymo_notes_arr as $note){
             $note_id=$note['id'];
-            $text .= "<div class='form-row' style='margin-top:5px;'><div class='col-md-11'>• <small><i>".date("Y-m-d", strtotime($note['action_date']))." ".$note['name']." ".$note['surname'].":</i></small> ".$note['note']."</div><div class='col-md-1 text-right'><a class='btn-danger btn-sm' onclick='delete_application_note(\"$note_id\", \"$id\")'>TRINTI</a></div></div>";
+            $text .= "<div class='form-row' style='margin-top:5px;'><div class='col-md-11'>• <a data-toggle=\"modal\" data-target=\"#edit_application_note\" data-whatever='".$note['note']."'><img src='".$GLOBALS['url_path']."images/edit.png'></button> <a onclick='delete_application_note(\"$note_id\", \"$id\")'><img src='".$GLOBALS['url_path']."images/delete.png'></a> <small><i>".date("Y-m-d", strtotime($note['action_date']))." ".$note['name']." ".$note['surname'].":</i></small> ".$note['note']."</div></div>";
         }
     }
     return $text;

@@ -249,11 +249,43 @@ if (isset($id)) {
             <?php require($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/view/footer.php"); ?>
 
         </div>
+        <div class="modal fade" id="edit_application_note" tabindex="-1" role="dialog" aria-labelledby="edit_application_noteLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="edit_application_noteLabel">Redaguoti pastabą</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                            <div class="form-group">
+                                <label for="note" class="col-form-label">Pastaba:</label>
+                                <input type="text" class="form-control" name="note" id="note">
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Uždaryti</button>
+                        <button onclick="edit_application_note_ajax()" type="button" class="btn btn-primary" data-dismiss="modal">Išsaugoti</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- /.content-wrapper -->
 </form>
 </div>
 <!-- /#wrapper -->
 <?php require($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/scripts.inc.php"); ?>
+<script>
+    $('#edit_application_note').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var note = button.data('whatever') // Extract info from data-* attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this)
+        modal.find('input[name="note"]').val(note);
+    })
+</script>
 </body>
 
 </html>
