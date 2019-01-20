@@ -1,4 +1,34 @@
 <?php
+function return_positions_in_club_table($positions_in_club)
+{
+    $text = "";
+    $text = "<div class=\"table-responsive\">
+                        <table class=\"table table-bordered\" id=\"dataTable\" width=\"100%\" cellspacing=\"0\">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>ID</th>
+                                <th>Pavadinimas</th>
+                                <th>Globali rolė</th>
+                            </tr>
+                            </thead>
+                            <tbody>";
+
+    if (is_array($positions_in_club) || is_object($positions_in_club)) {
+        foreach ($positions_in_club as $position) {
+            $text .= "<tr>
+<td><a class='btn btn-block btn-danger' href='" . $GLOBALS['url_path'] . "users/role.php?id=".$position['id']."'>REDAGUOTI</a></td>
+<td>" . $position['id'] . "</td>
+<td>" . $position['position_name'] . "</td>
+<td>" . positions_in_club_list($position['global_position'], true) . "</td>
+</tr>";
+        }
+    }
+    $text .= " </tbody>
+                        </table>
+                    </div>";
+    return $text;
+}
 function return_applications_table($prasymai)
 {
     $text = "";

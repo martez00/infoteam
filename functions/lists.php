@@ -1,4 +1,55 @@
 <?php
+function positions_in_club_list($value, $get_value = false){
+
+    if(!isset($value))
+        $value=0;
+
+    $list = "<option value='0' ";
+    if ($value==0) {
+        $list .= "selected";
+        $return_value="";
+    }
+    $list .= ">...</option>";
+
+    $list .= "<option value='1' ";
+    if ($value==1) {
+        $list .= "selected";
+        $return_value="Buhalteris";
+    }
+    $list .= ">Buhalteris</option>";
+
+    $list .= "<option value='2' ";
+    if ($value==2) {
+        $list .= "selected";
+        $return_value="Treneris";
+    }
+    $list .= ">Treneris</option>";
+
+    $list .= "<option value='3' ";
+    if ($value==3) {
+        $list .= "selected";
+        $return_value="Skautas";
+    }
+    $list .= ">Skautas</option>";
+
+    $list .= "<option value='4'";
+    if ($value==4) {
+        $list .= "selected";
+        $return_value="Aprūpinimo skyrius";
+    }
+    $list .= ">Aprūpinimo skyrius</option>";
+
+    $list .= "<option value='5'";
+    if ($value==5) {
+        $list .= "selected";
+        $return_value="Administratorius";
+    }
+    $list .= ">Administratorius</option>";
+
+    if($get_value==true)
+        return $return_value;
+    else return $list;
+}
 function positions_list($value, $get_value = false){
 
     if(!isset($value))

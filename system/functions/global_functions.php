@@ -126,3 +126,9 @@ function DeleteField($mysqli, $delete_id, $table, $register_for_tracking = false
         send_mysqli_query($mysqli, $sql_tracking);
     }
 }
+
+function show_input_value($arr, $field){
+    if(isset($arr[$field])){
+        $return_value=$arr[$field];
+    } else $return_value="";
+}
