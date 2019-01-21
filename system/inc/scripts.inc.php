@@ -45,7 +45,7 @@
 
     function print_table(value){
         var mywindow = window.open('', '', '');
-        mywindow.document.write('<html><title>InfoTeam - spauzdinimas</title><body>');
+        mywindow.document.write('<html><title>InfoTeam - spausdinimas</title><body>');
         console.log(document.getElementById(value).innerHTML);
         var lenta = document.getElementById(value).innerHTML;
         var i = lenta.indexOf('<t');
