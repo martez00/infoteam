@@ -37,9 +37,9 @@ $atmesti_prasymai = mfa_kaip_array($mysqli, "SELECT * from applications_to_club 
             <div class="card mb-3">
                 <div class="card-header">
                     <i class="fas fa-table"></i>
-                    Atmesti prašymai
+                    Atmesti prašymai <a onclick="print_table('data_in_table')"><img src="<?php echo $GLOBALS['url_path'] . "images/printer.png"; ?>"</a>
                 </div>
-                <div class="card-body">
+                <div class="card-body" id="data_in_table">
                     <?php echo return_applications_table($atmesti_prasymai); ?>
                 </div>
 
