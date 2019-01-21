@@ -68,7 +68,8 @@ function InsertField($mysqli, $insert_arr, $table, $register_for_tracking = fals
     $values="";
     foreach ($insert_arr as $key => $value){
         $columns .= " `$key`,";
-        $values .= " '" . trim($value) . "',";
+        if($value=="NULL") $values .= " " . trim($value) . ",";
+        else $values .= " '" . trim($value) . "',";
     }
     $sql = "INSERT INTO $table (" . substr($columns, 0, -1) . ") VALUES (" . substr($values, 0, -1) . ")";
     $insert_id = send_mysqli_query($mysqli, $sql, true);
@@ -91,7 +92,7 @@ function InsertField($mysqli, $insert_arr, $table, $register_for_tracking = fals
 function UpdateField($mysqli, $update_arr, $table, $register_for_tracking = false, $update_id){
     $update_text="";
     foreach ($update_arr as $key => $value){
-        if($value=="NULL" || $value==NULL) $update_text .="`$key`=$value,";
+        if($value=="NULL") $update_text .="`$key`=$value,";
         else $update_text .="`$key`='$value',";
     }
     $sql = "UPDATE $table SET ".substr($update_text, 0, -1)." WHERE id='$update_id'";

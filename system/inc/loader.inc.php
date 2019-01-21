@@ -23,7 +23,7 @@ if (!$mysqli) {
     exit;
 }
 
-mysqli_select_db($mysqli, 'infoteam') or die(mysqli_error($mysqli));
+mysqli_select_db($mysqli, $db_name) or die(mysqli_error($mysqli));
 if (!isset($GLOBALS['html_charset']))
     $GLOBALS['html_charset'] = 'windows-1257';
 mysqli_query($mysqli,"SET NAMES utf8");

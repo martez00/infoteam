@@ -42,4 +42,19 @@
     $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
     });
+
+    function print_table(value){
+        var mywindow = window.open('', '', '');
+        mywindow.document.write('<html><title>InfoTeam - spauzdinimas</title><body>');
+        console.log(document.getElementById(value).innerHTML);
+        var lenta = document.getElementById(value).innerHTML;
+        var i = lenta.indexOf('<t');
+        var j = lenta.indexOf('</table>');
+        lenta = lenta.substring(i, j) + "</table>";
+        mywindow.document.write(lenta);
+        mywindow.document.write('</body></html>');
+        mywindow.document.close();
+        mywindow.print();
+        return true;
+    }
 </script>

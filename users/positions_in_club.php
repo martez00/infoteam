@@ -37,7 +37,7 @@ $positions_in_club = mfa_kaip_array($mysqli, "SELECT * from positions");
             <div class="card mb-3">
                 <div class="card-header">
                     <i class="fas fa-table"></i>
-                    Rolės <a onclick="print_table('data_in_table')"><img src="<?php echo $GLOBALS['url_path'] . "images/printer.png"; ?>"</a> <a class='btn btn-primary btn-block' style="color:white" href="<?php echo $GLOBALS['url_path'] . "users/role.php"; ?>">Pridėti naują rolę</a>
+                    Rolės <a onclick="print_table('data_in_table')"><img src="<?php echo $GLOBALS['url_path'] . "images/printer.png"; ?>"></a> <a class='btn btn-primary btn-block' style="color:white" href="<?php echo $GLOBALS['url_path'] . "users/role.php"; ?>">Pridėti naują rolę</a>
                 </div>
                 <div class="card-body" id="data_in_table">
                     <?php echo return_positions_in_club_table($positions_in_club); ?>
