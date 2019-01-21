@@ -5,7 +5,7 @@ $folder = $pieces[1];
 
 require_once($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/loader.inc.php");
 
-$vartotojai = mfa_kaip_array($mysqli, "SELECT * from users");
+$users = mfa_kaip_array($mysqli, "SELECT users.*, positions.position_name as user_role from users LEFT JOIN positions ON users.positions_id=positions.id GROUP by users.id");
 ?>
 <!DOCTYPE html>
 <html>
@@ -37,10 +37,10 @@ $vartotojai = mfa_kaip_array($mysqli, "SELECT * from users");
             <div class="card mb-3">
                 <div class="card-header">
                     <i class="fas fa-table"></i>
-                    Vartotojai
+                    Vartotojai <a class='btn btn-primary btn-block' style="color:white" href="<?php echo $GLOBALS['url_path'] . "users/user.php"; ?>">Pridėti naują vartotoją</a>
                 </div>
                 <div class="card-body">
-                    <?php echo return_applications_table($vartotojai); ?>
+                    <?php echo return_users_table($users); ?>
                 </div>
 
             </div>

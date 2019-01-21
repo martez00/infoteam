@@ -1,7 +1,7 @@
 <?php
 if ((isset($_POST['username']) && isset($_POST['password']))) {
     unset($error_login_string);
-    $auth_query = "SELECT * FROM `users` WHERE `user_name`='" .
+    $auth_query = "SELECT users.*, positions.global_position FROM `users` LEFT JOIN positions ON positions.id = users.positions_id  WHERE `user_name`='" .
             str_replace("'", "", stripslashes($_POST['username'])) .
             "' AND `password`= '" .
             str_replace("'", "", stripslashes($_POST['password']))
@@ -21,6 +21,8 @@ if ((isset($_POST['username']) && isset($_POST['password']))) {
         $_SESSION['salary']=$user_res['salary'];
         $_SESSION['created_date']=$user_res['created_date'];
         $_SESSION['created_by']=$user_res['created_by'];
+        $_SESSION['global_role']=$user_res['global_position'];
+        if($user_res['global_position']==5) $_SESSION['user_is_admin']=1;
     } else {
         $error_login_string = "<p>Prisijungti nepavyko! Neteisingi prisijungimo duomenys.</p>";
         $error_login_string = "<div class='alert alert-danger mx-auto mt-3'>$error_login_string</div>";

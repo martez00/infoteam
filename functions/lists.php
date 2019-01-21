@@ -1,4 +1,27 @@
 <?php
+function if_working_list($value, $get_value = false){
+
+    if(!isset($value))
+        $value=0;
+
+    $list = "<option value='0' ";
+    if ($value==0) {
+        $list .= "selected";
+        $return_value="Ne";
+    }
+    $list .= ">Ne</option>";
+
+    $list .= "<option value='1' ";
+    if ($value==1) {
+        $list .= "selected";
+        $return_value="Taip";
+    }
+    $list .= ">Taip</option>";
+
+    if($get_value==true)
+        return $return_value;
+    else return $list;
+}
 function positions_in_club_list($value, $get_value = false){
 
     if(!isset($value))
@@ -416,4 +439,26 @@ function countries_list($value){
         $list .= ">$country_value ($key)</option>";
     }
     return $list;
+}
+
+function roles_list($value, $get_value = false, $mysqli){
+    $roles=mfa_kaip_array($mysqli, "SELECT * from positions");
+    if(!isset($value))
+        $value="";
+    $list = "<option value='' ";
+    if ($value=="") {
+        $list .= "selected";
+    }
+    $list .= ">...</option>";
+    foreach ($roles as $role){
+        $list .= "<option value='".$role['id']."' ";
+        if ($value==$role['id']) {
+            $list .= "selected";
+            $return_value = $role['position_name'];
+        }
+        $list .= ">".$role['position_name']."</option>";
+    }
+    if($get_value==true)
+        return $return_value;
+    else return $list;
 }

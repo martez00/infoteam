@@ -1,4 +1,39 @@
 <?php
+function return_users_table($users)
+{
+    $text = "";
+    $text = "<div class=\"table-responsive\">
+                        <table class=\"table table-bordered\" id=\"dataTable\" width=\"100%\" cellspacing=\"0\">
+                            <thead>
+                            <tr>";
+    $text .= " <th>Slapyvardis</th>
+                                <th>Vardas</th>
+                                <th>Pavardė</th>
+                                <th>Rolė</th>
+                                <th>Atlyginimas</th>
+                                <th>Ar dirba?</th>
+                            </tr>
+                            </thead>
+                            <tbody>";
+
+    if (is_array($users) || is_object($users)) {
+        foreach ($users as $user) {
+            $text .= "<tr>";
+            if(isset($_SESSION['user_is_admin']) && $_SESSION['user_is_admin']==1) $text .="<td><a href='" . $GLOBALS['url_path'] . "users/user.php?id=".$user['id']."'>" . $user['user_name'] . "</a></td>";
+            else $text .="<td>" . $user['user_name'] . "</td>";
+            $text .="<td>" . $user['name'] . "</td>
+<td>" . $user['surname'] . "</td>
+<td>" . $user['user_role'] . "</td>
+<td>" . $user['salary'] . "</td>
+<td>" . if_working_list($user['not_working'], true) . "</td>
+</tr>";
+        }
+    }
+    $text .= " </tbody>
+                        </table>
+                    </div>";
+    return $text;
+}
 function return_positions_in_club_table($positions_in_club)
 {
     $text = "";
@@ -6,7 +41,7 @@ function return_positions_in_club_table($positions_in_club)
                         <table class=\"table table-bordered\" id=\"dataTable\" width=\"100%\" cellspacing=\"0\">
                             <thead>
                             <tr>
-                                <th></th>
+                             
                                 <th>ID</th>
                                 <th>Pavadinimas</th>
                                 <th>Globali rolė</th>
@@ -17,9 +52,8 @@ function return_positions_in_club_table($positions_in_club)
     if (is_array($positions_in_club) || is_object($positions_in_club)) {
         foreach ($positions_in_club as $position) {
             $text .= "<tr>
-<td><a class='btn btn-block btn-danger' href='" . $GLOBALS['url_path'] . "users/role.php?id=".$position['id']."'>REDAGUOTI</a></td>
 <td>" . $position['id'] . "</td>
-<td>" . $position['position_name'] . "</td>
+<td><a href='" . $GLOBALS['url_path'] . "users/role.php?id=".$position['id']."'>" . $position['position_name'] . "</a></td>
 <td>" . positions_in_club_list($position['global_position'], true) . "</td>
 </tr>";
         }
@@ -36,9 +70,7 @@ function return_applications_table($prasymai)
                         <table class=\"table table-bordered\" id=\"dataTable\" width=\"100%\" cellspacing=\"0\">
                             <thead>
                             <tr>
-                                <th></th>
-                                <th>Vardas</th>
-                                <th>Pavardė</th>
+                                <th>Vardas Pavardė</th>
                                 <th>Šalis</th>
                                 <th>Pozicija</th>
                                 <th>Gimimo data</th>
@@ -50,9 +82,7 @@ function return_applications_table($prasymai)
     if (is_array($prasymai) || is_object($prasymai)) {
         foreach ($prasymai as $prasymas) {
             $text .= "<tr>
-<td><a class='btn btn-block btn-danger' href='" . $GLOBALS['url_path'] . "applications/edit_application.php?id=".$prasymas['id']."'>REDAGUOTI</a></td>
-<td>" . $prasymas['name'] . "</td>
-<td>" . $prasymas['surname'] . "</td>
+<td><a href='" . $GLOBALS['url_path'] . "applications/edit_application.php?id=".$prasymas['id']."'>" . $prasymas['name'] . " " .$prasymas['surname']. "</a></td>
 <td>" . $prasymas['country'] . "</td>
 <td>" . positions_list($prasymas['position_in_field'], true) . "</td>
 <td>" . $prasymas['birth_date'] . "</td>

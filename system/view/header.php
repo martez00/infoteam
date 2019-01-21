@@ -13,7 +13,7 @@
                 <i class="fas fa-user-circle fa-fw"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">Nustatymai</a>
+                <a class="dropdown-item" href="<?php echo $GLOBALS['url_path']."users/edit_user_info.php?id=".$_SESSION['user_id']; ?>">Nustatymai</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="<?php echo $GLOBALS['url_path']."system/auth/logout.php"; ?>" data-toggle="modal" data-target="#logoutModal">Atsijungti</a>
             </div>

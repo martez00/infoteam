@@ -10,16 +10,25 @@ else if(isset($_POST['id'])) $id = $_POST['id'];
 
 if (isset($id) && $id!=0) {
     if (!empty($_POST)) {
-        unset($_POST['id']);
-        $position_arr = $_POST;
-        UpdateField($mysqli, $position_arr, "positions", true, $id, true);
+        if($_POST['delete']==1) {
+            DeleteField($mysqli, $id, "positions", true);
+            ?>
+            <script>
+                window.location = "<?php echo $GLOBALS['url_path'] . "users/positions_in_club.php"; ?>";
+            </script>
+            <?php
+        }
+        else {
+            unset($_POST['id']);
+            unset($_POST['delete']);
+            $position_arr = $_POST;
+            UpdateField($mysqli, $position_arr, "positions", true, $id, true);
+        }
     }
 } else {
     if (!empty($_POST)) {
-        if(!empty($_POST['position_name'])) {
             $position_arr = $_POST;
             $id = InsertField($mysqli, $position_arr, "positions", true, true);
-        }
     }
 }
 if(isset($id))
@@ -45,7 +54,7 @@ else $role_exists=0;
     <input type="hidden" name="id" id="id" value="<?php if(isset($id)) echo $id ;?>">
     <div id="wrapper">
         <?php require($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/view/sidebar.php"); ?>
-        <?php if(isset($id)) echo "<input type=\"hidden\" name=\"id\" id=\"id\" value=\"$id\">";?>
+        <?php if(isset($id)) echo "<input type=\"hidden\" name=\"id\" id=\"id\" value=\"$id\"> <input type='hidden' name='delete' id='delete' value='0'>";?>
         <div id="content-wrapper">
 
             <div class="container-fluid">
@@ -66,7 +75,6 @@ else $role_exists=0;
                         <i class="fas fa-table"></i>
                         <?php if($role_exists) {?> Rolė: <b><?php echo $roles_arr['position_name']?></b>
                         <?php } else echo "Naujos rolės kūrimas"; ?>
-                        <input class='btn btn-primary btn-block' onclick='toastr.info("Informacija išsaugota!");' type='submit' value='Išsaugoti'>
                     </div>
                     <div class="card-body">
                         <div class="form-group">
@@ -77,7 +85,7 @@ else $role_exists=0;
                             <div class="form-row">
                                 <div class="col-md-2">
                                     <label for="position_name">Rolės pavadinimas:</label>
-                                    <input type="text" class="form-control" id="position_name" name="position_name"
+                                    <input type="text" class="form-control" id="position_name" name="position_name" required="required"
                                            value="<?php if(isset($roles_arr)) echo $roles_arr["position_name"]; ?>">
                                 </div>
                                 <div class="col-md-2">
@@ -87,7 +95,11 @@ else $role_exists=0;
                                 </div>
                             </div>
                         </div>
-        <!-- /.content-wrapper -->
+                        <hr>
+                        <input class='btn btn-primary btn-block' id="saveButton" type='submit' value='Išsaugoti'>
+                        <?php if(isset($roles_arr)) { ?>  <a class='btn btn-primary btn-block btn-danger' onclick="document.getElementById('delete').value=1; document.getElementById('saveButton').click();" style="color:white">Trinti rolę</a> <?php } ?>
+                    </div>
+                        <!-- /.content-wrapper -->
 </form>
 </div>
 <!-- /#wrapper -->
