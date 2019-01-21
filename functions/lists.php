@@ -445,7 +445,7 @@ function roles_list($value, $get_value = false, $mysqli){
     $roles=mfa_kaip_array($mysqli, "SELECT * from positions");
     if(!isset($value))
         $value="";
-    $list = "<option value='' ";
+    $list = "<option value='NULL' ";
     if ($value=="") {
         $list .= "selected";
     }

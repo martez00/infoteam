@@ -14,21 +14,22 @@ if (isset($id) && $id!=0) {
             DeleteField($mysqli, $id, "users", true);
             ?>
             <script>
-                window.location = "<?php echo $GLOBALS['url_path'] . "users/users_in_club.php"; ?>";
+                window.location = "<?php echo $GLOBALS['url_path'] . "users/users.php"; ?>";
             </script>
             <?php
         }
         else {
             unset($_POST['id']);
             unset($_POST['delete']);
-            $position_arr = $_POST;
-            UpdateField($mysqli, $position_arr, "users", true, $id, true);
+            $user_arr = $_POST;
+            UpdateField($mysqli, $user_arr, "users", true, $id, true);
         }
     }
 } else {
     if (!empty($_POST)) {
-        $position_arr = $_POST;
-        $id = InsertField($mysqli, $position_arr, "users", true, true);
+        $user_arr = $_POST;
+        $user_arr['created_by']=$_SESSION['user_id'];
+        $id = InsertField($mysqli, $user_arr, "users", true, true);
     }
 }
 if(isset($id))
