@@ -1,4 +1,60 @@
 <?php
+function return_transactions_table($transactions)
+{
+    $text = "";
+    $text = "<div class=\"table-responsive\">
+                        <table class=\"table table-bordered\" id=\"dataTable\" width=\"100%\" cellspacing=\"0\">
+                            <thead>
+                            <tr>";
+    $text .= "
+                                <th>Suma</th>
+                                <th>Debetas/Kreditas</th>
+                                <th>Kas atliko</th>
+                            </tr>
+                            </thead>
+                            <tbody>";
+
+    if (is_array($transactions) || is_object($transactions)) {
+        foreach ($transactions as $transaction) {
+            $text .= "<tr>";
+            $text .= "<td>" . $transaction['amount'] . "</td>
+<td>" . $transaction['debit_credit'] . "</td>
+<td>" . $transaction['made_by'] . "</td>
+</tr>";
+        }
+    }
+    $text .= " </tbody>
+                        </table>
+                    </div>";
+    return $text;
+}
+function return_players_table($players)
+{
+    $text = "";
+    $text = "<div class=\"table-responsive\">
+                        <table class=\"table table-bordered\" id=\"dataTable\" width=\"100%\" cellspacing=\"0\">
+                            <thead>
+                            <tr>";
+    $text .= "
+                                <th>Vardas</th>
+                                <th>Pavardė</th>
+                            </tr>
+                            </thead>
+                            <tbody>";
+
+    if (is_array($players) || is_object($players)) {
+        foreach ($players as $player) {
+            $text .= "<tr>";
+            $text .= "<td>" . $player['name'] . "</td>
+<td>" . $player['surname'] . "</td>
+</tr>";
+        }
+    }
+    $text .= " </tbody>
+                        </table>
+                    </div>";
+    return $text;
+}
 function return_users_table($users)
 {
     $text = "";
