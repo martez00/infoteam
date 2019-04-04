@@ -66,8 +66,8 @@ function return_positions_in_club_table($positions_in_club)
 function return_applications_table($prasymai)
 {
     $text = "";
-    $text = "<div class=\"table-responsive\">
-                        <table class=\"table table-bordered\" id=\"dataTable\" width=\"100%\" cellspacing=\"0\">
+    $text = "
+                        <table class=\"table-simple\">
                             <thead>
                             <tr>
                                 <th>Vardas Pavardė</th>
@@ -92,7 +92,7 @@ function return_applications_table($prasymai)
     }
     $text .= " </tbody>
                         </table>
-                    </div>";
+                   ";
     return $text;
 }
 

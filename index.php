@@ -17,7 +17,7 @@ if ($_SERVER['SERVER_NAME'] == "localhost") {
 <head>
 
     <?php require ($_SERVER['DOCUMENT_ROOT']."/$folder/system/inc/head.inc.php"); ?>
-    <title>InfoTeam - Teikti prašymą</title>
+    <title>InfoTeam - Pagrindinis</title>
 
 </head>
 

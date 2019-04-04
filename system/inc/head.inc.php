@@ -21,3 +21,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="<?php echo $GLOBALS['url_path']; ?>other_resources/table/css/main.css">
+    <!--===============================================================================================-->

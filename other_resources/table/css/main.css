@@ -1,0 +1,4 @@
+table.table-simple {background-color:transparent;border-collapse:collapse;width:100%;}
+table.table-simple td {text-align:center;border:1px solid black;padding:1px;}
+table.table-simple th {background-color:lightblue; text-align:center;border:1px solid black;padding:5px;}
+table.table-simple td:first-child {width:20%;}
