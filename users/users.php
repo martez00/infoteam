@@ -37,9 +37,10 @@ $users = mfa_kaip_array($mysqli, "SELECT users.*, positions.position_name as use
             <div class="card mb-3">
                 <div class="card-header">
                     <i class="fas fa-table"></i>
-                    Vartotojai <a onclick="print_table('data_in_table')"><img src="<?php echo $GLOBALS['url_path'] . "images/printer.png"; ?>"></a> <a class='btn btn-primary btn-block' style="color:white" href="<?php echo $GLOBALS['url_path'] . "users/user.php"; ?>">Pridėti naują vartotoją</a>
+                    Vartotojai <a onclick="print_table('data_in_table')"><img src="<?php echo $GLOBALS['url_path'] . "images/printer.png"; ?>"></a>
                 </div>
                 <div class="card-body" id="data_in_table">
+                    <a class='btn btn-primary btn-block' style="color:white; margin-bottom:5px;" href="<?php echo $GLOBALS['url_path'] . "users/user.php"; ?>">Pridėti naują vartotoją</a>
                     <?php echo return_users_table($users); ?>
                 </div>
 

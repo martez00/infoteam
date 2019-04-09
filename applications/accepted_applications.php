@@ -4,7 +4,7 @@ $pieces = explode("/", $path);
 $folder = $pieces[1];
 
 require_once($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/loader.inc.php");
-$patvirtinti_prasymai = mfa_kaip_array($mysqli, "SELECT * from applications_to_club where status='1'");
+$patvirtinti_prasymai = mfa_kaip_array($mysqli, "SELECT * from applications_to_club where status='1' LIMIT 0, 30");
 ?>
 <!DOCTYPE html>
 <html>

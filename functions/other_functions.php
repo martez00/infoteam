@@ -2,8 +2,8 @@
 function return_transactions_table($transactions)
 {
     $text = "";
-    $text = "<div class=\"table-responsive\">
-                        <table class=\"table table-bordered\" id=\"dataTable\" width=\"100%\" cellspacing=\"0\">
+    $text = "
+                        <table class='table-simple'>
                             <thead>
                             <tr>";
     $text .= "
@@ -25,14 +25,14 @@ function return_transactions_table($transactions)
     }
     $text .= " </tbody>
                         </table>
-                    </div>";
+                   ";
     return $text;
 }
 function return_players_table($players)
 {
     $text = "";
-    $text = "<div class=\"table-responsive\">
-                        <table class=\"table table-bordered\" id=\"dataTable\" width=\"100%\" cellspacing=\"0\">
+    $text = "
+                        <table class='table-simple'>
                             <thead>
                             <tr>";
     $text .= "
@@ -52,14 +52,14 @@ function return_players_table($players)
     }
     $text .= " </tbody>
                         </table>
-                    </div>";
+                   ";
     return $text;
 }
 function return_users_table($users)
 {
     $text = "";
-    $text = "<div class=\"table-responsive\">
-                        <table class=\"table table-bordered\" id=\"dataTable\" width=\"100%\" cellspacing=\"0\">
+    $text = "
+                        <table class='table-simple'>
                             <thead>
                             <tr>";
     $text .= " <th>Slapyvardis</th>
@@ -87,14 +87,14 @@ function return_users_table($users)
     }
     $text .= " </tbody>
                         </table>
-                    </div>";
+               ";
     return $text;
 }
 function return_positions_in_club_table($positions_in_club)
 {
     $text = "";
-    $text = "<div class=\"table-responsive\">
-                        <table class=\"table table-bordered\" id=\"dataTable\" width=\"100%\" cellspacing=\"0\">
+    $text = "
+                        <table class='table-simple'>
                             <thead>
                             <tr>
                              
@@ -116,7 +116,7 @@ function return_positions_in_club_table($positions_in_club)
     }
     $text .= " </tbody>
                         </table>
-                    </div>";
+                  ";
     return $text;
 }
 function return_applications_table($prasymai)
@@ -138,7 +138,7 @@ function return_applications_table($prasymai)
     if (is_array($prasymai) || is_object($prasymai)) {
         foreach ($prasymai as $prasymas) {
             $text .= "<tr>
-<td><a href='" . $GLOBALS['url_path'] . "applications/edit_application.php?id=".$prasymas['id']."'>" . $prasymas['name'] . " " .$prasymas['surname']. "</a></td>
+<td><a href='" . $GLOBALS['url_path'] . "applications/edit_application.php?id=".$prasymas['id']."' target='_blank'><b>" . $prasymas['name'] . " " .$prasymas['surname']. "</b></a></td>
 <td>" . $prasymas['country'] . "</td>
 <td>" . positions_list($prasymas['position_in_field'], true) . "</td>
 <td>" . $prasymas['birth_date'] . "</td>
