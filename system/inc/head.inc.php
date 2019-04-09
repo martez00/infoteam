@@ -24,4 +24,5 @@
 
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="<?php echo $GLOBALS['url_path']; ?>other_resources/table/css/main.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo $GLOBALS['url_path']; ?>other_resources/div/main.css">
     <!--===============================================================================================-->
