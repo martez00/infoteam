@@ -119,7 +119,7 @@ function return_positions_in_club_table($positions_in_club)
                   ";
     return $text;
 }
-function return_applications_table($prasymai)
+function return_applications_table($prasymai, $kiek_viso_irasu, $limit_key, $page)
 {
     $text = "";
     $text = "
@@ -145,7 +145,18 @@ function return_applications_table($prasymai)
 <td>" . $prasymas['created_date'] . "</td>
 </tr>";
         }
+        if($kiek_viso_irasu>10) {
+            $text .= "<tr><td colspan='5' style='padding: 5px;'>";
+            $viso_puslapiu=ceil($kiek_viso_irasu/$limit_key);
+            for($i=1; $i<=$viso_puslapiu; $i++){
+                if($i==$page) $class="btn_active_page";
+                else $class="btn_page";
+                $text .= "<a class='btn $class' onclick='set_page($i)'>$i</a>";
+            }
+            $text .= "</td></tr>";
+        }
     }
+    else $text .= "<tr><td colspan='5'>Tinkamų atvaizduoti duomenų nėra!</td></tr>";
     $text .= " </tbody>
                         </table>
                    ";

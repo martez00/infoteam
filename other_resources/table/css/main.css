@@ -1,5 +1,6 @@
-table.table-simple {background-color:transparent;border-collapse:collapse;width:100%;}
-table.table-simple td {text-align:center;border:1px solid lightgrey;padding:1px;}
-table.table-simple th {background-color:darkslategrey; color:white; text-align:center;border:1px solid grey;padding:5px;}
+table.table-simple {background-color:transparent;border-collapse:collapse;width:100%; }
+table.table-simple td {text-align:center;padding:1px;}
+table.table-simple tr {border-bottom:1px solid lightgrey; font-weight: lighter}
+table.table-simple th {background-color:steelblue; color:white; text-align:center;padding:5px; font-weight: bold; }
 table.table-simple td:first-child {width:20%;}
-table.table-simple tr:hover {background-color:lightblue}
+table.table-simple tr:hover {background-color:aliceblue}

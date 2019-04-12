@@ -1,8 +1,24 @@
-.search_div{
-    background-color:darkslategrey;
-    border: 1px solid lightcyan;
+.search_div {
+    background-color: aliceblue;
+    border: 1px solid lightgrey;
     border-radius: 5px;
-    margin-bottom:5px;
+    margin-bottom: 5px;
     padding: 5px;
+    color: black;
+}
+
+.search_btn {
+    border: 1px solid lightgrey;
     color: white;
+    background-color: steelblue
+}
+
+.btn_page {
+    background-color: steelblue;
+    margin-left: 5px
+}
+
+.btn_active_page {
+    background-color: forestgreen;
+    margin-left: 5px
 }

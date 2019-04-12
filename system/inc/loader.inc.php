@@ -2,7 +2,7 @@
 $path = $_SERVER['PHP_SELF'];
 $pieces = explode("/", $path);
 $folder = $pieces[1];
-
+error_reporting(0);
 if (!isset($_SESSION['is_started']) && !isset($do_not_start_session)) {
     session_name("$folder");
     session_start();

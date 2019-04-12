@@ -19,7 +19,7 @@
             positionClass: 'toast-top-center'
         };
 
-       $( "#datepicker" ).datepicker(
+       $( ".datepicker" ).datepicker(
             { dateFormat: 'yy-mm-dd' }
         );
 
@@ -56,5 +56,10 @@
         mywindow.document.close();
         mywindow.print();
         return true;
+    }
+
+    function set_page(page_number){
+        document.getElementById("page").value=page_number;
+        $('input[type=submit]').click();
     }
 </script>
