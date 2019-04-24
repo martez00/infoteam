@@ -43,4 +43,25 @@ switch ($_POST['do']) {
         }
         echo json_encode(array("text" => "$div_text"));
         break;
+    case 'edit_application_note_ajax':
+        if (isset($_POST['id'])) {
+            $app_id=$_POST['id'];
+        }
+        if (isset($_POST['note_id'])) {
+            $note_id = $_POST['note_id'];
+        }
+        if (isset($_POST['note_content'])) {
+            $note_content = $_POST['note_content'];
+        }
+        if(!isset($note_content))
+            $note_content="";
+
+        $arr["note"]=$note_content;
+        UpdateField($mysqli, $arr, "applications_notes", true, $note_id, true);
+
+        if(isset($app_id)){
+            $div_text=format_applications_notes($mysqli, $app_id);
+        }
+        echo json_encode(array("text" => "$div_text"));
+        break;
 }

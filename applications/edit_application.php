@@ -11,6 +11,9 @@ else if (isset($_POST['id'])) $id = $_POST['id'];
 if (isset($id)) {
     if (!empty($_POST)) {
         unset($_POST['id']);
+        unset($_POST['hidden_note_id']);
+        unset($_POST['edit_note_content']);
+        unset($_POST['app_id']);
         $application_arr = $_POST;
         UpdateField($mysqli, $application_arr, "applications_to_club", true, $id, true);
     }
@@ -105,6 +108,23 @@ $files=mfa($mysqli, "SELECT * from applications_files where applications_to_club
                     $('#pastabos_content').html(data.text);
                     document.getElementById("add_note").value="";
                     toastr.success("Pastaba ištrinta!");
+                });
+        }
+        function edit_application_note(){
+            var note_content = $('#edit_note_content').val();
+            var note_id = $('#hidden_note_id').val();
+            var app_id = $('#app_id').val();
+            $.post("<?= $GLOBALS['url_path'] ?>/ajax/ajax_functions_return.php", {
+                    'do': "edit_application_note_ajax",
+                    'note_id': note_id,
+                    'id': app_id,
+                    'note_content': note_content
+                }
+                , function (data) {
+                    data = JSON.parse(data);
+                    $('#pastabos_content').html(data.text);
+                    document.getElementById("add_note").value="";
+                    toastr.success("Pastaba pakeista!");
                 });
         }
     </script>
@@ -287,6 +307,8 @@ $files=mfa($mysqli, "SELECT * from applications_files where applications_to_club
 
         </div>
         <div class="modal fade" id="edit_application_note" tabindex="-1" role="dialog" aria-labelledby="edit_application_noteLabel" aria-hidden="true">
+            <input type="hidden" id="hidden_note_id" name="hidden_note_id">
+            <input type="hidden" id="app_id" name="app_id">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -297,13 +319,13 @@ $files=mfa($mysqli, "SELECT * from applications_files where applications_to_club
                     </div>
                     <div class="modal-body">
                             <div class="form-group">
-                                <label for="note" class="col-form-label">Pastaba:</label>
-                                <input type="text" class="form-control" id="note">
+                                <label for="edit_note_content" class="col-form-label">Pastaba:</label>
+                                <input type="text" class="form-control" id="edit_note_content">
                             </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Uždaryti</button>
-                        <button onclick="edit_application_note_ajax()" type="button" class="btn btn-primary" data-dismiss="modal">Išsaugoti</button>
+                        <button onclick="edit_application_note()" type="button" class="btn btn-primary" data-dismiss="modal">Išsaugoti</button>
                     </div>
                 </div>
             </div>
@@ -316,11 +338,15 @@ $files=mfa($mysqli, "SELECT * from applications_files where applications_to_club
 <script>
     $('#edit_application_note').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
-        var note = button.data('whatever') // Extract info from data-* attributes
+        var note = button.data('note') // Extract info from data-* attributes
+        var id = button.data('id') // Extract info from data-* attributes
+        var app_id = button.data('appid') // Extract info from data-* attributes
         // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
         var modal = $(this)
-        modal.find('input[id="note"]').val(note);
+        modal.find('input[id="hidden_note_id"]').val(id);
+        modal.find('input[id="edit_note_content"]').val(note);
+        modal.find('input[id="app_id"]').val(app_id);
     })
 </script>
 </body>
