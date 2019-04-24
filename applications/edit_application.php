@@ -28,7 +28,15 @@ if (isset($id)) {
     </script>
     <?php
 }
-
+if(isset($_FILES[file][name]) && $_FILES[file][name]!="") {
+    $file_arr = $_FILES[file];
+    $response = insert_file("applications_files", $id, $file_arr);
+    if($response=="success") $file_message="Jūsų failas sėkmingai įkeltas.";
+    else if($response=="duplicate") $file_message="Jūsų keliamas failas su tokiu pavadinimu jau egzistuoja.";
+    else if($response=="too_large") $file_message="Jūsų keliamas failas per didelis!";
+    else if($response=="error_uploading") $file_message="Įkeliant Jūsų failą į serverį įvyko klaida!";
+}
+$files=mfa($mysqli, "SELECT * from applications_files where applications_to_club_id='$id'");
 ?>
 
 <!DOCTYPE html>
@@ -121,19 +129,15 @@ if (isset($id)) {
                     <li class="breadcrumb-item">Prašymo redagavimas</li>
                     <li class="breadcrumb-item active"><?php echo $prasymo_arr['name'] . " " . $prasymo_arr['surname'] ?></li>
                 </ol>
-
+                <?php
+                if(isset($file_message)){
+                    echo "<div class='alert alert-primary' role='alert'>$file_message</div>";
+                }
+                ?>
                 <div class="card mb-3">
                     <div class="card-header">
                         <i class="fas fa-table"></i>
                         Žaidėjo prašymas: <b><?php echo $prasymo_arr['name'] . " " . $prasymo_arr['surname'] ?></b>
-                        <?php if ($nepatvirtintas == true) {
-                            echo "<div class='form-row'><div class='col-md-4'><a class='btn btn-primary btn-block btn-success' onclick='set_application_status(\"$id\", 1)'>Patvirtinti</a></div>";
-                            echo "<div class='col-md-4'><a class='btn btn-primary btn-block btn-warning' onclick='set_application_status(\"$id\", 2)'>Atidėti</a></div>";
-                            echo "<div class='col-md-4'><a class='btn btn-primary btn-block btn-danger' onclick='set_application_status(\"$id\", 3)'>Atmesti</a></div></div>";
-                        } else {
-                            echo "<input class='btn btn-primary btn-block' onclick='toastr.info(\"Aplikacija atnaujinta!\");' type='submit' value='Išsaugoti'>";
-                        }
-                        ?>
                     </div>
                     <div class="card-body">
                         <div class="form-group">
@@ -240,6 +244,39 @@ if (isset($id)) {
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <h5>Failai</h5>
+                            <hr>
+                        </div>
+                        <div class="form-group">
+                            <div class='form-row'>
+                                <b style="margin-left:5px;">Prisegti failai: </b>
+                                <?php
+                                foreach($files as $file){
+                                    $file_name=str_replace("uploads/","",$file[file_path]);
+                                    echo "<a href='$GLOBALS[url_path]$file[file_path]' target='_blank' style='float:left; margin-left:5px;'>$file_name</a>";
+                                }
+                                ?>
+                            </div>
+                            <div class='form-row'>
+                                <div class="col-md-8">
+                                    <b>Pasirinkite norimą prisegti failą:</b>
+                                    <input type="file" name="file" id="file">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type='submit' class='btn btn-primary btn-block' value='Pridėti failą'>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <?php if ($nepatvirtintas == true) {
+                            echo "<div class='form-row'><div class='col-md-4'><a class='btn btn-primary btn-block btn-success' onclick='set_application_status(\"$id\", 1)'>Patvirtinti</a></div>";
+                            echo "<div class='col-md-4'><a class='btn btn-primary btn-block btn-warning' onclick='set_application_status(\"$id\", 2)'>Atidėti</a></div>";
+                            echo "<div class='col-md-4'><a class='btn btn-primary btn-block btn-danger' onclick='set_application_status(\"$id\", 3)'>Atmesti</a></div></div>";
+                        } else {
+                            echo "<input class='btn btn-primary btn-block' onclick='toastr.info(\"Aplikacija atnaujinta!\");' type='submit' value='Išsaugoti'>";
+                        }
+                        ?>
                     </div>
                 </div>
 

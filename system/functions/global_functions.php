@@ -207,3 +207,36 @@ function dump($var, $info = FALSE)
     do_dump($var, '$' . $vname);
     echo "</pre>";
 }
+function insert_file($table, $id, $file_arr){
+    global $folder;
+    global $mysqli;
+    $target_dir = "uploads/";
+    $target_file = $_SERVER['DOCUMENT_ROOT']."/$folder/$target_dir" . basename($file_arr["name"]);
+    $file_path=$target_dir.basename($file_arr["name"]);
+    $uploadOk = 1;
+// Check if file already exists
+    if (file_exists($target_file)) {
+        $response="duplicate";
+        $uploadOk = 0;
+    }
+// Check file size
+    if ($file_arr["size"] > 500000) {
+        $response="too_large";
+        $uploadOk = 0;
+    }
+// Check if $uploadOk is set to 0 by an error
+    if ($uploadOk == 0) {
+        //echo "Sorry, your file was not uploaded.";
+// if everything is ok, try to upload file
+    } else {
+        if (move_uploaded_file($file_arr["tmp_name"], $target_file)) {
+            $response="success";
+            $insert_arr[applications_to_club_id]=$id;
+            $insert_arr[file_path]=$file_path;
+            InsertField($mysqli, $insert_arr, $table, true);
+        } else {
+            $response="error_uploading";
+        }
+    }
+    return $response;
+}
