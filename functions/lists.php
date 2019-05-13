@@ -55,12 +55,12 @@ function positions_in_club_list($value, $get_value = false){
     }
     $list .= ">Skautas</option>";
 
-    $list .= "<option value='4'";
+    /*$list .= "<option value='4'";
     if ($value==4) {
         $list .= "selected";
         $return_value="Aprūpinimo skyrius";
     }
-    $list .= ">Aprūpinimo skyrius</option>";
+    $list .= ">Aprūpinimo skyrius</option>";*/
 
     $list .= "<option value='5'";
     if ($value==5) {

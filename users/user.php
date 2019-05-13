@@ -21,12 +21,18 @@ if (isset($id) && $id!=0) {
         else {
             unset($_POST['id']);
             unset($_POST['delete']);
+            unset($_POST['hidden_note_id']);
+            unset($_POST['edit_note_content']);
+            unset($_POST['item_id']);
             $user_arr = $_POST;
             UpdateField($mysqli, $user_arr, "users", true, $id, true);
         }
     }
 } else {
     if (!empty($_POST)) {
+        unset($_POST['hidden_note_id']);
+        unset($_POST['edit_note_content']);
+        unset($_POST['item_id']);
         $user_arr = $_POST;
         $user_arr['created_by']=$_SESSION['user_id'];
         $id = InsertField($mysqli, $user_arr, "users", true, true);
@@ -36,18 +42,80 @@ if(isset($id))
     $user_arr = mfa($mysqli, "SELECT * from users where id='$id'");
 if (isset($user_arr)) $user_exists=1;
 else $user_exists=0;
+
+if(isset($_FILES[file][name]) && $_FILES[file][name]!="") {
+    $file_arr = $_FILES[file];
+    $response = insert_file("users_files", "users_id", $id, $file_arr);
+    if($response=="success") $file_message="Jūsų failas sėkmingai įkeltas.";
+    else if($response=="duplicate") $file_message="Jūsų keliamas failas su tokiu pavadinimu jau egzistuoja.";
+    else if($response=="too_large") $file_message="Jūsų keliamas failas per didelis!";
+    else if($response=="error_uploading") $file_message="Įkeliant Jūsų failą į serverį įvyko klaida!";
+}
+$files=mfa_kaip_array($mysqli, "SELECT * from users_files where users_id='$id'");
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
     <?php require_once($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/head.inc.php"); ?>
-    <title>InfoTeam - Vartotojai</title>
+    <title>InfoTeam - Vartotojo profilis</title>
     <style>
         .toast {
             opacity: 1 !important;
         }
     </style>
+    <script>
+        function add_user_note(id) {
+            var pastaba;
+            pastaba = document.getElementById("add_note").value;
+            if(!pastaba || pastaba==""){
+                toastr.error("Neįvedėte pastabos!");
+            }
+            else {
+                $.post("<?= $GLOBALS['url_path'] ?>/ajax/ajax_functions_return.php", {
+                        'do': "add_user_note_ajax",
+                        'id': id,
+                        'note': pastaba
+                    }
+                    , function (data) {
+                        data = JSON.parse(data);
+                        $('#pastabos_content').html(data.text);
+                        document.getElementById("add_note").value="";
+                        toastr.success("Pastaba įvesta!");
+                    });
+            }
+        }
+        function delete_user_note(note_id, id){
+            $.post("<?= $GLOBALS['url_path'] ?>/ajax/ajax_functions_return.php", {
+                    'do': "delete_user_note_ajax",
+                    'id': id,
+                    'note_id': note_id
+                }
+                , function (data) {
+                    data = JSON.parse(data);
+                    $('#pastabos_content').html(data.text);
+                    document.getElementById("add_note").value="";
+                    toastr.success("Pastaba ištrinta!");
+                });
+        }
+        function edit_user_note(){
+            var note_content = $('#edit_note_content').val();
+            var note_id = $('#hidden_note_id').val();
+            var item_id = $('#item_id').val();
+            $.post("<?= $GLOBALS['url_path'] ?>/ajax/ajax_functions_return.php", {
+                    'do': "edit_user_note_ajax",
+                    'note_id': note_id,
+                    'id': item_id,
+                    'note_content': note_content
+                }
+                , function (data) {
+                    data = JSON.parse(data);
+                    $('#pastabos_content').html(data.text);
+                    document.getElementById("add_note").value="";
+                    toastr.success("Pastaba pakeista!");
+                });
+        }
+    </script>
 </head>
 <body id="page-top">
 <?php require($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/view/header.php"); ?>
@@ -69,7 +137,11 @@ else $user_exists=0;
                     <?php if($user_exists) {?> <li class="breadcrumb-item active"><?php echo $user_arr['user_name']?></li>
                     <?php } else echo "<li class=\"breadcrumb-item active\">Kurti naują vartotoją</li>"; ?>
                 </ol>
-
+                <?php
+                if(isset($file_message)){
+                    echo "<div class='alert alert-primary' role='alert'>$file_message</div>";
+                }
+                ?>
                 <div class="card mb-3">
                     <div class="card-header">
                         <i class="fas fa-table"></i>
@@ -131,6 +203,16 @@ else $user_exists=0;
                                     <select name="country" id="country" form="form"
                                             class="form-control"><?php if(isset($user_arr)) $country=$user_arr['country']; else $country="0"; echo countries_list($country);  ?></select>
                                 </div>
+                                <div class="col-md-2">
+                                    <label for="email">El. paštas:</label>
+                                    <input type="text" class="form-control" id="email" name="email"
+                                           value="<?php if(isset($user_arr)) echo $user_arr["email"]; ?>">
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="mob_number">Tel. nr.:</label>
+                                    <input type="text" class="form-control" id="mob_number" name="mob_number"
+                                           value="<?php if(isset($user_arr)) echo $user_arr["mob_number"]; ?>">
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -140,14 +222,59 @@ else $user_exists=0;
                         <div class="form-group">
                             <div class="form-row">
                                 <div class="col-md-2">
-                                    <label for="salary">Atlyginimas:</label>
+                                    <label for="salary">Atlyginimas*:</label>
                                     <input type="text" class="form-control" id="salary" name="salary"
                                     value="<?php if(isset($user_arr)) echo $user_arr["salary"]; ?>">
                                 </div>
                                 <div class="col-md-2">
-                                    <label for="not_working">Dirba:</label>
-                                    <select name="not_working" id="not_working" form="form"
-                                            class="form-control"><?php if(isset($user_arr)) $dirba=$user_arr['not_working']; else $dirba="0"; echo if_working_list($dirba);  ?></select>
+                                    <label for="working">Dirba:</label>
+                                    <select name="working" id="working" form="form"
+                                            class="form-control"><?php if(isset($user_arr)) $dirba=$user_arr['working']; else $dirba="0"; echo if_working_list($dirba);  ?></select>
+                                </div>
+                            </div>
+                            <b>*</b> – atlyginimas ant popieriaus.
+                        </div>
+                        <div class="form-group">
+                            <h5>Pastabos</h5>
+                            <hr>
+                        </div>
+                        <div class="form-group">
+                            <div class='form-row'>
+                                <div class="col-md-8">
+                                    <input type="text" id="add_note" class="form-control" placeholder="Jūsų pastaba...">
+                                </div>
+                                <div class="col-md-4">
+                                    <a class="btn btn-primary btn-block" style="color:white"
+                                       onclick='add_user_note("<?php echo $id; ?>")'>PRIDĖTI PASTABĄ</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div id="pastabos_content">
+                                    <?php echo format_users_notes($mysqli, $id); ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <h5>Failai</h5>
+                            <hr>
+                        </div>
+                        <div class="form-group">
+                            <div class='form-row'>
+                                <b style="margin-left:5px;">Prisegti failai: </b>
+                                <?php
+                                foreach($files as $file){
+                                    $file_name=str_replace("uploads/","",$file[file_path]);
+                                    echo "<a href='$GLOBALS[url_path]$file[file_path]' target='_blank' style='float:left; margin-left:5px;'>$file_name</a>";
+                                }
+                                ?>
+                            </div>
+                            <div class='form-row'>
+                                <div class="col-md-8">
+                                    <b>Pasirinkite norimą prisegti failą:</b>
+                                    <input type="file" name="file" id="file">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type='submit' class='btn btn-primary btn-block' value='Pridėti failą'>
                                 </div>
                             </div>
                         </div>
@@ -156,10 +283,48 @@ else $user_exists=0;
                        <?php if(isset($user_arr)) { ?> <a class='btn btn-primary btn-block btn-danger' onclick="document.getElementById('delete').value=1; document.getElementById('saveButton').click();" style="color:white">Trinti vartotoją</a> <?php } ?>
                     </div>
                         <!-- /.content-wrapper -->
+                    <div class="modal fade" id="edit_user_note" tabindex="-1" role="dialog" aria-labelledby="edit_item_noteLabel" aria-hidden="true">
+                        <input type="hidden" id="hidden_note_id" name="hidden_note_id">
+                        <input type="hidden" id="item_id" name="item_id">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="edit_item_noteLabel">Redaguoti pastabą</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="edit_note_content" class="col-form-label">Pastaba:</label>
+                                        <input type="text" class="form-control" id="edit_note_content">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Uždaryti</button>
+                                    <button onclick="edit_user_note()" type="button" class="btn btn-primary" data-dismiss="modal">Išsaugoti</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 </form>
 </div>
 <!-- /#wrapper -->
 <?php require($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/scripts.inc.php"); ?>
+<script>
+    $('#edit_user_note').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var notes = button.data('notes') // Extract info from data-* attributes
+        var id = button.data('id') // Extract info from data-* attributes
+        var item_id = button.data('item_id') // Extract info from data-* attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this)
+        modal.find('input[id="hidden_note_id"]').val(id);
+        modal.find('input[id="edit_note_content"]').val(notes);
+        modal.find('input[id="item_id"]').val(item_id);
+    })
+</script>
 </body>
 
 </html>

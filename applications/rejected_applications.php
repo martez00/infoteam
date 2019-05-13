@@ -57,9 +57,6 @@ $kiek_viso_irasu=gor($mysqli,"SELECT COUNT(id) FROM applications_to_club WHERE 1
             <form name="form" id="form" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                 <input type="hidden" name="page" id="page" value="<?php echo $page;?>">
                 <div id="search_div" class="search_div">
-                    <b>PAIEŠKA PAGAL LAUKUS</b><br>
-                    <div style="height:1px; background-color:white"></div>
-
                     <div class="form-row">
                         <div class="col-md-2">
                             Vardas
@@ -100,8 +97,9 @@ $kiek_viso_irasu=gor($mysqli,"SELECT COUNT(id) FROM applications_to_club WHERE 1
                             <input type="text" name="search[created_date]" class="form-control datepicker" value="<?php echo $search_arr['created_date'] ?>">
                         </div>
                     </div>
+                    <hr>
+                    <input class="btn btn-block search_btn" type="submit" value="Vykdyti paiešką">
                 </div>
-                <input class="btn btn-block search_btn" type="submit" value="Vykdyti paiešką">
             </form>
             <hr>
             <div class="card mb-3">

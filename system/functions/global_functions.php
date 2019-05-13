@@ -207,7 +207,7 @@ function dump($var, $info = FALSE)
     do_dump($var, '$' . $vname);
     echo "</pre>";
 }
-function insert_file($table, $id, $file_arr){
+function insert_file($table, $table_name_key, $id, $file_arr){
     global $folder;
     global $mysqli;
     $target_dir = "uploads/";
@@ -231,7 +231,7 @@ function insert_file($table, $id, $file_arr){
     } else {
         if (move_uploaded_file($file_arr["tmp_name"], $target_file)) {
             $response="success";
-            $insert_arr[applications_to_club_id]=$id;
+            $insert_arr[$table_name_key]=$id;
             $insert_arr[file_path]=$file_path;
             InsertField($mysqli, $insert_arr, $table, true);
         } else {
@@ -240,3 +240,31 @@ function insert_file($table, $id, $file_arr){
     }
     return $response;
 }
+function format_sql_from_search($pradinis_sql, $info_from_post, $order_by, $group_by){
+    if(!$order_by){
+        $order_by="ORDER BY id DESC";
+    }
+    if(!$info_from_post['page']) $page=1;
+    else $page=$info_from_post['page'];
+    $limit_key=10;
+    $end_limit=$page*$limit_key;
+    $start_limit=$end_limit-$limit_key;
+    $sql = $pradinis_sql;
+    if($info_from_post['search']){
+        $search_arr=$info_from_post['search'];
+        $sql_where="";
+        foreach($search_arr as $key => $value){
+            if(isset($value) && $value!='0' && $value!=''){
+                $sql_where .=" AND $key='$value' ";
+            }
+        }
+    }
+    $sql .= $sql_where;
+    $sql .= " $group_by $order_by LIMIT $start_limit, $end_limit ";
+    $arr["sql"]=$sql;
+    $arr["sql_where"]=$sql_where;
+    $arr["search_arr"]=$search_arr;
+    return $arr;
+}
+
+?>

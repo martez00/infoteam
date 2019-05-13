@@ -75,7 +75,7 @@ function return_users_table($users)
     if (is_array($users) || is_object($users)) {
         foreach ($users as $user) {
             $text .= "<tr>";
-            if(isset($_SESSION['user_is_admin']) && $_SESSION['user_is_admin']==1) $text .="<td><a href='" . $GLOBALS['url_path'] . "users/user.php?id=".$user['id']."'>" . $user['user_name'] . "</a></td>";
+            if(isset($_SESSION['user_is_admin']) && $_SESSION['user_is_admin']==1) $text .="<td><a href='" . $GLOBALS['url_path'] . "users/user.php?id=".$user['id']."' target='_blank'>" . $user['user_name'] . "</a></td>";
             else $text .="<td>" . $user['user_name'] . "</td>";
             $text .="<td>" . $user['name'] . "</td>
 <td>" . $user['surname'] . "</td>
@@ -169,7 +169,18 @@ function format_applications_notes($mysqli, $id){
     if(is_array($prasymo_notes_arr)){
         foreach($prasymo_notes_arr as $note){
             $note_id=$note['id'];
-            $text .= "<div class='form-row' style='margin-top:5px;'><div class='col-md-11'>• <a data-toggle=\"modal\" data-target=\"#edit_application_note\" data-id='".$note['id']."' data-appid='$id' data-note='".$note['note']."'><img src='".$GLOBALS['url_path']."images/edit.png'></button> <a onclick='delete_application_note(\"$note_id\", \"$id\")'><img src='".$GLOBALS['url_path']."images/delete.png'></a> <small><i>".date("Y-m-d", strtotime($note['action_date']))." ".$note['name']." ".$note['surname'].":</i></small> ".$note['note']."</div></div>";
+            $text .= "<div class='form-row' style='margin-top:5px;'><div class='col-md-11'>• <a data-toggle=\"modal\" data-target=\"#edit_application_note\" data-id='".$note['id']."' data-appid='$id' data-notes='".$note['notes']."'><img src='".$GLOBALS['url_path']."images/edit.png'></button> <a onclick='delete_application_note(\"$note_id\", \"$id\")'><img src='".$GLOBALS['url_path']."images/delete.png'></a> <small><i>".date("Y-m-d", strtotime($note['action_date']))." ".$note['name']." ".$note['surname'].":</i></small> ".$note['notes']."</div></div>";
+        }
+    }
+    return $text;
+}
+function format_users_notes($mysqli, $id){
+    $item_arr=mfa_kaip_array($mysqli, "SELECT users_notes.*, users.name, users.surname, tracking_made_actions.action_date  from users_notes LEFT JOIN tracking_made_actions ON tracking_made_actions.table_name='users_notes' AND tracking_made_actions.record_id=users_notes.id AND tracking_made_actions.action='I' LEFT JOIN users ON users.id=tracking_made_actions.made_by where users_notes.users_id='$id' GROUP BY users_notes.id ORDER BY tracking_made_actions.action_date DESC ");
+    $text="";
+    if(is_array($item_arr)){
+        foreach($item_arr as $note){
+            $note_id=$note['id'];
+            $text .= "<div class='form-row' style='margin-top:5px;'><div class='col-md-11'>• <a data-toggle=\"modal\" data-target=\"#edit_user_note\" data-id='".$note['id']."' data-item_id='$id' data-notes='".$note['notes']."'><img src='".$GLOBALS['url_path']."images/edit.png'></button> <a onclick='delete_user_note(\"$note_id\", \"$id\")'><img src='".$GLOBALS['url_path']."images/delete.png'></a> <small><i>".date("Y-m-d", strtotime($note['action_date']))." ".$note['name']." ".$note['surname'].":</i></small> ".$note['notes']."</div></div>";
         }
     }
     return $text;

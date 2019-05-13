@@ -33,13 +33,13 @@ if (isset($id)) {
 }
 if(isset($_FILES[file][name]) && $_FILES[file][name]!="") {
     $file_arr = $_FILES[file];
-    $response = insert_file("applications_files", $id, $file_arr);
+    $response = insert_file("applications_files","applications_to_club_id", $id, $file_arr);
     if($response=="success") $file_message="Jūsų failas sėkmingai įkeltas.";
     else if($response=="duplicate") $file_message="Jūsų keliamas failas su tokiu pavadinimu jau egzistuoja.";
     else if($response=="too_large") $file_message="Jūsų keliamas failas per didelis!";
     else if($response=="error_uploading") $file_message="Įkeliant Jūsų failą į serverį įvyko klaida!";
 }
-$files=mfa($mysqli, "SELECT * from applications_files where applications_to_club_id='$id'");
+$files=mfa_kaip_array($mysqli, "SELECT * from applications_files where applications_to_club_id='$id'");
 ?>
 
 <!DOCTYPE html>
@@ -86,7 +86,7 @@ $files=mfa($mysqli, "SELECT * from applications_files where applications_to_club
                 $.post("<?= $GLOBALS['url_path'] ?>/ajax/ajax_functions_return.php", {
                         'do': "add_application_note_ajax",
                         'id': id,
-                        'note': pastaba
+                        'notes': pastaba
                     }
                     , function (data) {
                         data = JSON.parse(data);
@@ -338,14 +338,14 @@ $files=mfa($mysqli, "SELECT * from applications_files where applications_to_club
 <script>
     $('#edit_application_note').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
-        var note = button.data('note') // Extract info from data-* attributes
+        var notes = button.data('notes') // Extract info from data-* attributes
         var id = button.data('id') // Extract info from data-* attributes
         var app_id = button.data('appid') // Extract info from data-* attributes
         // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
         var modal = $(this)
         modal.find('input[id="hidden_note_id"]').val(id);
-        modal.find('input[id="edit_note_content"]').val(note);
+        modal.find('input[id="edit_note_content"]').val(notes);
         modal.find('input[id="app_id"]').val(app_id);
     })
 </script>
