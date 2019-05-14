@@ -78,8 +78,8 @@ $kiek_viso_irasu=gor($mysqli,"SELECT COUNT(id) FROM users WHERE 1=1 $sql[sql_whe
                         </div>
                         <div class="col-md-2">
                             Ar dirba?
-                            <select name="search[country]" id="country" form="form"
-                                    class="form-control"><?php echo if_working_list($search_arr['not_working']); ?></select>
+                            <select name="search[working]" id="country" form="form"
+                                    class="form-control"><?php echo if_working_list($search_arr['working'], NULL, 1); ?></select>
                         </div>
                     </div>
                     <hr>

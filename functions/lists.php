@@ -1,11 +1,20 @@
 <?php
-function if_working_list($value, $get_value = false){
+function if_working_list($value, $get_value = false, $add_no_select_value){
 
-    if(!isset($value))
+    if(!isset($value) || $value==0)
         $value=0;
-
-    $list = "<option value='0' ";
-    if ($value==0) {
+    $list = "";
+    if(isset($add_no_select_value)) {
+        $list .= "<option value='' ";
+        if ($value == '') {
+            $list .= "selected";
+            $return_value = "";
+            $was_selected_empty=1;
+        }
+        $list .= ">...</option>";
+    }
+    $list .= "<option value='-1' ";
+    if ($value==-1) {
         $list .= "selected";
         $return_value="Ne";
     }

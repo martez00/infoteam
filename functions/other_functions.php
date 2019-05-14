@@ -81,7 +81,7 @@ function return_users_table($users)
 <td>" . $user['surname'] . "</td>
 <td>" . $user['user_role'] . "</td>
 <td>" . $user['salary'] . "</td>
-<td>" . if_working_list($user['not_working'], true) . "</td>
+<td>" . if_working_list($user['working'], true, NULL) . "</td>
 </tr>";
         }
     }

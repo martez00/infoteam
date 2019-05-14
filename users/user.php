@@ -195,7 +195,7 @@ $files=mfa_kaip_array($mysqli, "SELECT * from users_files where users_id='$id'")
                                 </div>
                                 <div class="col-md-2">
                                     <label for="birth_date">Gimimo data:</label>
-                                    <input type="text" id="datepicker" name="birth_date" class="form-control"
+                                    <input type="text" name="birth_date" class="form-control datepicker"
                                            value="<?php if(isset($user_arr)) echo $user_arr["birth_date"]; ?>">
                                 </div>
                                 <div class="col-md-2">
@@ -229,7 +229,7 @@ $files=mfa_kaip_array($mysqli, "SELECT * from users_files where users_id='$id'")
                                 <div class="col-md-2">
                                     <label for="working">Dirba:</label>
                                     <select name="working" id="working" form="form"
-                                            class="form-control"><?php if(isset($user_arr)) $dirba=$user_arr['working']; else $dirba="0"; echo if_working_list($dirba);  ?></select>
+                                            class="form-control"><?php if(isset($user_arr)) $dirba=$user_arr['working']; else $dirba="-1"; echo if_working_list($dirba, $false, NULL);  ?></select>
                                 </div>
                             </div>
                             <b>*</b> – atlyginimas ant popieriaus.
@@ -309,6 +309,7 @@ $files=mfa_kaip_array($mysqli, "SELECT * from users_files where users_id='$id'")
                     </div>
 </form>
 </div>
+<?php require($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/view/footer.php"); ?>
 <!-- /#wrapper -->
 <?php require($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/scripts.inc.php"); ?>
 <script>
