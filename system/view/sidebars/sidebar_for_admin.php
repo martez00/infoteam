@@ -25,11 +25,15 @@ else $not_reviewed_applications="<span class='badge-pill badge-danger' data-togg
             <a class="dropdown-item <?php if($file=="rejected_applications.php") echo "active"; ?>" href="<?php echo $GLOBALS['url_path']."applications/rejected_applications.php"; ?>">Atmesti prašymai</a>
         </div>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="<?php echo $GLOBALS['url_path']."users/users.php"; ?>">
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="<?php echo $GLOBALS['url_path']."users/users.php"; ?>" id="pagesDropdownUsers" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fas fa-fw fa-user"></i>
             <span>Vartotojai</span>
         </a>
+        <div class="dropdown-menu" aria-labelledby="pagesDropdownUsers">
+            <a class="dropdown-item <?php if($file=="users.php") echo "active"; ?>" href="<?php echo $GLOBALS['url_path']."users/users.php"; ?>">Vartotojų sąrašas</a>
+            <a class="dropdown-item <?php if($file=="positions_in_club.php") echo "active"; ?>" href="<?php echo $GLOBALS['url_path']."users/positions_in_club.php"; ?>">Vartotojų rolės</a>
+        </div>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="<?php echo $GLOBALS['url_path']."players/players.php"; ?>">

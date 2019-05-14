@@ -64,7 +64,7 @@ else $role_exists=0;
                     <li class="breadcrumb-item">
                         <a href="<?php echo $GLOBALS['url_path'] . "main"; ?>">InfoTeam</a>
                     </li>
-                    <li class="breadcrumb-item">Kita</li>
+                    <li class="breadcrumb-item">Vartotojai</li>
                     <li class="breadcrumb-item">Rolės</li>
                     <?php if($role_exists) {?> <li class="breadcrumb-item active"><?php echo $roles_arr['position_name']?></li>
                     <?php } else echo "<li class=\"breadcrumb-item active\">Kurti naują rolę</li>"; ?>

@@ -28,6 +28,7 @@ function return_transactions_table($transactions)
                    ";
     return $text;
 }
+
 function return_players_table($players)
 {
     $text = "";
@@ -55,7 +56,8 @@ function return_players_table($players)
                    ";
     return $text;
 }
-function return_users_table($users)
+
+function return_users_table($users, $kiek_viso_irasu, $limit_key, $page)
 {
     $text = "";
     $text = "
@@ -75,21 +77,31 @@ function return_users_table($users)
     if (is_array($users) || is_object($users)) {
         foreach ($users as $user) {
             $text .= "<tr>";
-            if(isset($_SESSION['user_is_admin']) && $_SESSION['user_is_admin']==1) $text .="<td><a href='" . $GLOBALS['url_path'] . "users/user.php?id=".$user['id']."' target='_blank'>" . $user['user_name'] . "</a></td>";
-            else $text .="<td>" . $user['user_name'] . "</td>";
-            $text .="<td>" . $user['name'] . "</td>
-<td>" . $user['surname'] . "</td>
-<td>" . $user['user_role'] . "</td>
-<td>" . $user['salary'] . "</td>
-<td>" . if_working_list($user['working'], true, NULL) . "</td>
-</tr>";
+            if (isset($_SESSION['user_is_admin']) && $_SESSION['user_is_admin'] == 1) $text .= "<td><a href='" . $GLOBALS['url_path'] . "users/user.php?id=" . $user['id'] . "' target='_blank'>" . $user['user_name'] . "</a></td>";
+            else $text .= "<td>" . $user['user_name'] . "</td>";
+            $text .= "<td>" . $user['name'] . "</td>
+                    <td>" . $user['surname'] . "</td>
+                    <td>" . $user['user_role'] . "</td>
+                    <td>" . $user['salary'] . "</td>
+                    <td>" . if_working_list($user['working'], true, NULL) . "</td>
+                    </tr>";
         }
-    }
-    $text .= " </tbody>
-                        </table>
-               ";
+        if ($kiek_viso_irasu > $limit_key) {
+            $text .= "<tr><td colspan='6' style='padding: 5px;'>";
+            $viso_puslapiu = ceil($kiek_viso_irasu / $limit_key);
+            for ($i = 1; $i <= $viso_puslapiu; $i++) {
+                if ($i == $page) $class = "btn_active_page";
+                else $class = "btn_page";
+                $text .= "<a class='btn $class' onclick='set_page($i)'>$i</a>";
+            }
+            $text .= "</td></tr>";
+        }
+    } else $text .= "<tr><td colspan='6'>Tinkamų atvaizduoti duomenų nėra!</td></tr>";
+    $text .= " </tbody>";
+    $text .= "</table>";
     return $text;
 }
+
 function return_positions_in_club_table($positions_in_club)
 {
     $text = "";
@@ -109,7 +121,7 @@ function return_positions_in_club_table($positions_in_club)
         foreach ($positions_in_club as $position) {
             $text .= "<tr>
 <td>" . $position['id'] . "</td>
-<td><a href='" . $GLOBALS['url_path'] . "users/role.php?id=".$position['id']."'>" . $position['position_name'] . "</a></td>
+<td><a href='" . $GLOBALS['url_path'] . "users/role.php?id=" . $position['id'] . "'>" . $position['position_name'] . "</a></td>
 <td>" . positions_in_club_list($position['global_position'], true) . "</td>
 </tr>";
         }
@@ -119,6 +131,7 @@ function return_positions_in_club_table($positions_in_club)
                   ";
     return $text;
 }
+
 function return_applications_table($prasymai, $kiek_viso_irasu, $limit_key, $page)
 {
     $text = "";
@@ -138,49 +151,51 @@ function return_applications_table($prasymai, $kiek_viso_irasu, $limit_key, $pag
     if (is_array($prasymai) || is_object($prasymai)) {
         foreach ($prasymai as $prasymas) {
             $text .= "<tr>
-<td><a href='" . $GLOBALS['url_path'] . "applications/edit_application.php?id=".$prasymas['id']."' target='_blank'><b>" . $prasymas['name'] . " " .$prasymas['surname']. "</b></a></td>
+<td><a href='" . $GLOBALS['url_path'] . "applications/edit_application.php?id=" . $prasymas['id'] . "' target='_blank'><b>" . $prasymas['name'] . " " . $prasymas['surname'] . "</b></a></td>
 <td>" . $prasymas['country'] . "</td>
 <td>" . positions_list($prasymas['position_in_field'], true) . "</td>
 <td>" . $prasymas['birth_date'] . "</td>
 <td>" . $prasymas['created_date'] . "</td>
 </tr>";
         }
-        if($kiek_viso_irasu>10) {
+        if ($kiek_viso_irasu > $limit_key) {
             $text .= "<tr><td colspan='5' style='padding: 5px;'>";
-            $viso_puslapiu=ceil($kiek_viso_irasu/$limit_key);
-            for($i=1; $i<=$viso_puslapiu; $i++){
-                if($i==$page) $class="btn_active_page";
-                else $class="btn_page";
+            $viso_puslapiu = ceil($kiek_viso_irasu / $limit_key);
+            for ($i = 1; $i <= $viso_puslapiu; $i++) {
+                if ($i == $page) $class = "btn_active_page";
+                else $class = "btn_page";
                 $text .= "<a class='btn $class' onclick='set_page($i)'>$i</a>";
             }
             $text .= "</td></tr>";
         }
-    }
-    else $text .= "<tr><td colspan='5'>Tinkamų atvaizduoti duomenų nėra!</td></tr>";
+    } else $text .= "<tr><td colspan='5'>Tinkamų atvaizduoti duomenų nėra!</td></tr>";
     $text .= " </tbody>
                         </table>
                    ";
     return $text;
 }
 
-function format_applications_notes($mysqli, $id){
-    $prasymo_notes_arr=mfa_kaip_array($mysqli, "SELECT applications_notes.*, users.name, users.surname, tracking_made_actions.action_date  from applications_notes LEFT JOIN tracking_made_actions ON tracking_made_actions.table_name='applications_notes' AND tracking_made_actions.record_id=applications_notes.id AND tracking_made_actions.action='I' LEFT JOIN users ON users.id=tracking_made_actions.made_by where applications_to_club_id='$id' GROUP BY applications_notes.id ORDER BY tracking_made_actions.action_date DESC ");
-    $text="";
-    if(is_array($prasymo_notes_arr)){
-        foreach($prasymo_notes_arr as $note){
-            $note_id=$note['id'];
-            $text .= "<div class='form-row' style='margin-top:5px;'><div class='col-md-11'>• <a data-toggle=\"modal\" data-target=\"#edit_application_note\" data-id='".$note['id']."' data-appid='$id' data-notes='".$note['notes']."'><img src='".$GLOBALS['url_path']."images/edit.png'></button> <a onclick='delete_application_note(\"$note_id\", \"$id\")'><img src='".$GLOBALS['url_path']."images/delete.png'></a> <small><i>".date("Y-m-d", strtotime($note['action_date']))." ".$note['name']." ".$note['surname'].":</i></small> ".$note['notes']."</div></div>";
+function format_applications_notes($mysqli, $id)
+{
+    $prasymo_notes_arr = mfa_kaip_array($mysqli, "SELECT applications_notes.*, users.name, users.surname, tracking_made_actions.action_date  from applications_notes LEFT JOIN tracking_made_actions ON tracking_made_actions.table_name='applications_notes' AND tracking_made_actions.record_id=applications_notes.id AND tracking_made_actions.action='I' LEFT JOIN users ON users.id=tracking_made_actions.made_by where applications_to_club_id='$id' GROUP BY applications_notes.id ORDER BY tracking_made_actions.action_date DESC ");
+    $text = "";
+    if (is_array($prasymo_notes_arr)) {
+        foreach ($prasymo_notes_arr as $note) {
+            $note_id = $note['id'];
+            $text .= "<div class='form-row' style='margin-top:5px;'><div class='col-md-11'>• <a data-toggle=\"modal\" data-target=\"#edit_application_note\" data-id='" . $note['id'] . "' data-appid='$id' data-notes='" . $note['notes'] . "'><img src='" . $GLOBALS['url_path'] . "images/edit.png'></button> <a onclick='delete_application_note(\"$note_id\", \"$id\")'><img src='" . $GLOBALS['url_path'] . "images/delete.png'></a> <small><i>" . date("Y-m-d", strtotime($note['action_date'])) . " " . $note['name'] . " " . $note['surname'] . ":</i></small> " . $note['notes'] . "</div></div>";
         }
     }
     return $text;
 }
-function format_users_notes($mysqli, $id){
-    $item_arr=mfa_kaip_array($mysqli, "SELECT users_notes.*, users.name, users.surname, tracking_made_actions.action_date  from users_notes LEFT JOIN tracking_made_actions ON tracking_made_actions.table_name='users_notes' AND tracking_made_actions.record_id=users_notes.id AND tracking_made_actions.action='I' LEFT JOIN users ON users.id=tracking_made_actions.made_by where users_notes.users_id='$id' GROUP BY users_notes.id ORDER BY tracking_made_actions.action_date DESC ");
-    $text="";
-    if(is_array($item_arr)){
-        foreach($item_arr as $note){
-            $note_id=$note['id'];
-            $text .= "<div class='form-row' style='margin-top:5px;'><div class='col-md-11'>• <a data-toggle=\"modal\" data-target=\"#edit_user_note\" data-id='".$note['id']."' data-item_id='$id' data-notes='".$note['notes']."'><img src='".$GLOBALS['url_path']."images/edit.png'></button> <a onclick='delete_user_note(\"$note_id\", \"$id\")'><img src='".$GLOBALS['url_path']."images/delete.png'></a> <small><i>".date("Y-m-d", strtotime($note['action_date']))." ".$note['name']." ".$note['surname'].":</i></small> ".$note['notes']."</div></div>";
+
+function format_users_notes($mysqli, $id)
+{
+    $item_arr = mfa_kaip_array($mysqli, "SELECT users_notes.*, users.name, users.surname, tracking_made_actions.action_date  from users_notes LEFT JOIN tracking_made_actions ON tracking_made_actions.table_name='users_notes' AND tracking_made_actions.record_id=users_notes.id AND tracking_made_actions.action='I' LEFT JOIN users ON users.id=tracking_made_actions.made_by where users_notes.users_id='$id' GROUP BY users_notes.id ORDER BY tracking_made_actions.action_date DESC ");
+    $text = "";
+    if (is_array($item_arr)) {
+        foreach ($item_arr as $note) {
+            $note_id = $note['id'];
+            $text .= "<div class='form-row' style='margin-top:5px;'><div class='col-md-11'>• <a data-toggle=\"modal\" data-target=\"#edit_user_note\" data-id='" . $note['id'] . "' data-item_id='$id' data-notes='" . $note['notes'] . "'><img src='" . $GLOBALS['url_path'] . "images/edit.png'></button> <a onclick='delete_user_note(\"$note_id\", \"$id\")'><img src='" . $GLOBALS['url_path'] . "images/delete.png'></a> <small><i>" . date("Y-m-d", strtotime($note['action_date'])) . " " . $note['name'] . " " . $note['surname'] . ":</i></small> " . $note['notes'] . "</div></div>";
         }
     }
     return $text;

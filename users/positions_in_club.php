@@ -5,7 +5,12 @@ $folder = $pieces[1];
 
 require_once($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/loader.inc.php");
 
-$positions_in_club = mfa_kaip_array($mysqli, "SELECT * from positions");
+$sql = "SELECT * from positions";
+$sql = format_sql_from_search($sql, $_POST, NULL, "GROUP BY positions.id");
+$search_arr=$sql["search_arr"];
+$positions_in_club = mfa_kaip_array($mysqli, $sql["sql"]);
+$kiek_viso_irasu=gor($mysqli,"SELECT COUNT(id) FROM positions WHERE 1=1 $sql[sql_where]");
+//$positions_in_club = mfa_kaip_array($mysqli, "SELECT * from positions");
 ?>
 <!DOCTYPE html>
 <html>
@@ -25,19 +30,20 @@ $positions_in_club = mfa_kaip_array($mysqli, "SELECT * from positions");
     <div id="content-wrapper">
 
         <div class="container-fluid">
-
             <!-- Breadcrumbs-->
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
                     <a href="<?php echo $GLOBALS['url_path'] . "main"; ?>">InfoTeam</a>
                 </li>
-                <li class="breadcrumb-item">Kita</li>
+                <li class="breadcrumb-item">Vartotojai</li>
                 <li class="breadcrumb-item active">Rolės</li>
             </ol>
+            <a class='btn btn-outline-secondary' href="<?php echo $GLOBALS['url_path'] . "users/role.php"; ?>" target="_blank">[+] Pridėti naują rolę</a>
+            <hr>
             <div class="card mb-3">
                 <div class="card-header">
                     <i class="fas fa-table"></i>
-                    Rolės <a onclick="print_table('data_in_table')"><img src="<?php echo $GLOBALS['url_path'] . "images/printer.png"; ?>"></a> <a class='btn btn-primary btn-block' style="color:white" href="<?php echo $GLOBALS['url_path'] . "users/role.php"; ?>">Pridėti naują rolę</a>
+                    Rolės <a onclick="print_table('data_in_table')"><img src="<?php echo $GLOBALS['url_path'] . "images/printer.png"; ?>">
                 </div>
                 <div class="card-body" id="data_in_table">
                     <?php echo return_positions_in_club_table($positions_in_club); ?>
