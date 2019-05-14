@@ -46,7 +46,7 @@ $kiek_viso_irasu=gor($mysqli,"SELECT COUNT(id) FROM positions WHERE 1=1 $arr_fro
                     <i class="fas fa-table"></i>
                     Rolės <a onclick="print_table('data_in_table')"><img src="<?php echo $GLOBALS['url_path'] . "images/printer.png"; ?>"></a>
                 </div>
-                <div class="card-body" id="data_in_table">
+                <div class="card-body div_for_responsive_table" id="data_in_table">
                     <?php echo return_positions_in_club_table($positions_in_club, $kiek_viso_irasu, $arr_from_search_format["limit_key"], $arr_from_search_format["page"]); ?>
                 </div>
 

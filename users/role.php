@@ -29,6 +29,7 @@ if (isset($id) && $id!=0) {
     if (!empty($_POST)) {
             $position_arr = $_POST;
             $id = InsertField($mysqli, $position_arr, "positions", true, true);
+            header("Location: $GLOBALS[url_path]users/role.php?id=$id");
     }
 }
 if(isset($id))

@@ -5,7 +5,7 @@ $folder = $pieces[1];
 
 require_once($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/loader.inc.php");
 
-$sql = "SELECT * from teams";
+$sql = "SELECT * from teams WHERE 1=1 ";
 $arr_from_search_format = format_sql_from_search($sql, $_POST, NULL, "GROUP BY teams.id");
 $search_arr=$arr_from_search_format["search_arr"];
 $items = mfa_kaip_array($mysqli, $arr_from_search_format["sql"]);
@@ -40,18 +40,37 @@ $kiek_viso_irasu=gor($mysqli,"SELECT COUNT(id) FROM teams WHERE 1=1 $arr_from_se
             <hr>
             <form name="form" id="form" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                 <input type="hidden" name="page" id="page" value="<?php echo $page;?>">
+                <div id="search_div" class="search_div">
+                    <div class="form-row">
+                        <div class="col-md-2">
+                            Pavadinimas
+                            <input type="text" class="form-control" name="search[name]" id="name" value="<?php echo $search_arr['name'] ?>">
+                        </div>
+                        <div class="col-md-2">
+                            Trumpas pavadinimas
+                            <input type="text" class="form-control" name="search[short_name]" id="short_name" value="<?php echo $search_arr['short_name'] ?>">
+                        </div>
+                        <div class="col-md-2">
+                            Pagrindinė komanda?
+                            <select name="search[main_team]" id="main_team" form="form"
+                                    class="form-control"><?php echo taip_ne_list($search_arr['main_team'], NULL, 1); ?></select>
+                        </div>
+                    </div>
+                    <hr>
+                    <input class="btn btn-block search_btn" type="submit" value="Vykdyti paiešką">
+                </div>
+            </form>
+            <hr>
                 <div class="card mb-3">
                     <div class="card-header">
                         <i class="fas fa-table"></i>
                         Komandos <a onclick="print_table('data_in_table')"><img src="<?php echo $GLOBALS['url_path'] . "images/printer.png"; ?>"></a>
                     </div>
-                    <div class="card-body" id="data_in_table">
+                    <div class="card-body div_for_responsive_table" id="data_in_table">
                         <?php echo return_teams_table($items, $kiek_viso_irasu, $arr_from_search_format["limit_key"], $arr_from_search_format["page"]); ?>
                     </div>
 
                 </div>
-                <input type="submit" style="display:none;">
-            </form>
 
         </div>
         <!-- /.container-fluid -->

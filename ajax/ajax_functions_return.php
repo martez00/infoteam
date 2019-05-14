@@ -44,6 +44,34 @@ switch ($_POST['do']) {
         }
         echo json_encode(array("text" => "$div_text"));
         break;
+    case 'add_player_note_ajax':
+        if (isset($_POST['id'])) {
+            $item_note_arr['players_id'] = $_POST['id'];
+            $item_id=$item_note_arr['players_id'];
+        }
+        if (isset($_POST['note'])) {
+            $item_note_arr['notes'] = $_POST['note'];
+        }
+        $id=InsertField($mysqli, $item_note_arr, "players_notes", true, true);
+        if(isset($item_id)){
+            $div_text=format_players_notes($mysqli, $item_id);
+        }
+        echo json_encode(array("text" => "$div_text"));
+        break;
+    case 'add_transaction_note_ajax':
+        if (isset($_POST['id'])) {
+            $item_note_arr['transactions_id'] = $_POST['id'];
+            $item_id=$item_note_arr['transactions_id'];
+        }
+        if (isset($_POST['note'])) {
+            $item_note_arr['notes'] = $_POST['note'];
+        }
+        $id=InsertField($mysqli, $item_note_arr, "transactions_notes", true, true);
+        if(isset($item_id)){
+            $div_text=format_transactions_notes($mysqli, $item_id);
+        }
+        echo json_encode(array("text" => "$div_text"));
+        break;
     case 'delete_application_note_ajax':
         if (isset($_POST['id'])) {
             $app_id=$_POST['id'];
@@ -67,6 +95,32 @@ switch ($_POST['do']) {
         DeleteField($mysqli, $_POST['note_id'], "users_notes", true);
         if(isset($item_id)){
             $div_text=format_users_notes($mysqli, $item_id);
+        }
+        echo json_encode(array("text" => "$div_text"));
+        break;
+    case 'delete_player_note_ajax':
+        if (isset($_POST['id'])) {
+            $item_id=$_POST['id'];
+        }
+        if (isset($_POST['note_id'])) {
+            $note_id = $_POST['note_id'];
+        }
+        DeleteField($mysqli, $_POST['note_id'], "players_notes", true);
+        if(isset($item_id)){
+            $div_text=format_players_notes($mysqli, $item_id);
+        }
+        echo json_encode(array("text" => "$div_text"));
+        break;
+    case 'delete_transaction_note_ajax':
+        if (isset($_POST['id'])) {
+            $item_id=$_POST['id'];
+        }
+        if (isset($_POST['note_id'])) {
+            $note_id = $_POST['note_id'];
+        }
+        DeleteField($mysqli, $_POST['note_id'], "transactions_notes", true);
+        if(isset($item_id)){
+            $div_text=format_transactions_notes($mysqli, $item_id);
         }
         echo json_encode(array("text" => "$div_text"));
         break;
@@ -109,6 +163,48 @@ switch ($_POST['do']) {
 
         if(isset($item_id)){
             $div_text=format_users_notes($mysqli, $item_id);
+        }
+        echo json_encode(array("text" => "$div_text"));
+        break;
+    case 'edit_player_note_ajax':
+        if (isset($_POST['id'])) {
+            $item_id=$_POST['id'];
+        }
+        if (isset($_POST['note_id'])) {
+            $note_id = $_POST['note_id'];
+        }
+        if (isset($_POST['note_content'])) {
+            $note_content = $_POST['note_content'];
+        }
+        if(!isset($note_content))
+            $note_content="";
+
+        $arr["notes"]=$note_content;
+        UpdateField($mysqli, $arr, "players_notes", true, $note_id, true);
+
+        if(isset($item_id)){
+            $div_text=format_players_notes($mysqli, $item_id);
+        }
+        echo json_encode(array("text" => "$div_text"));
+        break;
+    case 'edit_transaction_note_ajax':
+        if (isset($_POST['id'])) {
+            $item_id=$_POST['id'];
+        }
+        if (isset($_POST['note_id'])) {
+            $note_id = $_POST['note_id'];
+        }
+        if (isset($_POST['note_content'])) {
+            $note_content = $_POST['note_content'];
+        }
+        if(!isset($note_content))
+            $note_content="";
+
+        $arr["notes"]=$note_content;
+        UpdateField($mysqli, $arr, "transactions_notes", true, $note_id, true);
+
+        if(isset($item_id)){
+            $div_text=format_transactions_notes($mysqli, $item_id);
         }
         echo json_encode(array("text" => "$div_text"));
         break;

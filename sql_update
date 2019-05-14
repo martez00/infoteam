@@ -25,3 +25,5 @@ ALTER TABLE `teams`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
   COMMIT;
 
+21:55
+ALTER TABLE `players` ADD `email` VARCHAR(150) NOT NULL AFTER `salary`, ADD `mob_number` VARCHAR(15) NOT NULL AFTER `email`;

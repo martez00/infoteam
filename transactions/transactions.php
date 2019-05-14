@@ -5,7 +5,11 @@ $folder = $pieces[1];
 
 require_once($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/loader.inc.php");
 
-$transactions = mfa_kaip_array($mysqli, "SELECT * from transactions");
+$sql = "SELECT * from transactions WHERE 1=1 ";
+$arr_from_search_format = format_sql_from_search($sql, $_POST, "ORDER BY transactions.due_date DESC", "GROUP BY transactions.id");
+$search_arr=$arr_from_search_format["search_arr"];
+$items = mfa_kaip_array($mysqli, $arr_from_search_format["sql"]);
+$kiek_viso_irasu=gor($mysqli,"SELECT COUNT(id) FROM transactions WHERE 1=1 $arr_from_search_format[sql_where]");
 ?>
 <!DOCTYPE html>
 <html>
@@ -33,14 +37,62 @@ $transactions = mfa_kaip_array($mysqli, "SELECT * from transactions");
                 </li>
                 <li class="breadcrumb-item active">Pervedimai</li>
             </ol>
-
+            <a class='btn btn-outline-secondary' href="<?php echo $GLOBALS['url_path'] . "transactions/transaction.php"; ?>" target="_blank">[+] Pridėti naują pervedimą</a>
+            <hr>
+            <form name="form" id="form" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                <input type="hidden" name="page" id="page" value="<?php echo $page;?>">
+                <div id="search_div" class="search_div">
+                    <div class="form-row">
+                        <div class="col-md-2">
+                            Debetas/Kreditas
+                            <select name="search[debit_credit]" id="debit_credit" form="form"
+                                    class="form-control"><?php echo debet_credit_list($search_arr['debit_credit']); ?></select>
+                        </div>
+                        <div class="col-md-2">
+                            Suma
+                            <input type="text" class="form-control" name="search[amount]" id="amount" value="<?php echo $search_arr['amount'] ?>">
+                        </div>
+                        <div class="col-md-2">
+                            Statusas
+                            <select name="search[status]" id="status" form="form"
+                                    class="form-control"><?php echo transactions_status_list($search_arr['status']); ?></select>
+                        </div>
+                        <div class="col-md-2">
+                            Tipas
+                            <select name="search[type]" id="type" form="form"
+                                    class="form-control"><?php echo transaction_assigned_to($search_arr['type']); ?></select>
+                        </div>
+                        <div class="col-md-2">
+                            Priskirta vartotojui
+                            <select name="search[assigned_to_user_id]" id="assigned_to_user_id" form="form"
+                                    class="form-control"><?php echo users_list($search_arr['assigned_to_user_id'], false, $mysqli); ?></select>
+                        </div>
+                        <div class="col-md-2">
+                            Priskirta žaidėjui
+                            <select name="search[assigned_to_player_id]" id="assigned_to_player_id" form="form"
+                                    class="form-control"><?php echo players_list($search_arr['assigned_to_player_id'], false, $mysqli); ?></select>
+                        </div>
+                        <div class="col-md-2">
+                            Priskirta kitam
+                            <input type="text" class="form-control" name="search[assigned_to_other]" id="assigned_to_other" value="<?php echo $search_arr['assigned_to_other'] ?>">
+                        </div>
+                        <div class="col-md-2">
+                            Užbaigti iki
+                            <input type="text" name="search[due_date]" class="form-control datepicker" value="<?php echo $search_arr['due_date'] ?>">
+                        </div>
+                    </div>
+                    <hr>
+                    <input class="btn btn-block search_btn" type="submit" value="Vykdyti paiešką">
+                </div>
+            </form>
+            <hr>
             <div class="card mb-3">
                 <div class="card-header">
                     <i class="fas fa-table"></i>
-                    Pervedimai <a onclick="print_table('data_in_table')"><img src="<?php echo $GLOBALS['url_path'] . "images/printer.png"; ?>"></a> <a class='btn btn-primary btn-block' style="color:white">Pridėti naują pervedimą</a>
+                    Pervedimai <a onclick="print_table('data_in_table')"><img src="<?php echo $GLOBALS['url_path'] . "images/printer.png"; ?>"></a>
                 </div>
-                <div class="card-body" id="data_in_table">
-                    <?php echo return_transactions_table($transactions); ?>
+                <div class="card-body div_for_responsive_table" id="data_in_table">
+                    <?php echo return_transactions_table($items, $kiek_viso_irasu, $limit_key, $page); ?>
                 </div>
 
             </div>

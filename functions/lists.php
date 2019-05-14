@@ -1,5 +1,5 @@
 <?php
-function if_working_list($value, $get_value = false, $add_no_select_value){
+function taip_ne_list($value, $get_value = false, $add_no_select_value){
 
     if(!isset($value) || $value==0)
         $value=0;
@@ -82,6 +82,74 @@ function positions_in_club_list($value, $get_value = false){
         return $return_value;
     else return $list;
 }
+
+function debet_credit_list($value, $get_value = false){
+    if(!isset($value))
+        $value=0;
+
+    $list = "<option value='' ";
+    if ($value=="") {
+        $list .= "selected";
+        $return_value="";
+    }
+    $list .= ">...</option>";
+
+    $list .= "<option value='1' ";
+    if ($value==1) {
+        $list .= "selected";
+        $return_value="Debetas";
+    }
+    $list .= ">Debetas</option>";
+
+    $list .= "<option value='2' ";
+    if ($value==2) {
+        $list .= "selected";
+        $return_value="Kreditas";
+    }
+    $list .= ">Kreditas</option>";
+
+    if($get_value==true)
+        return $return_value;
+    else return $list;
+}
+
+function transaction_assigned_to($value, $get_value = false){
+    if(!isset($value))
+        $value=0;
+
+    $list = "<option value='' ";
+    if ($value=="") {
+        $list .= "selected";
+        $return_value="";
+    }
+    $list .= ">...</option>";
+
+    $list .= "<option value='1' ";
+    if ($value==1) {
+        $list .= "selected";
+        $return_value="Vartotojui";
+    }
+    $list .= ">Vartotojui</option>";
+
+    $list .= "<option value='2' ";
+    if ($value==2) {
+        $list .= "selected";
+        $return_value="Žaidėjui";
+    }
+    $list .= ">Žaidėjui</option>";
+
+    $list .= "<option value='3' ";
+    if ($value==3) {
+        $list .= "selected";
+        $return_value="Kita";
+    }
+    $list .= ">Kita</option>";
+
+    if($get_value==true)
+        return $return_value;
+    else return $list;
+}
+
 function positions_list($value, $get_value = false){
 
     if(!isset($value))
@@ -467,6 +535,117 @@ function roles_list($value, $get_value = false, $mysqli){
         }
         $list .= ">".$role['position_name']."</option>";
     }
+    if($get_value==true)
+        return $return_value;
+    else return $list;
+}
+
+function teams_list($value, $get_value = false, $mysqli){
+    $teams=mfa_kaip_array($mysqli, "SELECT * from teams");
+    if(!isset($value))
+        $value="0";
+    $list = "<option value='0' ";
+    if ($value=="0") {
+        $list .= "selected";
+    }
+    $list .= ">...</option>";
+    foreach ($teams as $team){
+        $list .= "<option value='".$team['id']."' ";
+        if ($value==$team['id']) {
+            $list .= "selected";
+            $return_value = $team['name'];
+        }
+        $list .= ">".$team['name']."</option>";
+    }
+    if($get_value==true)
+        return $return_value;
+    else return $list;
+}
+
+function players_list($value, $get_value = false, $mysqli){
+    $players=mfa_kaip_array($mysqli, "SELECT * from players");
+    if(!isset($value))
+        $value="0";
+    $list = "<option value='' ";
+    if ($value=="") {
+        $list .= "selected";
+    }
+    $list .= ">...</option>";
+    foreach ($players as $player){
+        $list .= "<option value='".$player['id']."' ";
+        if ($value==$player['id']) {
+            $list .= "selected";
+            $return_value = $player['name']." ".$player["surname"];
+        }
+        $list .= ">".$player['name']." ".$player["surname"]."</option>";
+    }
+    if($get_value==true)
+        return $return_value;
+    else return $list;
+}
+
+function users_list($value, $get_value = false, $mysqli){
+    $users=mfa_kaip_array($mysqli, "SELECT * from users");
+    if(!isset($value))
+        $value="0";
+    $list = "<option value='' ";
+    if ($value=="") {
+        $list .= "selected";
+    }
+    $list .= ">...</option>";
+    foreach ($users as $user){
+        $list .= "<option value='".$user['id']."' ";
+        if ($value==$user['id']) {
+            $list .= "selected";
+            $return_value = $user['name']." ".$user["surname"];
+        }
+        $list .= ">".$user['name']." ".$user["surname"]."</option>";
+    }
+    if($get_value==true)
+        return $return_value;
+    else return $list;
+}
+
+function transactions_status_list($value, $get_value = false){
+
+    if(!isset($value))
+        $value=0;
+
+    $list = "<option value='' ";
+    if ($value=="") {
+        $list .= "selected";
+        $return_value="...";
+    }
+    $list .= ">...</option>";
+
+    $list .= "<option value='1' ";
+    if ($value==1) {
+        $list .= "selected";
+        $return_value="Nepradėtas";
+    }
+    $list .= ">Nepradėtas</option>";
+
+    $list .= "<option value='2' ";
+    if ($value==2) {
+        $list .= "selected";
+        $return_value="Vykdomas";
+    }
+    $list .= ">Vykdomas</option>";
+
+    $list .= "<option value='3' ";
+    if ($value==3) {
+        $list .= "selected";
+        $return_value="Atšauktas";
+    }
+    $list .= ">Atšauktas</option>";
+
+    $list .= "<option value='4' ";
+    if ($value==4) {
+        $list .= "selected";
+        $return_value="Pabaigtas";
+    }
+    $list .= ">Pabaigtas</option>";
+
     if($get_value==true)
         return $return_value;
     else return $list;

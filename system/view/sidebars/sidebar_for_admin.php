@@ -49,18 +49,8 @@ else $not_reviewed_applications="<span class='badge-pill badge-danger' data-togg
     </li>
     <li class="nav-item">
         <a class="nav-link" href="<?php echo $GLOBALS['url_path']."transactions/transactions.php"; ?>">
-            <i class="fas fa-fw fa-folder"></i>
+            <i class="fas fa-fw fa-money-bill"></i>
             <span>Pervedimai</span>
         </a>
-    </li>
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-fw fa-folder"></i>
-            <span>Kita</span>
-
-        </a>
-        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-            <a class="dropdown-item <?php if($file=="positions_in_club.php") echo "active"; ?>" href="<?php echo $GLOBALS['url_path']."users/positions_in_club.php"; ?>">Rolės</a>
-        </div>
     </li>
 </ul>

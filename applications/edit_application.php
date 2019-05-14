@@ -8,12 +8,16 @@ require_once($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/loader.inc.php");
 if (isset($_GET['id'])) $id = $_GET['id'];
 else if (isset($_POST['id'])) $id = $_POST['id'];
 
+if($_POST["create_player_by_application"]==1){
+    $create_player_by_application=1;
+}
 if (isset($id)) {
     if (!empty($_POST)) {
         unset($_POST['id']);
         unset($_POST['hidden_note_id']);
         unset($_POST['edit_note_content']);
         unset($_POST['app_id']);
+        unset($_POST['create_player_by_application']);
         $application_arr = $_POST;
         UpdateField($mysqli, $application_arr, "applications_to_club", true, $id, true);
     }
@@ -30,6 +34,19 @@ if (isset($id)) {
         window.location = "<?php echo $GLOBALS['url_path'] . "applications/new_applications.php"; ?>";
     </script>
     <?php
+}
+if(isset($create_player_by_application)){
+    $created_player = create_player_by_application($mysqli, $prasymo_arr);
+    if(isset($created_player)){
+        $info_message="Pagal šį prašymą sėkmingai sukurtas žaidėjas <a href='$GLOBALS[url_path]players/player.php?id=$created_player[id]' target='_blank'><b>$created_player[name] $created_player[surname]</b></a>. Jau dabar galite aplankyti jo profilį ir suvesti visą reikiamą informaciją!";
+    }
+}
+$exist_player_with_personal_code=check_player_by_personal_code($mysqli, $prasymo_arr[personal_code]);
+if($exist_player_with_personal_code){
+    $create_show_player_text=" (prašymas jau turi sukurtą žaidėją: <a href='$GLOBALS[url_path]players/player.php?id=$exist_player_with_personal_code[id]' target='_blank'>$exist_player_with_personal_code[name] $exist_player_with_personal_code[surname]</a>)";
+}
+else {
+    $create_show_player_text=" ( <input type='checkbox' name='create_player_by_application' id='create_player_by_application' value='1'> sukurti žaidėją pagal prašymą )";
 }
 if(isset($_FILES[file][name]) && $_FILES[file][name]!="") {
     $file_arr = $_FILES[file];
@@ -153,32 +170,35 @@ $files=mfa_kaip_array($mysqli, "SELECT * from applications_files where applicati
                 if(isset($file_message)){
                     echo "<div class='alert alert-primary' role='alert'>$file_message</div>";
                 }
+                if(isset($info_message)){
+                    echo "<div class='alert alert-primary' role='alert'>$info_message</div>";
+                }
                 ?>
                 <div class="card mb-3">
                     <div class="card-header">
                         <i class="fas fa-table"></i>
-                        Žaidėjo prašymas: <b><?php echo $prasymo_arr['name'] . " " . $prasymo_arr['surname'] ?></b>
+                        Žaidėjo prašymas: <b><?php echo $prasymo_arr['name'] . " " . $prasymo_arr['surname']; ?></b> <small><?php echo $create_show_player_text; ?></small>
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <h5>Asmeninė informacija</h5>
+                            <h5><span class="group_name">Asmeninė informacija</span></h5>
                             <hr>
                         </div>
                         <div class="form-group">
                             <div class="form-row">
                                 <div class="col-md-2">
                                     <label for="name">Vardas</label>
-                                    <input type="text" class="form-control" id="name" name="name"
+                                    <input type="text" class="form-control" id="name" name="name" required
                                            value="<?php echo $prasymo_arr['name']; ?>">
                                 </div>
                                 <div class="col-md-2">
                                     <label for="surname">Pavardė:</label>
-                                    <input type="text" class="form-control" id="surname" name="surname"
+                                    <input type="text" class="form-control" id="surname" name="surname" required
                                            value="<?php echo $prasymo_arr['surname']; ?>">
                                 </div>
                                 <div class="col-md-2">
                                     <label for="personal_code">Asmens kodas:</label>
-                                    <input type="text" class="form-control" id="personal_code" name="personal_code"
+                                    <input type="text" class="form-control" id="personal_code" name="personal_code" required
                                            value="<?php echo $prasymo_arr['personal_code']; ?>">
                                 </div>
                                 <div class="col-md-2">
@@ -188,7 +208,7 @@ $files=mfa_kaip_array($mysqli, "SELECT * from applications_files where applicati
                                 </div>
                                 <div class="col-md-2">
                                     <label for="birth_date">Gimimo data:</label>
-                                    <input type="text" id="datepicker" name="birth_date" class="form-control"
+                                    <input type="text" name="birth_date" class="form-control datepicker"
                                            value="<?php echo $prasymo_arr['birth_date']; ?>">
                                 </div>
                                 <div class="col-md-2">
@@ -207,8 +227,8 @@ $files=mfa_kaip_array($mysqli, "SELECT * from applications_files where applicati
                                 ?>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <h5>Kontaktinė informacija</h5>
+                        <div class="form-group space_before_group">
+                            <h5><span class="group_name">Kontaktinė informacija</span></h5>
                             <hr>
                         </div>
                         <div class="form-group">
@@ -225,8 +245,8 @@ $files=mfa_kaip_array($mysqli, "SELECT * from applications_files where applicati
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <h5>Daugiau informacijos</h5>
+                        <div class="form-group space_before_group">
+                            <h5><span class="group_name">Daugiau informacijos</span></h5>
                             <hr>
                         </div>
                         <div class="form-group">
@@ -244,8 +264,8 @@ $files=mfa_kaip_array($mysqli, "SELECT * from applications_files where applicati
                             <textarea name="other" id="other" class="form-control" rows="3"
                                       size="500"><?php echo $prasymo_arr['other']; ?></textarea>
                         </div>
-                        <div class="form-group">
-                            <h5>Pastabos</h5>
+                        <div class="form-group space_before_group">
+                            <h5><span class="group_name">Pastabos</span></h5>
                             <hr>
                         </div>
                         <div class="form-group">
@@ -264,8 +284,8 @@ $files=mfa_kaip_array($mysqli, "SELECT * from applications_files where applicati
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <h5>Failai</h5>
+                        <div class="form-group space_before_group">
+                            <h5><span class="group_name">Failai</span></h5>
                             <hr>
                         </div>
                         <div class="form-group">

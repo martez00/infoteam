@@ -79,7 +79,7 @@ $kiek_viso_irasu=gor($mysqli,"SELECT COUNT(id) FROM users WHERE 1=1 $arr_from_se
                         <div class="col-md-2">
                             Ar dirba?
                             <select name="search[working]" id="country" form="form"
-                                    class="form-control"><?php echo if_working_list($search_arr['working'], NULL, 1); ?></select>
+                                    class="form-control"><?php echo taip_ne_list($search_arr['working'], NULL, 1); ?></select>
                         </div>
                     </div>
                     <hr>
@@ -92,7 +92,7 @@ $kiek_viso_irasu=gor($mysqli,"SELECT COUNT(id) FROM users WHERE 1=1 $arr_from_se
                     <i class="fas fa-table"></i>
                     Vartotojai <a onclick="print_table('data_in_table')"><img src="<?php echo $GLOBALS['url_path'] . "images/printer.png"; ?>"></a>
                 </div>
-                <div class="card-body" id="data_in_table">
+                <div class="card-body div_for_responsive_table" id="data_in_table">
                     <?php echo return_users_table($users, $kiek_viso_irasu, $arr_from_search_format["limit_key"], $arr_from_search_format["page"]); ?>
                 </div>
 

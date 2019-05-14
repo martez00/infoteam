@@ -7,7 +7,6 @@ require_once($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/loader.inc.php");
 
 if (isset($_GET['id'])) $id = $_GET['id'];
 else if(isset($_POST['id'])) $id = $_POST['id'];
-
 if (isset($id) && $id!=0) {
     if (!empty($_POST)) {
         if($_POST['delete']==1) {
@@ -21,14 +20,29 @@ if (isset($id) && $id!=0) {
         else {
             unset($_POST['id']);
             unset($_POST['delete']);
-            $position_arr = $_POST;
-            UpdateField($mysqli, $position_arr, "teams", true, $id, true);
+            $team_arr = $_POST;
+            if($team_arr[main_team]==1) {
+                $exists_main_team = check_if_exists_main_team($mysqli, $id);
+                if (isset($exists_main_team)) {
+                    $team_arr[main_team] = -1;
+                    $error_message = "Šios komandos negalite nustatyti kaip pagrindinės, kadangi <a href='$GLOBALS[url_path]teams/team.php?id=$exists_main_team[id]' target='_blank'><b>$exists_main_team[name]</b></a> komanda jau yra nustatyta kaip pagrindinė!";
+                }
+            }
+            UpdateField($mysqli, $team_arr, "teams", true, $id, true);
         }
     }
 } else {
     if (!empty($_POST)) {
-        $position_arr = $_POST;
-        $id = InsertField($mysqli, $position_arr, "teams", true, true);
+        $team_arr = $_POST;
+        if($team_arr[main_team]==1){
+            $exists_main_team=check_if_exists_main_team($mysqli, NULL);
+            if(isset($exists_main_team)) {
+                $team_arr[main_team]=-1;
+                $error_message="Šios komandos negalite nustatyti kaip pagrindinės, kadangi <a href='$GLOBALS[url_path]teams/team.php?id=$exists_main_team[id]' target='_blank'><b>$exists_main_team[name]</b></a> komanda jau yra nustatyta kaip pagrindinė!";
+            }
+        }
+        $id = InsertField($mysqli, $team_arr, "teams", true, true);
+        header("Location: $GLOBALS[url_path]teams/team.php?id=$id");
     }
 }
 if(isset($id))
@@ -68,7 +82,11 @@ else $item_exists=0;
                     <?php if($item_exists) {?> <li class="breadcrumb-item active"><?php echo $item_arr['name']?></li>
                     <?php } else echo "<li class=\"breadcrumb-item active\">Kurti naują komandą</li>"; ?>
                 </ol>
-
+                <?php
+                if(isset($error_message)){
+                    echo "<div class='alert alert-danger' role='alert'>$error_message</div>";
+                }
+                ?>
                 <div class="card mb-3">
                     <div class="card-header">
                         <i class="fas fa-table"></i>
@@ -77,7 +95,7 @@ else $item_exists=0;
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <h5>Komandos informacija</h5>
+                            <h5><span class="group_name">Komandos informacija</span></h5>
                             <hr>
                         </div>
                         <div class="form-group">
@@ -91,6 +109,11 @@ else $item_exists=0;
                                     <label for="short_name">Trumpas pavadinimas:</label>
                                     <input type="text" class="form-control" id="short_name" name="short_name"
                                            value="<?php if(isset($item_arr)) echo $item_arr["short_name"]; ?>">
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="working">Pagrindinė komanda:</label>
+                                    <select name="main_team" id="main_team" form="form"
+                                            class="form-control"><?php if(isset($item_arr)) $main_team=$item_arr['main_team']; else $main_team="-1"; echo taip_ne_list($main_team, $false, NULL);  ?></select>
                                 </div>
                             </div>
                         </div>

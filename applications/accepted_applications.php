@@ -108,7 +108,7 @@ $kiek_viso_irasu=gor($mysqli,"SELECT COUNT(id) FROM applications_to_club WHERE 1
                     Patvirtinti prašymai <a onclick="print_table('data_in_table')"><img
                                 src="<?php echo $GLOBALS['url_path'] . "images/printer.png"; ?>"></a>
                 </div>
-                <div class="card-body" id="data_in_table">
+                <div class="card-body div_for_responsive_table" id="data_in_table">
                     <?php echo return_applications_table($patvirtinti_prasymai, $kiek_viso_irasu, $limit_key, $page); ?>
                 </div>
 
