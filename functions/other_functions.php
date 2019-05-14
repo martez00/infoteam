@@ -102,15 +102,13 @@ function return_users_table($users, $kiek_viso_irasu, $limit_key, $page)
     return $text;
 }
 
-function return_positions_in_club_table($positions_in_club)
+function return_positions_in_club_table($positions_in_club, $kiek_viso_irasu, $limit_key, $page)
 {
     $text = "";
     $text = "
                         <table class='table-simple'>
                             <thead>
                             <tr>
-                             
-                                <th>ID</th>
                                 <th>Pavadinimas</th>
                                 <th>Globali rolė</th>
                             </tr>
@@ -120,15 +118,59 @@ function return_positions_in_club_table($positions_in_club)
     if (is_array($positions_in_club) || is_object($positions_in_club)) {
         foreach ($positions_in_club as $position) {
             $text .= "<tr>
-<td>" . $position['id'] . "</td>
-<td><a href='" . $GLOBALS['url_path'] . "users/role.php?id=" . $position['id'] . "'>" . $position['position_name'] . "</a></td>
+<td><a href='" . $GLOBALS['url_path'] . "users/role.php?id=" . $position['id'] . "' target='_blank'>" . $position['position_name'] . "</a></td>
 <td>" . positions_in_club_list($position['global_position'], true) . "</td>
 </tr>";
         }
-    }
-    $text .= " </tbody>
-                        </table>
-                  ";
+        if ($kiek_viso_irasu > $limit_key) {
+            $text .= "<tr><td colspan='3' style='padding: 5px;'>";
+            $viso_puslapiu = ceil($kiek_viso_irasu / $limit_key);
+            for ($i = 1; $i <= $viso_puslapiu; $i++) {
+                if ($i == $page) $class = "btn_active_page";
+                else $class = "btn_page";
+                $text .= "<a class='btn $class' onclick='set_page($i)'>$i</a>";
+            }
+            $text .= "</td></tr>";
+        }
+    } else $text .= "<tr><td colspan='3'>Tinkamų atvaizduoti duomenų nėra!</td></tr>";
+    $text .= " </tbody></table>";
+    return $text;
+}
+
+function return_teams_table($items, $kiek_viso_irasu, $limit_key, $page)
+{
+    $text = "";
+    $text = "
+                        <table class='table-simple'>
+                            <thead>
+                            <tr>
+                                <th>Pavadinimas</th>
+                                <th>Trumpas pavadinimas</th>
+                                <th>Pagrindinė komanda?</th>
+                            </tr>
+                            </thead>
+                            <tbody>";
+
+    if (is_array($items) || is_object($items)) {
+        foreach ($items as $item) {
+            $text .= "<tr>
+<td><a href='" . $GLOBALS['url_path'] . "teams/team.php?id=" . $item['id'] . "' target='_blank'>" . $item['name'] . "</a></td>
+<td>" . $item['short_name'] . "</td>
+<td>" . $item['main_team'] . "</td>
+</tr>";
+        }
+        if ($kiek_viso_irasu > $limit_key) {
+            $text .= "<tr><td colspan='3' style='padding: 5px;'>";
+            $viso_puslapiu = ceil($kiek_viso_irasu / $limit_key);
+            for ($i = 1; $i <= $viso_puslapiu; $i++) {
+                if ($i == $page) $class = "btn_active_page";
+                else $class = "btn_page";
+                $text .= "<a class='btn $class' onclick='set_page($i)'>$i</a>";
+            }
+            $text .= "</td></tr>";
+        }
+    } else $text .= "<tr><td colspan='3'>Tinkamų atvaizduoti duomenų nėra!</td></tr>";
+    $text .= " </tbody></table>";
     return $text;
 }
 

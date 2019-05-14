@@ -5,18 +5,18 @@ $folder = $pieces[1];
 
 require_once($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/loader.inc.php");
 
-$sql = "SELECT * from positions";
-$arr_from_search_format = format_sql_from_search($sql, $_POST, NULL, "GROUP BY positions.id");
+$sql = "SELECT * from teams";
+$arr_from_search_format = format_sql_from_search($sql, $_POST, NULL, "GROUP BY teams.id");
 $search_arr=$arr_from_search_format["search_arr"];
-$positions_in_club = mfa_kaip_array($mysqli, $arr_from_search_format["sql"]);
-$kiek_viso_irasu=gor($mysqli,"SELECT COUNT(id) FROM positions WHERE 1=1 $arr_from_search_format[sql_where]");
+$items = mfa_kaip_array($mysqli, $arr_from_search_format["sql"]);
+$kiek_viso_irasu=gor($mysqli,"SELECT COUNT(id) FROM teams WHERE 1=1 $arr_from_search_format[sql_where]");
 ?>
 <!DOCTYPE html>
 <html>
 
 <head>
     <?php require($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/head.inc.php"); ?>
-    <title>InfoTeam - Rolės</title>
+    <title>InfoTeam - Komandos</title>
 </head>
 
 <body id="page-top">
@@ -34,23 +34,22 @@ $kiek_viso_irasu=gor($mysqli,"SELECT COUNT(id) FROM positions WHERE 1=1 $arr_fro
                 <li class="breadcrumb-item">
                     <a href="<?php echo $GLOBALS['url_path'] . "main"; ?>">InfoTeam</a>
                 </li>
-                <li class="breadcrumb-item">Vartotojai</li>
-                <li class="breadcrumb-item active">Rolės</li>
+                <li class="breadcrumb-item active">Komandos</li>
             </ol>
-            <a class='btn btn-outline-secondary' href="<?php echo $GLOBALS['url_path'] . "users/role.php"; ?>" target="_blank">[+] Pridėti naują rolę</a>
+            <a class='btn btn-outline-secondary' href="<?php echo $GLOBALS['url_path'] . "teams/team.php"; ?>" target="_blank">[+] Pridėti naują komandą</a>
             <hr>
             <form name="form" id="form" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                 <input type="hidden" name="page" id="page" value="<?php echo $page;?>">
-            <div class="card mb-3">
-                <div class="card-header">
-                    <i class="fas fa-table"></i>
-                    Rolės <a onclick="print_table('data_in_table')"><img src="<?php echo $GLOBALS['url_path'] . "images/printer.png"; ?>"></a>
-                </div>
-                <div class="card-body" id="data_in_table">
-                    <?php echo return_positions_in_club_table($positions_in_club, $kiek_viso_irasu, $arr_from_search_format["limit_key"], $arr_from_search_format["page"]); ?>
-                </div>
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <i class="fas fa-table"></i>
+                        Komandos <a onclick="print_table('data_in_table')"><img src="<?php echo $GLOBALS['url_path'] . "images/printer.png"; ?>"></a>
+                    </div>
+                    <div class="card-body" id="data_in_table">
+                        <?php echo return_teams_table($items, $kiek_viso_irasu, $arr_from_search_format["limit_key"], $arr_from_search_format["page"]); ?>
+                    </div>
 
-            </div>
+                </div>
                 <input type="submit" style="display:none;">
             </form>
 

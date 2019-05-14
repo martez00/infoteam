@@ -11,10 +11,10 @@ else if(isset($_POST['id'])) $id = $_POST['id'];
 if (isset($id) && $id!=0) {
     if (!empty($_POST)) {
         if($_POST['delete']==1) {
-            DeleteField($mysqli, $id, "positions", true);
+            DeleteField($mysqli, $id, "teams", true);
             ?>
             <script>
-                window.location = "<?php echo $GLOBALS['url_path'] . "users/positions_in_club.php"; ?>";
+                window.location = "<?php echo $GLOBALS['url_path'] . "teams/teams.php"; ?>";
             </script>
             <?php
         }
@@ -22,26 +22,26 @@ if (isset($id) && $id!=0) {
             unset($_POST['id']);
             unset($_POST['delete']);
             $position_arr = $_POST;
-            UpdateField($mysqli, $position_arr, "positions", true, $id, true);
+            UpdateField($mysqli, $position_arr, "teams", true, $id, true);
         }
     }
 } else {
     if (!empty($_POST)) {
-            $position_arr = $_POST;
-            $id = InsertField($mysqli, $position_arr, "positions", true, true);
+        $position_arr = $_POST;
+        $id = InsertField($mysqli, $position_arr, "teams", true, true);
     }
 }
 if(isset($id))
-    $roles_arr = mfa($mysqli, "SELECT * from positions where id='$id'");
-if (isset($roles_arr)) $role_exists=1;
-else $role_exists=0;
+    $item_arr = mfa($mysqli, "SELECT * from teams where id='$id'");
+if (isset($item_arr)) $item_exists=1;
+else $item_exists=0;
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
     <?php require_once($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/head.inc.php"); ?>
-    <title>InfoTeam - Rolė</title>
+    <title>InfoTeam - Komandos profilis</title>
     <style>
         .toast {
             opacity: 1 !important;
@@ -64,42 +64,41 @@ else $role_exists=0;
                     <li class="breadcrumb-item">
                         <a href="<?php echo $GLOBALS['url_path'] . "main"; ?>">InfoTeam</a>
                     </li>
-                    <li class="breadcrumb-item">Vartotojai</li>
-                    <li class="breadcrumb-item">Rolės</li>
-                    <?php if($role_exists) {?> <li class="breadcrumb-item active"><?php echo $roles_arr['position_name']?></li>
-                    <?php } else echo "<li class=\"breadcrumb-item active\">Kurti naują rolę</li>"; ?>
+                    <li class="breadcrumb-item">Komandos</li>
+                    <?php if($item_exists) {?> <li class="breadcrumb-item active"><?php echo $item_arr['name']?></li>
+                    <?php } else echo "<li class=\"breadcrumb-item active\">Kurti naują komandą</li>"; ?>
                 </ol>
 
                 <div class="card mb-3">
                     <div class="card-header">
                         <i class="fas fa-table"></i>
-                        <?php if($role_exists) {?> Rolė: <b><?php echo $roles_arr['position_name']?></b>
-                        <?php } else echo "Naujos rolės kūrimas"; ?>
+                        <?php if($item_exists) {?> Komanda: <b><?php echo $item_exists['name']?></b>
+                        <?php } else echo "Naujos komandos kūrimas"; ?>
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <h5>Rolės informacija</h5>
+                            <h5>Komandos informacija</h5>
                             <hr>
                         </div>
                         <div class="form-group">
                             <div class="form-row">
                                 <div class="col-md-2">
-                                    <label for="position_name">Rolės pavadinimas:</label>
-                                    <input type="text" class="form-control" id="position_name" name="position_name" required="required"
-                                           value="<?php if(isset($roles_arr)) echo $roles_arr["position_name"]; ?>">
+                                    <label for="name">Komandos pavadinimas:</label>
+                                    <input type="text" class="form-control" id="name" name="name" required="required"
+                                           value="<?php if(isset($item_arr)) echo $item_arr["name"]; ?>">
                                 </div>
                                 <div class="col-md-2">
-                                    <label for='global_position'>Globali rolė</label>
-                                    <select name='global_position' id='global_position' form='form'
-                                            class='form-control'><?php if(isset($roles_arr)) $role=$roles_arr['global_position']; else $role="0"; echo positions_in_club_list($role) ?></select>
+                                    <label for="short_name">Trumpas pavadinimas:</label>
+                                    <input type="text" class="form-control" id="short_name" name="short_name"
+                                           value="<?php if(isset($item_arr)) echo $item_arr["short_name"]; ?>">
                                 </div>
                             </div>
                         </div>
                         <hr>
                         <input class='btn btn-primary btn-block' id="saveButton" type='submit' value='Išsaugoti'>
-                        <?php if(isset($roles_arr)) { ?>  <a class='btn btn-primary btn-block btn-danger' onclick="document.getElementById('delete').value=1; document.getElementById('saveButton').click();" style="color:white">Trinti rolę</a> <?php } ?>
+                        <?php if(isset($item_arr)) { ?>  <a class='btn btn-primary btn-block btn-danger' onclick="document.getElementById('delete').value=1; document.getElementById('saveButton').click();" style="color:white">Trinti komandą</a> <?php } ?>
                     </div>
-                        <!-- /.content-wrapper -->
+                    <!-- /.content-wrapper -->
 </form>
 </div>
 <!-- /#wrapper -->

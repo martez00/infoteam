@@ -36,8 +36,14 @@ else $not_reviewed_applications="<span class='badge-pill badge-danger' data-togg
         </div>
     </li>
     <li class="nav-item">
+        <a class="nav-link" href="<?php echo $GLOBALS['url_path']."teams/teams.php"; ?>">
+            <i class="fas fa-fw fa-layer-group"></i>
+            <span>Komandos</span>
+        </a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" href="<?php echo $GLOBALS['url_path']."players/players.php"; ?>">
-            <i class="fas fa-fw fa-folder"></i>
+            <i class="fas fa-fw fa-user-friends"></i>
             <span>Žaidėjai</span>
         </a>
     </li>
