@@ -7,7 +7,6 @@ require_once($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/loader.inc.php");
 
 if (isset($_GET['id'])) $id = $_GET['id'];
 else if(isset($_POST['id'])) $id = $_POST['id'];
-
 if (isset($id) && $id!=0) {
     if (!empty($_POST)) {
         if($_POST['delete']==1) {
@@ -25,6 +24,7 @@ if (isset($id) && $id!=0) {
             unset($_POST['edit_note_content']);
             unset($_POST['item_id']);
             $item_arr = $_POST;
+            if(!isset($item_arr['team_id']) || $item_arr['team_id']=="" || $item_arr['team_id']=="0") $item_arr['team_id']="NULL";
             UpdateField($mysqli, $item_arr, "players", true, $id, true);
         }
     }
@@ -40,6 +40,7 @@ if (isset($id) && $id!=0) {
         }
         else {
             $item_arr['created_by']=$_SESSION['user_id'];
+            if(!isset($item_arr['team_id']) || $item_arr['team_id']=="" || $item_arr['team_id']=="0") $item_arr['team_id']="NULL";
             $id = InsertField($mysqli, $item_arr, "players", true, true);
         }
     }
@@ -224,6 +225,11 @@ $files=mfa_kaip_array($mysqli, "SELECT * from players_files where players_id='$i
                         </div>
                         <div class="form-group">
                             <div class="form-row">
+                                <div class="col-md-2">
+                                    <label for="team_id">Komanda</label>
+                                    <select name="team_id" id="team_id" form="form"
+                                            class="form-control"><?php echo teams_list($item_arr['team_id'], false, $mysqli); ?></select>
+                                </div>
                                 <div class="col-md-2">
                                     <label for="salary">Atlyginimas*:</label>
                                     <input type="text" class="form-control" id="salary" name="salary"

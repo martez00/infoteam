@@ -48,12 +48,14 @@ function return_transactions_table($items, $kiek_viso_irasu, $limit_key, $page)
 
 function return_players_table($items, $kiek_viso_irasu, $limit_key, $page)
 {
+    global $mysqli;
     $text = "";
     $text = "
                         <table class=\"table-simple\">
                             <thead>
                             <tr>
                                 <th>Vardas Pavardė</th>
+                                <th>Komanda</th>
                                 <th>Stebėti?</th>
                                 <th>Šalis</th>
                                 <th>Pozicija</th>
@@ -68,6 +70,7 @@ function return_players_table($items, $kiek_viso_irasu, $limit_key, $page)
         foreach ($items as $item) {
             $text .= "<tr>
 <td><a href='" . $GLOBALS['url_path'] . "players/player.php?id=" . $item['id'] . "' target='_blank'><b>" . $item['name'] . " " . $item['surname'] . "</b></a></td>
+<td>" . teams_list($item['team_id'], true, $mysqli) . "</td>
 <td>" . taip_ne_list($item['need_to_scout'], true, NULL) . "</td>
 <td>" . $item['country'] . "</td>
 <td>" . positions_list($item['position_in_field'], true) . "</td>

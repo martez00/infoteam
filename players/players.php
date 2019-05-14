@@ -57,6 +57,11 @@ $kiek_viso_irasu=gor($mysqli,"SELECT COUNT(id) FROM players WHERE 1=1 $arr_from_
                             <input type="text" class="form-control" name="search[personal_code]" id="personal_code" value="<?php echo $search_arr['personal_code'] ?>">
                         </div>
                         <div class="col-md-2">
+                            Komanda
+                            <select name="search[team_id]" id="team_id" form="form"
+                                    class="form-control"><?php echo teams_list($search_arr['team_id'], false, $mysqli); ?></select>
+                        </div>
+                        <div class="col-md-2">
                             Šalis
                             <select name="search[country]" id="country" form="form"
                                     class="form-control"><?php echo countries_list($search_arr['country']); ?></select>
