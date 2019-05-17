@@ -17,7 +17,6 @@ if ((isset($_POST['username']) && isset($_POST['password']))) {
         $_SESSION['birth_date']=$user_res['birth_date'];
         $_SESSION['country']=$user_res['country'];
         $_SESSION['positions_id']=$user_res['positions_id'];
-        $_SESSION['positions_id']=$user_res['positions_id'];
         $_SESSION['salary']=$user_res['salary'];
         $_SESSION['created_date']=$user_res['created_date'];
         $_SESSION['created_by']=$user_res['created_by'];

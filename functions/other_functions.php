@@ -98,6 +98,7 @@ function return_players_table($items, $kiek_viso_irasu, $limit_key, $page)
 
 function return_users_table($users, $kiek_viso_irasu, $limit_key, $page)
 {
+    global $rights;
     $text = "";
     $text = "
                         <table class='table-simple'>
@@ -117,7 +118,7 @@ function return_users_table($users, $kiek_viso_irasu, $limit_key, $page)
     if (is_array($users) || is_object($users)) {
         foreach ($users as $user) {
             $text .= "<tr>";
-            if (isset($_SESSION['user_is_admin']) && $_SESSION['user_is_admin'] == 1) $text .= "<td><a href='" . $GLOBALS['url_path'] . "users/user.php?id=" . $user['id'] . "' target='_blank'><b>" . $user['user_name'] . "</b></a></td>";
+            if ($rights['leisti_perziureti']==1) $text .= "<td><a href='" . $GLOBALS['url_path'] . "users/user.php?id=" . $user['id'] . "' target='_blank'><b>" . $user['user_name'] . "</b></a></td>";
             else $text .= "<td>" . $user['user_name'] . "</td>";
             $text .= "<td>" . $user['name'] . "</td>
                     <td>" . $user['surname'] . "</td>

@@ -32,7 +32,11 @@ require_once ($_SERVER['DOCUMENT_ROOT']."/$folder/system/inc/loader.inc.php");
                 </li>
                 <li class="breadcrumb-item active">Pradinis langas</li>
             </ol>
-
+<?php
+if($_GET['redirected']==1){
+    echo "<div class='alert alert-danger' role='alert'>Puslapio, kurį bandėte aplankyti, pagal galiojančią teisių sistemą pasiekti negalite! Norėdami pakeisti teisių sistemą susisiekite su sistemos kūrėjais.</div>";
+}
+?>
             <!-- Page Content -->
             <h1>Kas yra InfoTeam?</h1>
             <hr>

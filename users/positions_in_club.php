@@ -4,7 +4,8 @@ $pieces = explode("/", $path);
 $folder = $pieces[1];
 
 require_once($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/loader.inc.php");
-
+$rights=check_roles_rights();
+if($rights['leisti_perziureti']!=1) header("Location: $GLOBALS[url_path]main/index.php?redirected=1");
 $sql = "SELECT * from positions";
 $arr_from_search_format = format_sql_from_search($sql, $_POST, NULL, "GROUP BY positions.id");
 $search_arr=$arr_from_search_format["search_arr"];

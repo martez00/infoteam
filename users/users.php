@@ -5,6 +5,8 @@ $folder = $pieces[1];
 
 require_once($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/loader.inc.php");
 
+$rights=check_user_rights();
+if($rights['leisti_perziureti']!=1) header("Location: $GLOBALS[url_path]main/index.php?redirected=1");
 $sql="SELECT users.*, positions.position_name as user_role from users LEFT JOIN positions ON users.positions_id=positions.id WHERE 1=1 ";
 $arr_from_search_format = format_sql_from_search($sql, $_POST, "ORDER BY users.created_date DESC", "GROUP BY users.id");
 $search_arr=$arr_from_search_format["search_arr"];
@@ -37,8 +39,10 @@ $kiek_viso_irasu=gor($mysqli,"SELECT COUNT(id) FROM users WHERE 1=1 $arr_from_se
                 </li>
                 <li class="breadcrumb-item active">Vartotojai</li>
             </ol>
+            <?php if($rights['leisti_kurti']==1) { ?>
             <a class='btn btn-outline-secondary' href="<?php echo $GLOBALS['url_path'] . "users/user.php"; ?>" target="_blank">[+] Pridėti naują vartotoją</a>
             <hr>
+            <?php } ?>
             <form name="form" id="form" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                 <input type="hidden" name="page" id="page" value="<?php echo $page;?>">
                 <div id="search_div" class="search_div">

@@ -4,7 +4,8 @@ $pieces = explode("/", $path);
 $folder = $pieces[1];
 
 require_once($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/loader.inc.php");
-
+$rights=check_teams_rights();
+if($rights['leisti_perziureti']!=1) header("Location: $GLOBALS[url_path]main/index.php?redirected=1");
 if (isset($_GET['id'])) $id = $_GET['id'];
 else if(isset($_POST['id'])) $id = $_POST['id'];
 if (isset($id) && $id!=0) {
