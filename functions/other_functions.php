@@ -80,7 +80,7 @@ function return_players_table($items, $kiek_viso_irasu, $limit_key, $page)
 </tr>";
         }
         if ($kiek_viso_irasu > $limit_key) {
-            $text .= "<tr><td colspan='7' style='padding: 5px;'>";
+            $text .= "<tr><td colspan='8' style='padding: 5px;'>";
             $viso_puslapiu = ceil($kiek_viso_irasu / $limit_key);
             for ($i = 1; $i <= $viso_puslapiu; $i++) {
                 if ($i == $page) $class = "btn_active_page";
@@ -89,7 +89,7 @@ function return_players_table($items, $kiek_viso_irasu, $limit_key, $page)
             }
             $text .= "</td></tr>";
         }
-    } else $text .= "<tr><td colspan='7'>Tinkamų atvaizduoti duomenų nėra!</td></tr>";
+    } else $text .= "<tr><td colspan='8'>Tinkamų atvaizduoti duomenų nėra!</td></tr>";
     $text .= " </tbody>
                         </table>
                    ";
