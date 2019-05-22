@@ -3,6 +3,7 @@ $path = $_SERVER['PHP_SELF'];
 $pieces = explode("/", $path);
 $folder = $pieces[1];
 
+require_once($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/loader.inc.php");
 $rights=check_user_rights();
 if($rights['leisti_perziureti']!=1) header("Location: $GLOBALS[url_path]main/index.php?redirected=1");
 if (isset($_GET['id'])) $id = $_GET['id'];
@@ -167,9 +168,9 @@ $files=mfa_kaip_array($mysqli, "SELECT * from users_files where users_id='$id'")
                                            value="<?php if(isset($user_arr)) echo $user_arr["password"]; ?>" <?php if(isset($rights['pagrindiniai_duomenys'])) echo $rights['pagrindiniai_duomenys']; ?>>
                                 </div>
                                 <div class="col-md-2">
-                                    <label for="positions_id">Rolė:</label>
-                                    <select name="positions_id" id="positions_id" form="form"
-                                            class="form-control" <?php if(isset($rights['pagrindiniai_duomenys'])) echo $rights['pagrindiniai_duomenys']; ?>><?php if(isset($user_arr)) $role=$user_arr['positions_id']; else $role="0"; echo positions_in_club_list($role, false, $mysqli);  ?></select>
+                                    <label for="role_id">Rolė:</label>
+                                    <select name="role_id" id="role_id" form="form"
+                                            class="form-control" <?php if(isset($rights['pagrindiniai_duomenys'])) echo $rights['pagrindiniai_duomenys']; ?>><?php if(isset($user_arr)) $role=$user_arr['role_id']; else $role="0"; echo positions_in_club_list($role, false);  ?></select>
                                 </div>
                             </div>
                         </div>
