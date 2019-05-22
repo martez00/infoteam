@@ -39,7 +39,6 @@ if (isset($id) && $id!=0) {
             $error_message="Žaidėjas su tokiu asmens kodu jau egzistuoja! Aplankykite <a href='$GLOBALS[url_path]players/player.php?id=$exist_player_with_personal_code[id]' target='_blank'>$exist_player_with_personal_code[name] $exist_player_with_personal_code[surname]</a> profilį!";
         }
         else {
-            $item_arr['created_by']=$_SESSION['user_id'];
             if(!isset($item_arr['team_id']) || $item_arr['team_id']=="" || $item_arr['team_id']=="0") $item_arr['team_id']="NULL";
             $id = InsertField($mysqli, $item_arr, "players", true, true);
         }
@@ -130,6 +129,7 @@ $files=mfa_kaip_array($mysqli, "SELECT * from players_files where players_id='$i
 </head>
 <body id="page-top">
 <?php require($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/view/header.php"); ?>
+<div>
 <form name="form" id="form" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
     <input type="hidden" name="id" id="id" value="<?php if(isset($id)) echo $id ;?>">
     <div id="wrapper">

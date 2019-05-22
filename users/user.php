@@ -3,7 +3,6 @@ $path = $_SERVER['PHP_SELF'];
 $pieces = explode("/", $path);
 $folder = $pieces[1];
 
-require_once($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/loader.inc.php");
 $rights=check_user_rights();
 if($rights['leisti_perziureti']!=1) header("Location: $GLOBALS[url_path]main/index.php?redirected=1");
 if (isset($_GET['id'])) $id = $_GET['id'];
@@ -35,7 +34,6 @@ if (isset($id) && $id!=0) {
         unset($_POST['edit_note_content']);
         unset($_POST['item_id']);
         $user_arr = $_POST;
-        $user_arr['created_by']=$_SESSION['user_id'];
         $id = InsertField($mysqli, $user_arr, "users", true, true);
         header("Location: $GLOBALS[url_path]users/user.php?id=$id");
     }
@@ -121,6 +119,7 @@ $files=mfa_kaip_array($mysqli, "SELECT * from users_files where users_id='$id'")
 </head>
 <body id="page-top">
 <?php require($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/view/header.php"); ?>
+<div>
 <form name="form" id="form" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
     <input type="hidden" name="id" id="id" value="<?php if(isset($id)) echo $id ;?>">
     <div id="wrapper">
@@ -158,7 +157,7 @@ $files=mfa_kaip_array($mysqli, "SELECT * from users_files where users_id='$id'")
                         <div class="form-group">
                             <div class="form-row">
                                 <div class="col-md-2">
-                                    <label for="position_name">Slapyvardis:</label>
+                                    <label for="user_name">Slapyvardis:</label>
                                     <input type="text" class="form-control" id="user_name" name="user_name" required="required"
                                            value="<?php if(isset($user_arr)) echo $user_arr["user_name"]; ?>" <?php if(isset($rights['pagrindiniai_duomenys'])) echo $rights['pagrindiniai_duomenys']; ?>>
                                 </div>
@@ -170,7 +169,7 @@ $files=mfa_kaip_array($mysqli, "SELECT * from users_files where users_id='$id'")
                                 <div class="col-md-2">
                                     <label for="positions_id">Rolė:</label>
                                     <select name="positions_id" id="positions_id" form="form"
-                                            class="form-control" <?php if(isset($rights['pagrindiniai_duomenys'])) echo $rights['pagrindiniai_duomenys']; ?>><?php if(isset($user_arr)) $role=$user_arr['positions_id']; else $role="0"; echo roles_list($role, false, $mysqli);  ?></select>
+                                            class="form-control" <?php if(isset($rights['pagrindiniai_duomenys'])) echo $rights['pagrindiniai_duomenys']; ?>><?php if(isset($user_arr)) $role=$user_arr['positions_id']; else $role="0"; echo positions_in_club_list($role, false, $mysqli);  ?></select>
                                 </div>
                             </div>
                         </div>
@@ -197,7 +196,7 @@ $files=mfa_kaip_array($mysqli, "SELECT * from users_files where users_id='$id'")
                                 </div>
                                 <div class="col-md-2">
                                     <label for="birth_date">Gimimo data:</label>
-                                    <input type="text" name="birth_date" class="form-control datepicker"
+                                    <input type="text" id="birth_date" name="birth_date" class="form-control datepicker"
                                            value="<?php if(isset($user_arr)) echo $user_arr["birth_date"]; ?>" <?php if(isset($rights['pagrindiniai_duomenys'])) echo $rights['pagrindiniai_duomenys']; ?>>
                                 </div>
                                 <div class="col-md-2">

@@ -1,6 +1,6 @@
 <?php
 $file = end($pieces);
-$not_reviewed_applications=gor($mysqli, "SELECT COUNT(id) from applications_to_club where status='0'");
+$not_reviewed_applications=gor($mysqli, "SELECT COUNT(id) from applications_to_club where status is NULL");
 if(!isset($not_reviewed_applications) || $not_reviewed_applications==0) $not_reviewed_applications="";
 else $not_reviewed_applications="<span class='badge-pill badge-danger' data-toggle='tooltip' title='Nauji prašymai!'>$not_reviewed_applications</span>";
 ?>

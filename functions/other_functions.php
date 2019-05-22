@@ -122,7 +122,7 @@ function return_users_table($users, $kiek_viso_irasu, $limit_key, $page)
             else $text .= "<td>" . $user['user_name'] . "</td>";
             $text .= "<td>" . $user['name'] . "</td>
                     <td>" . $user['surname'] . "</td>
-                    <td>" . $user['user_role'] . "</td>
+                    <td>" . positions_in_club_list($user['role_id'], true) . "</td>
                     <td>" . $user['email'] . "</td>
                     <td>" . $user['mob_number'] . "</td>
                     <td>" . taip_ne_list($user['working'], true, NULL) . "</td>
@@ -330,13 +330,11 @@ function create_player_by_application($mysqli, $application_arr){
     if(!isset($player)) {
         unset($application_arr["id"]);
         unset($application_arr["created_date"]);
-        unset($application_arr["created_by_ip"]);
         unset($application_arr["checked_by"]);
         unset($application_arr["status"]);
         unset($application_arr["other"]);
         unset($application_arr["motivation_letter"]);
         unset($application_arr["about"]);
-        $application_arr["created_by"] = $_SESSION["user_id"];
         $application_arr["need_to_scout"] = -1;
         $id = InsertField($mysqli, $application_arr, "players", true, true);
         $created_player = mfa($mysqli, "SELECT * from players WHERE id='$id'");

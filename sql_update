@@ -23,7 +23,6 @@ ALTER TABLE `teams`
 
 ALTER TABLE `teams`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-  COMMIT;
 
 21:55
 ALTER TABLE `players` ADD `email` VARCHAR(150) NOT NULL AFTER `salary`, ADD `mob_number` VARCHAR(15) NOT NULL AFTER `email`;
@@ -36,5 +35,4 @@ ALTER TABLE `players`
   ADD KEY `players_teams` (`team_id`);
 
 ALTER TABLE `players`
-    ADD CONSTRAINT `players_teams` FOREIGN KEY (`team_id`) REFERENCES `teams` (`id`),
-  COMMIT;
+    ADD CONSTRAINT `players_teams` FOREIGN KEY (`team_id`) REFERENCES `teams` (`id`);

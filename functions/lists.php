@@ -36,8 +36,8 @@ function positions_in_club_list($value, $get_value = false){
     if(!isset($value))
         $value=0;
 
-    $list = "<option value='0' ";
-    if ($value==0) {
+    $list = "<option value='NULL' ";
+    if ($value==NULL) {
         $list .= "selected";
         $return_value="";
     }
@@ -63,13 +63,6 @@ function positions_in_club_list($value, $get_value = false){
         $return_value="Skautas";
     }
     $list .= ">Skautas</option>";
-
-    /*$list .= "<option value='4'";
-    if ($value==4) {
-        $list .= "selected";
-        $return_value="Aprūpinimo skyrius";
-    }
-    $list .= ">Aprūpinimo skyrius</option>";*/
 
     $list .= "<option value='5'";
     if ($value==5) {
@@ -200,8 +193,8 @@ function applications_status_list($value, $get_value = false){
     if(!isset($value))
         $value=0;
 
-    $list = "<option value='0' ";
-    if ($value==0) {
+    $list = "<option value='NULL' ";
+    if ($value==NULL) {
         $list .= "selected";
         $return_value="Naujas";
     }
@@ -516,28 +509,6 @@ function countries_list($value){
         $list .= ">$country_value ($key)</option>";
     }
     return $list;
-}
-
-function roles_list($value, $get_value = false, $mysqli){
-    $roles=mfa_kaip_array($mysqli, "SELECT * from positions");
-    if(!isset($value))
-        $value="";
-    $list = "<option value='NULL' ";
-    if ($value=="") {
-        $list .= "selected";
-    }
-    $list .= ">...</option>";
-    foreach ($roles as $role){
-        $list .= "<option value='".$role['id']."' ";
-        if ($value==$role['id']) {
-            $list .= "selected";
-            $return_value = $role['position_name'];
-        }
-        $list .= ">".$role['position_name']."</option>";
-    }
-    if($get_value==true)
-        return $return_value;
-    else return $list;
 }
 
 function teams_list($value, $get_value = false, $mysqli){

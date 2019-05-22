@@ -5,13 +5,12 @@ $folder = $pieces[1];
 
 require_once($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/loader.inc.php");
 
-$status=0;
 if(!$_POST['page']) $page=1;
 else $page=$_POST['page'];
 $limit_key=10;
 $end_limit=$page*$limit_key;
 $start_limit=$end_limit-$limit_key;
-$sql = "SELECT * from applications_to_club WHERE 1=1 AND status='$status' ";
+$sql = "SELECT * from applications_to_club WHERE 1=1 AND status IS NULL ";
 if($_POST['search']){
     $search_arr=$_POST['search'];
     $sql_where="";
@@ -24,7 +23,7 @@ if($_POST['search']){
 $sql .= $sql_where;
 $sql .=" ORDER BY created_date DESC LIMIT $start_limit, $end_limit ";
 $nauji_prasymai = mfa_kaip_array($mysqli, $sql);
-$kiek_viso_irasu=gor($mysqli,"SELECT COUNT(id) FROM applications_to_club WHERE 1=1 AND status='$status' $sql_where");
+$kiek_viso_irasu=gor($mysqli,"SELECT COUNT(id) FROM applications_to_club WHERE 1=1 AND status IS NULL $sql_where");
 
 ?>
 <!DOCTYPE html>

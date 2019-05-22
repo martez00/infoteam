@@ -1,5 +1,5 @@
 <?php
-switch ($_SESSION['global_role']){
+switch ($_SESSION['role_id']){
     case 1: require_once($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/view/sidebars/sidebar_for_accountant.php"); break;
     case 2: require_once($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/view/sidebars/sidebar_for_trainer.php"); break;
     case 3: require_once($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/view/sidebars/sidebar_for_scout.php"); break;

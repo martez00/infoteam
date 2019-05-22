@@ -7,8 +7,8 @@ require_once($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/loader.inc.php");
 
 $rights=check_user_rights();
 if($rights['leisti_perziureti']!=1) header("Location: $GLOBALS[url_path]main/index.php?redirected=1");
-$sql="SELECT users.*, positions.position_name as user_role from users LEFT JOIN positions ON users.positions_id=positions.id WHERE 1=1 ";
-$arr_from_search_format = format_sql_from_search($sql, $_POST, "ORDER BY users.created_date DESC", "GROUP BY users.id");
+$sql="SELECT users.* from users WHERE 1=1 ";
+$arr_from_search_format = format_sql_from_search($sql, $_POST, "ORDER BY users.id DESC", "GROUP BY users.id");
 $search_arr=$arr_from_search_format["search_arr"];
 $users = mfa_kaip_array($mysqli, $arr_from_search_format["sql"]);
 $kiek_viso_irasu=gor($mysqli,"SELECT COUNT(id) FROM users WHERE 1=1 $arr_from_search_format[sql_where]");
