@@ -11,17 +11,6 @@ else if(isset($_POST['id'])) $id = $_POST['id'];
 
 if(!isset($id) || $rights['leisti_perziureti']!=1 || isset($rights_arr['pagrindiniai_duomenys'])) header("Location: $GLOBALS[url_path]main/index.php?redirected=1");
 
-if (isset($id) && $id!=0) {
-    if (!empty($_POST)) {
-            unset($_POST['id']);
-            unset($_POST['delete']);
-            unset($_POST['hidden_note_id']);
-            unset($_POST['edit_note_content']);
-            unset($_POST['item_id']);
-            $item_arr = $_POST;
-            UpdateField($mysqli, $item_arr, "players", true, $id, true);
-    }
-}
 if(isset($id))
     $item_arr = mfa($mysqli, "SELECT * from players where id='$id'");
 if (isset($item_arr)) $item_exists=1;
