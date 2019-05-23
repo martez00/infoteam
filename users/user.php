@@ -17,7 +17,11 @@ if (isset($id) && $id!=0) {
     if (!empty($_POST)) {
         if($_POST['delete']==1) {
             DeleteField($mysqli, $id, "users", true);
-        
+            ?>
+            <script>
+                window.location = "<?php echo $GLOBALS['url_path'] . "users/users.php"; ?>";
+            </script>
+            <?php
         }
         else {
             unset($_POST['id']);
