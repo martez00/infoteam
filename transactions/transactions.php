@@ -41,6 +41,9 @@ $kiek_viso_irasu=gor($mysqli,"SELECT COUNT(id) FROM transactions WHERE 1=1 $arr_
                 <li class="breadcrumb-item active">Pervedimai</li>
             </ol>
             <a class='btn btn-outline-secondary' href="<?php echo $GLOBALS['url_path'] . "transactions/transaction.php"; ?>" target="_blank">[+] Pridėti naują pervedimą</a>
+            <?php if($_SESSION['user_is_admin']==1) { ?>
+                <a class='btn btn-outline-secondary' href="<?php echo $GLOBALS['url_path'] . "main/history.php?table=transactions"; ?>">Veiksmų su pervedimais istorija</a>
+            <?php } ?>
             <hr>
             <form name="form" id="form" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                 <input type="hidden" name="page" id="page" value="<?php echo $page;?>">

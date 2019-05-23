@@ -214,6 +214,48 @@ function return_teams_table($items, $kiek_viso_irasu, $limit_key, $page)
     return $text;
 }
 
+function return_actions_table($items, $kiek_viso_irasu, $limit_key, $page)
+{
+    $text = "";
+    $text = "
+                        <table class='table-simple'>
+                            <thead>
+                            <tr>
+                                <th>Veiksmo ID</th>
+                                <th>Įrašas</th>
+                                <th>Veiksmas</th>
+                                <th>Kas atliko</th>
+                                <th>Kada atlikta</th>
+                            </tr>
+                            </thead>
+                            <tbody>";
+
+    if (is_array($items) || is_object($items)) {
+        foreach ($items as $item) {
+            if($item['table_name']=='teams') $href="<a href='$GLOBALS[url_path]teams/team.php?id=$item[record_id]' target='_blank'>$item[record_name]</a>";
+            $text .= "<tr>
+<td>" . $item['id'] . "</td>
+<td>" . $href . "</td>
+<td>" . actions_list($item['action'], true) . "</td>
+<td>" . get_user_by_id($item['made_by']) . "</td>
+<td>" . $item['action_date'] . "</td>
+</tr>";
+        }
+        if ($kiek_viso_irasu > $limit_key) {
+            $text .= "<tr><td colspan='5' style='padding: 5px;'>";
+            $viso_puslapiu = ceil($kiek_viso_irasu / $limit_key);
+            for ($i = 1; $i <= $viso_puslapiu; $i++) {
+                if ($i == $page) $class = "btn_active_page";
+                else $class = "btn_page";
+                $text .= "<a class='btn $class' onclick='set_page($i)'>$i</a>";
+            }
+            $text .= "</td></tr>";
+        }
+    } else $text .= "<tr><td colspan='5'>Tinkamų atvaizduoti duomenų nėra!</td></tr>";
+    $text .= " </tbody></table>";
+    return $text;
+}
+
 function return_applications_table($prasymai, $kiek_viso_irasu, $limit_key, $page)
 {
     $text = "";

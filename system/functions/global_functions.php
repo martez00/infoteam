@@ -247,8 +247,7 @@ function format_sql_from_search($pradinis_sql, $info_from_post, $order_by, $grou
     }
     if(!$info_from_post['page']) $page=1;
     else $page=$info_from_post['page'];
-    $end_limit=$page*$limit_key;
-    $start_limit=$end_limit-$limit_key;
+    $offset=($page*$limit_key)-$limit_key;
     $sql = $pradinis_sql;
     if($info_from_post['search']){
         $search_arr=$info_from_post['search'];
@@ -260,7 +259,7 @@ function format_sql_from_search($pradinis_sql, $info_from_post, $order_by, $grou
         }
     }
     $sql .= $sql_where;
-    $sql .= " $group_by $order_by LIMIT $start_limit, $end_limit ";
+    $sql .= " $group_by $order_by LIMIT $limit_key OFFSET $offset ";
     $arr["sql"]=$sql;
     $arr["sql_where"]=$sql_where;
     $arr["search_arr"]=$search_arr;

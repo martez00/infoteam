@@ -57,6 +57,10 @@ $kiek_viso_irasu=gor($mysqli,"SELECT COUNT(id) FROM applications_to_club WHERE 1
                 <li class="breadcrumb-item">Prašymai</li>
                 <li class="breadcrumb-item active">Patvirtinti prašymai</li>
             </ol>
+            <?php if($_SESSION['user_is_admin']==1) { ?>
+                <a class='btn btn-outline-secondary' href="<?php echo $GLOBALS['url_path'] . "main/history.php?table=applications_to_club"; ?>">Veiksmų su prašymais istorija</a>
+            <?php } ?>
+            <hr>
             <form name="form" id="form" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                 <input type="hidden" name="page" id="page" value="<?php echo $page;?>">
                 <div id="search_div" class="search_div">

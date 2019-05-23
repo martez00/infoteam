@@ -38,6 +38,9 @@ $kiek_viso_irasu=gor($mysqli,"SELECT COUNT(id) FROM teams WHERE 1=1 $arr_from_se
                 <li class="breadcrumb-item active">Komandos</li>
             </ol>
             <a class='btn btn-outline-secondary' href="<?php echo $GLOBALS['url_path'] . "teams/team.php"; ?>" target="_blank">[+] Pridėti naują komandą</a>
+            <?php if($_SESSION['user_is_admin']==1) { ?>
+            <a class='btn btn-outline-secondary' href="<?php echo $GLOBALS['url_path'] . "main/history.php?table=teams"; ?>">Veiksmų su komandomis istorija</a>
+            <?php } ?>
             <hr>
             <form name="form" id="form" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                 <input type="hidden" name="page" id="page" value="<?php echo $page;?>">

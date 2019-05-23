@@ -50,6 +50,7 @@ if (isset($id) && $id!=0) {
         else {
             if(!isset($item_arr['team_id']) || $item_arr['team_id']=="" || $item_arr['team_id']=="0") $item_arr['team_id']="NULL";
             $id = InsertField($mysqli, $item_arr, "players", true, true);
+            header("Location: $GLOBALS[url_path]players/player.php?id=$id");
         }
     }
 }

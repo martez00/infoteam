@@ -621,3 +621,40 @@ function transactions_status_list($value, $get_value = false){
         return $return_value;
     else return $list;
 }
+
+function actions_list($value, $get_value = false){
+    if(!isset($value))
+        $value=0;
+
+    $list = "<option value='' ";
+    if ($value=="") {
+        $list .= "selected";
+        $return_value="";
+    }
+    $list .= ">...</option>";
+
+    $list .= "<option value='I' ";
+    if ($value=="I") {
+        $list .= "selected";
+        $return_value="Sukurtas";
+    }
+    $list .= ">Sukurtas</option>";
+
+    $list .= "<option value='U' ";
+    if ($value=="U") {
+        $list .= "selected";
+        $return_value="Atnaujintas";
+    }
+    $list .= ">Atnaujintas</option>";
+
+    $list .= "<option value='D' ";
+    if ($value=="D") {
+        $list .= "selected";
+        $return_value="Ištrintas";
+    }
+    $list .= ">Ištrintas</option>";
+
+    if($get_value==true)
+        return $return_value;
+    else return $list;
+}
