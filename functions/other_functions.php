@@ -94,6 +94,46 @@ function return_players_table($items, $kiek_viso_irasu, $limit_key, $page)
     return $text;
 }
 
+function return_players_salaries_table($items, $kiek_viso_irasu, $limit_key, $page)
+{
+    global $mysqli;
+    $text = "";
+    $text = "
+                        <table class=\"table-simple\">
+                            <thead>
+                            <tr>
+                                <th>Vardas Pavardė</th>
+                                <th>Komanda</th>
+                                <th>Atlyginimas</th>
+                            </tr>
+                            </thead>
+                            <tbody>";
+
+    if (is_array($items) || is_object($items)) {
+        foreach ($items as $item) {
+            $text .= "<tr>
+<td><a href='" . $GLOBALS['url_path'] . "main/salary.php?player_id=" . $item['id'] . "' target='_blank'><b>" . $item['name'] . " " . $item['surname'] . "</b></a></td>
+<td>" . teams_list($item['team_id'], true, $mysqli) . "</td>
+<td>" . $item['salary'] . "</td>
+</tr>";
+        }
+        if ($kiek_viso_irasu > $limit_key) {
+            $text .= "<tr><td colspan='3' style='padding: 5px;'>";
+            $viso_puslapiu = ceil($kiek_viso_irasu / $limit_key);
+            for ($i = 1; $i <= $viso_puslapiu; $i++) {
+                if ($i == $page) $class = "btn_active_page";
+                else $class = "btn_page";
+                $text .= "<a class='btn $class' onclick='set_page($i)'>$i</a>";
+            }
+            $text .= "</td></tr>";
+        }
+    } else $text .= "<tr><td colspan='3'>Tinkamų atvaizduoti duomenų nėra!</td></tr>";
+    $text .= " </tbody>
+                        </table>
+                   ";
+    return $text;
+}
+
 function return_users_table($users, $kiek_viso_irasu, $limit_key, $page)
 {
     global $rights;
@@ -127,7 +167,7 @@ function return_users_table($users, $kiek_viso_irasu, $limit_key, $page)
                     </tr>";
         }
         if ($kiek_viso_irasu > $limit_key) {
-            $text .= "<tr><td colspan='6' style='padding: 5px;'>";
+            $text .= "<tr><td colspan='7' style='padding: 5px;'>";
             $viso_puslapiu = ceil($kiek_viso_irasu / $limit_key);
             for ($i = 1; $i <= $viso_puslapiu; $i++) {
                 if ($i == $page) $class = "btn_active_page";
@@ -136,31 +176,37 @@ function return_users_table($users, $kiek_viso_irasu, $limit_key, $page)
             }
             $text .= "</td></tr>";
         }
-    } else $text .= "<tr><td colspan='6'>Tinkamų atvaizduoti duomenų nėra!</td></tr>";
+    } else $text .= "<tr><td colspan='7'>Tinkamų atvaizduoti duomenų nėra!</td></tr>";
     $text .= " </tbody>";
     $text .= "</table>";
     return $text;
 }
 
-function return_positions_in_club_table($positions_in_club, $kiek_viso_irasu, $limit_key, $page)
+function return_users_salaries_table($users, $kiek_viso_irasu, $limit_key, $page)
 {
+    global $rights;
     $text = "";
     $text = "
                         <table class='table-simple'>
                             <thead>
-                            <tr>
-                                <th>Pavadinimas</th>
-                                <th>Globali rolė</th>
+                            <tr>";
+    $text .= "<th>Vardas Pavardė</th>
+                                <th>Rolė</th>
+                                <th>Atlyginimas</th>
                             </tr>
                             </thead>
                             <tbody>";
 
-    if (is_array($positions_in_club) || is_object($positions_in_club)) {
-        foreach ($positions_in_club as $position) {
-            $text .= "<tr>
-<td><a href='" . $GLOBALS['url_path'] . "users/role.php?id=" . $position['id'] . "' target='_blank'><b>" . $position['position_name'] . "</b></a></td>
-<td>" . positions_in_club_list($position['global_position'], true) . "</td>
-</tr>";
+    if (is_array($users) || is_object($users)) {
+        foreach ($users as $user) {
+            if($user['name'] || $user['surname'])
+                $username=$user['name']." ".$user['surname'];
+            else $username=$user['user_name'];
+            $text .= "<tr>";
+            $text .= "<td><a href='" . $GLOBALS['url_path'] . "main/salary.php?user_id=" . $user['id'] . "' target='_blank'><b>" . $username . "</b></a></td>";
+            $text .= "<td>" . positions_in_club_list($user['role_id'], true) . "</td>
+                    <td>" . $user['salary'] . "</td>
+                    </tr>";
         }
         if ($kiek_viso_irasu > $limit_key) {
             $text .= "<tr><td colspan='3' style='padding: 5px;'>";
@@ -173,7 +219,8 @@ function return_positions_in_club_table($positions_in_club, $kiek_viso_irasu, $l
             $text .= "</td></tr>";
         }
     } else $text .= "<tr><td colspan='3'>Tinkamų atvaizduoti duomenų nėra!</td></tr>";
-    $text .= " </tbody></table>";
+    $text .= " </tbody>";
+    $text .= "</table>";
     return $text;
 }
 

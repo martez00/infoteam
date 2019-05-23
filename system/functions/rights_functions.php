@@ -18,6 +18,17 @@ function check_user_rights(){
     }
 }
 
+function check_salaries_rights(){
+    if($_SESSION['role_id']==5 || $_SESSION['role_id']==1){
+        $rights_arr['leisti_perziureti']=1;
+        return $rights_arr;
+    }
+    else {
+        $rights_arr['leisti_perziureti']=0;
+        return $rights_arr;
+    }
+}
+
 function check_player_rights(){
     if($_SESSION['role_id']==5){
         $rights_arr['leisti_perziureti']=1;
