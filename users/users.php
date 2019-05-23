@@ -41,8 +41,8 @@ $kiek_viso_irasu=gor($mysqli,"SELECT COUNT(id) FROM users WHERE 1=1 $arr_from_se
             </ol>
             <?php if($rights['leisti_kurti']==1) { ?>
             <a class='btn btn-outline-secondary' href="<?php echo $GLOBALS['url_path'] . "users/user.php"; ?>" target="_blank">[+] Pridėti naują vartotoją</a>
-            <hr>
             <?php } ?>
+            <hr>
             <form name="form" id="form" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                 <input type="hidden" name="page" id="page" value="<?php echo $page;?>">
                 <div id="search_div" class="search_div">

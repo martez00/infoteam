@@ -5,8 +5,14 @@ $folder = $pieces[1];
 
 require_once($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/loader.inc.php");
 
+$rights=check_player_rights();
+if($rights['leisti_perziureti']!=1) header("Location: $GLOBALS[url_path]main/index.php?redirected=1");
+
 if (isset($_GET['id'])) $id = $_GET['id'];
 else if(isset($_POST['id'])) $id = $_POST['id'];
+
+if(!isset($id) && $rights['leisti_kurti']!=1) header("Location: $GLOBALS[url_path]main/index.php?redirected=1");
+
 if (isset($id) && $id!=0) {
     if (!empty($_POST)) {
         if($_POST['delete']==1) {
@@ -25,7 +31,8 @@ if (isset($id) && $id!=0) {
             unset($_POST['item_id']);
             $item_arr = $_POST;
             if(!isset($item_arr['team_id']) || $item_arr['team_id']=="" || $item_arr['team_id']=="0") $item_arr['team_id']="NULL";
-            UpdateField($mysqli, $item_arr, "players", true, $id, true);
+            if(!isset($rights['pagrindiniai_duomenys']))
+                UpdateField($mysqli, $item_arr, "players", true, $id, true);
         }
     }
 } else {
@@ -33,6 +40,8 @@ if (isset($id) && $id!=0) {
         unset($_POST['hidden_note_id']);
         unset($_POST['edit_note_content']);
         unset($_POST['item_id']);
+        unset($_POST['id']);
+        unset($_POST['delete']);
         $item_arr = $_POST;
         $exist_player_with_personal_code=check_player_by_personal_code($mysqli, $item_arr[personal_code]);
         if(is_array($exist_player_with_personal_code) || is_object($exist_with_personal_code)){
@@ -172,32 +181,32 @@ $files=mfa_kaip_array($mysqli, "SELECT * from players_files where players_id='$i
                                 <div class="col-md-2">
                                     <label for="name">Vardas</label>
                                     <input type="text" class="form-control" id="name" name="name" required
-                                           value="<?php echo $item_arr['name']; ?>">
+                                           value="<?php echo $item_arr['name']; ?>" <?php if(isset($rights['pagrindiniai_duomenys'])) echo $rights['pagrindiniai_duomenys']; ?>>
                                 </div>
                                 <div class="col-md-2">
                                     <label for="surname">Pavardė:</label>
                                     <input type="text" class="form-control" id="surname" name="surname" required
-                                           value="<?php echo $item_arr['surname']; ?>">
+                                           value="<?php echo $item_arr['surname']; ?>" <?php if(isset($rights['pagrindiniai_duomenys'])) echo $rights['pagrindiniai_duomenys']; ?>>
                                 </div>
                                 <div class="col-md-2">
                                     <label for="personal_code">Asmens kodas:</label>
                                     <input type="text" class="form-control" id="personal_code" name="personal_code" required
-                                           value="<?php echo $item_arr['personal_code']; ?>">
+                                           value="<?php echo $item_arr['personal_code']; ?>" <?php if(isset($rights['pagrindiniai_duomenys'])) echo $rights['pagrindiniai_duomenys']; ?>>
                                 </div>
                                 <div class="col-md-2">
                                     <label for="country">Šalis:</label>
                                     <select name="country" id="country" form="form"
-                                            class="form-control"><?php echo countries_list($item_arr['country']); ?></select>
+                                            class="form-control" <?php if(isset($rights['pagrindiniai_duomenys'])) echo $rights['pagrindiniai_duomenys']; ?>><?php echo countries_list($item_arr['country']); ?></select>
                                 </div>
                                 <div class="col-md-2">
                                     <label for="birth_date">Gimimo data:</label>
                                     <input type="text" name="birth_date" class="form-control datepicker"
-                                           value="<?php echo $item_arr['birth_date']; ?>">
+                                           value="<?php echo $item_arr['birth_date']; ?>" <?php if(isset($rights['pagrindiniai_duomenys'])) echo $rights['pagrindiniai_duomenys']; ?>>
                                 </div>
                                 <div class="col-md-2">
                                     <label for="position_in_field">Pozicija</label>
                                     <select name="position_in_field" id="position_in_field" form="form"
-                                            class="form-control"><?php echo positions_list($item_arr['position_in_field']); ?></select>
+                                            class="form-control" <?php if(isset($rights['pagrindiniai_duomenys'])) echo $rights['pagrindiniai_duomenys']; ?>><?php echo positions_list($item_arr['position_in_field']); ?></select>
                                 </div>
                             </div>
                         </div>
@@ -210,12 +219,12 @@ $files=mfa_kaip_array($mysqli, "SELECT * from players_files where players_id='$i
                                 <div class="col-md-2">
                                     <label for="email">El. paštas:</label>
                                     <input type="text" class="form-control" id="email" name="email"
-                                           value="<?php echo $item_arr['email']; ?>">
+                                           value="<?php echo $item_arr['email']; ?>" <?php if(isset($rights['pagrindiniai_duomenys'])) echo $rights['pagrindiniai_duomenys']; ?>>
                                 </div>
                                 <div class="col-md-2">
                                     <label for="mob_number">Mob. nr:</label>
                                     <input type="text" class="form-control" id="mob_number" name="mob_number"
-                                           value="<?php echo $item_arr['mob_number']; ?>">
+                                           value="<?php echo $item_arr['mob_number']; ?>" <?php if(isset($rights['pagrindiniai_duomenys'])) echo $rights['pagrindiniai_duomenys']; ?>>
                                 </div>
                             </div>
                         </div>
@@ -228,20 +237,14 @@ $files=mfa_kaip_array($mysqli, "SELECT * from players_files where players_id='$i
                                 <div class="col-md-2">
                                     <label for="team_id">Komanda</label>
                                     <select name="team_id" id="team_id" form="form"
-                                            class="form-control"><?php echo teams_list($item_arr['team_id'], false, $mysqli); ?></select>
-                                </div>
-                                <div class="col-md-2">
-                                    <label for="salary">Atlyginimas*:</label>
-                                    <input type="text" class="form-control" id="salary" name="salary"
-                                           value="<?php if(isset($item_arr)) echo $item_arr["salary"]; ?>">
+                                            class="form-control" <?php if(isset($rights['pagrindiniai_duomenys'])) echo $rights['pagrindiniai_duomenys']; ?>><?php echo teams_list($item_arr['team_id'], false, $mysqli); ?></select>
                                 </div>
                                 <div class="col-md-2">
                                     <label for="working">Stebėti:</label>
                                     <select name="need_to_scout" id="need_to_scout" form="form"
-                                            class="form-control"><?php if(isset($item_arr)) $need_to_scout=$item_arr['need_to_scout']; else $need_to_scout="-1"; echo taip_ne_list($need_to_scout, $false, NULL);  ?></select>
+                                            class="form-control" <?php if(isset($rights['pagrindiniai_duomenys'])) echo $rights['pagrindiniai_duomenys']; ?>><?php if(isset($item_arr)) $need_to_scout=$item_arr['need_to_scout']; else $need_to_scout="-1"; echo taip_ne_list($need_to_scout, $false, NULL);  ?></select>
                                 </div>
                             </div>
-                            <b>*</b> – atlyginimas ant popieriaus.
                         </div>
                         <?php if(isset($item_arr)){ ?>
                         <div class="form-group space_before_group">
@@ -290,8 +293,8 @@ $files=mfa_kaip_array($mysqli, "SELECT * from players_files where players_id='$i
                         </div>
                         <?php } ?>
                         <hr>
-                        <input class='btn btn-primary btn-block' id="saveButton" type='submit' value='Išsaugoti'>
-                        <?php if(isset($item_arr)) { ?> <a class='btn btn-primary btn-block btn-danger' onclick="document.getElementById('delete').value=1; document.getElementById('saveButton').click();" style="color:white">Trinti vartotoją</a> <?php } ?>
+                        <input class='btn btn-primary btn-block' style="<?php if(isset($rights['pagrindiniai_duomenys'])) echo 'display:none';?>" id="saveButton" type='submit' value='Išsaugoti'>
+                        <?php if(isset($item_arr) && $rights['leisti_trinti']==1) { ?> <a class='btn btn-primary btn-block btn-danger' onclick="document.getElementById('delete').value=1; document.getElementById('saveButton').click();" style="color:white">Trinti žaidėją</a> <?php } ?>
                     </div>
                     <!-- /.content-wrapper -->
                     <div class="modal fade" id="edit_player_note" tabindex="-1" role="dialog" aria-labelledby="edit_item_noteLabel" aria-hidden="true">

@@ -4,10 +4,14 @@ $pieces = explode("/", $path);
 $folder = $pieces[1];
 
 require_once($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/loader.inc.php");
+
 $rights=check_user_rights();
 if($rights['leisti_perziureti']!=1) header("Location: $GLOBALS[url_path]main/index.php?redirected=1");
+
 if (isset($_GET['id'])) $id = $_GET['id'];
 else if(isset($_POST['id'])) $id = $_POST['id'];
+
+if(!isset($id) && $rights['leisti_kurti']!=1) header("Location: $GLOBALS[url_path]main/index.php?redirected=1");
 
 if (isset($id) && $id!=0) {
     if (!empty($_POST)) {
@@ -26,7 +30,8 @@ if (isset($id) && $id!=0) {
             unset($_POST['edit_note_content']);
             unset($_POST['item_id']);
             $user_arr = $_POST;
-            UpdateField($mysqli, $user_arr, "users", true, $id, true);
+            if(!isset($rights['pagrindiniai_duomenys']))
+                UpdateField($mysqli, $user_arr, "users", true, $id, true);
         }
     }
 } else {
@@ -34,6 +39,8 @@ if (isset($id) && $id!=0) {
         unset($_POST['hidden_note_id']);
         unset($_POST['edit_note_content']);
         unset($_POST['item_id']);
+        unset($_POST['id']);
+        unset($_POST['delete']);
         $user_arr = $_POST;
         $id = InsertField($mysqli, $user_arr, "users", true, true);
         header("Location: $GLOBALS[url_path]users/user.php?id=$id");
@@ -191,9 +198,9 @@ $files=mfa_kaip_array($mysqli, "SELECT * from users_files where users_id='$id'")
                                            value="<?php if(isset($user_arr)) echo $user_arr["surname"]; ?>" <?php if(isset($rights['pagrindiniai_duomenys'])) echo $rights['pagrindiniai_duomenys']; ?>>
                                 </div>
                                 <div class="col-md-2">
-                                    <label for="personl_code">Asmens kodas:</label>
-                                    <input type="text" class="form-control" id="personl_code" name="personl_code"
-                                           value="<?php if(isset($user_arr)) echo $user_arr["personl_code"]; ?>" <?php if(isset($rights['pagrindiniai_duomenys'])) echo $rights['pagrindiniai_duomenys']; ?>>
+                                    <label for="personal_code">Asmens kodas:</label>
+                                    <input type="text" class="form-control" id="personal_code" name="personal_code"
+                                           value="<?php if(isset($user_arr)) echo $user_arr["personal_code"]; ?>" <?php if(isset($rights['pagrindiniai_duomenys'])) echo $rights['pagrindiniai_duomenys']; ?>>
                                 </div>
                                 <div class="col-md-2">
                                     <label for="birth_date">Gimimo data:</label>
@@ -224,17 +231,11 @@ $files=mfa_kaip_array($mysqli, "SELECT * from users_files where users_id='$id'")
                         <div class="form-group">
                             <div class="form-row">
                                 <div class="col-md-2">
-                                    <label for="salary">Atlyginimas*:</label>
-                                    <input type="text" class="form-control" id="salary" name="salary"
-                                    value="<?php if(isset($user_arr)) echo $user_arr["salary"]; ?>">
-                                </div>
-                                <div class="col-md-2">
                                     <label for="working">Dirba:</label>
                                     <select name="working" id="working" form="form"
                                             class="form-control" <?php if(isset($rights['pagrindiniai_duomenys'])) echo $rights['pagrindiniai_duomenys']; ?>><?php if(isset($user_arr)) $dirba=$user_arr['working']; else $dirba="-1"; echo taip_ne_list($dirba, $false, NULL);  ?></select>
                                 </div>
                             </div>
-                            <b>*</b> – atlyginimas ant popieriaus.
                         </div>
                         <?php if(isset($user_arr)){ ?>
                         <div class="form-group space_before_group">
@@ -283,7 +284,7 @@ $files=mfa_kaip_array($mysqli, "SELECT * from users_files where users_id='$id'")
                         </div>
                         <?php } ?>
                         <hr>
-                        <input class='btn btn-primary btn-block' id="saveButton" type='submit' value='Išsaugoti'>
+                        <input class='btn btn-primary btn-block' style="<?php if(isset($rights['pagrindiniai_duomenys'])) echo 'display:none';?>" id="saveButton" type='submit' value='Išsaugoti'>
                        <?php if(isset($user_arr) && $rights['leisti_trinti']==1) { ?> <a class='btn btn-primary btn-block btn-danger' onclick="document.getElementById('delete').value=1; document.getElementById('saveButton').click();" style="color:white">Trinti vartotoją</a> <?php } ?>
                     </div>
                         <!-- /.content-wrapper -->

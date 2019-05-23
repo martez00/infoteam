@@ -34,6 +34,8 @@ if (isset($id) && $id!=0) {
     }
 } else {
     if (!empty($_POST)) {
+        unset($_POST['id']);
+        unset($_POST['delete']);
         $team_arr = $_POST;
         if($team_arr[main_team]==1){
             $exists_main_team=check_if_exists_main_team($mysqli, NULL);

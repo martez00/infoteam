@@ -1,5 +1,5 @@
 <?php
 $host = "localhost";
 $mysql_user= "root";
-$pass  = "";
+$pass  = "infot2";
 $db_name = "infoteam_test";

@@ -12,14 +12,11 @@ else $not_reviewed_applications="<span class='badge-pill badge-danger' data-togg
             <span>Pradinis</span>
         </a>
     </li>
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="<?php echo $GLOBALS['url_path']."users/users.php"; ?>" id="pagesDropdownUsers" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-fw fa-user"></i>
+    <li class="nav-item">
+        <a class="nav-link" href="<?php echo $GLOBALS['url_path']."users/users.php"; ?>">
+            <i class="fas fa-fw fa-layer-group"></i>
             <span>Vartotojai</span>
         </a>
-        <div class="dropdown-menu" aria-labelledby="pagesDropdownUsers">
-            <a class="dropdown-item <?php if($file=="users.php") echo "active"; ?>" href="<?php echo $GLOBALS['url_path']."users/users.php"; ?>">Vartotojų sąrašas</a>
-        </div>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="<?php echo $GLOBALS['url_path']."players/players.php"; ?>">
@@ -27,10 +24,16 @@ else $not_reviewed_applications="<span class='badge-pill badge-danger' data-togg
             <span>Žaidėjai</span>
         </a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="<?php echo $GLOBALS['url_path']."transactions/transactions.php"; ?>">
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="buhalterija_dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fas fa-fw fa-money-bill"></i>
-            <span>Pervedimai</span>
+            <span>Buhalterija</span>
+
         </a>
+        <div class="dropdown-menu" aria-labelledby="buhalterija_dropdown">
+            <a class="dropdown-item <?php if($file=="transactions.php") echo "active"; ?>" href="<?php echo $GLOBALS['url_path']."transactions/transactions.php"; ?>">Pervedimai</a>
+            <a class="dropdown-item <?php if($file=="users_salaries.php") echo "active"; ?>" href="<?php echo $GLOBALS['url_path']."users/users_salaries.php"; ?>">Darbuotojų atlyginimai</a>
+            <a class="dropdown-item <?php if($file=="players_salaries.php") echo "active"; ?>" href="<?php echo $GLOBALS['url_path']."players/players_salaries.php"; ?>">Žaidėjų atlyginimai</a>
+        </div>
     </li>
 </ul>

@@ -5,6 +5,9 @@ $folder = $pieces[1];
 
 require_once($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/loader.inc.php");
 
+$rights=check_applications_rights();
+if($rights['leisti_perziureti']!=1) header("Location: $GLOBALS[url_path]main/index.php?redirected=1");
+
 $status=2;
 if(!$_POST['page']) $page=1;
 else $page=$_POST['page'];

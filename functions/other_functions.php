@@ -12,7 +12,6 @@ function return_transactions_table($items, $kiek_viso_irasu, $limit_key, $page)
                                 <th>Tipas</th>
                                 <th>Užbaigti iki</th>
                                 <th>Statusas</th>
-                                <th>Įvedė</th>
                             </tr>
                             </thead>
                             <tbody>";
@@ -26,7 +25,6 @@ function return_transactions_table($items, $kiek_viso_irasu, $limit_key, $page)
 <td>" . transaction_assigned_to($item['type'], true) . "</td>
 <td>" . $item['due_date']  . "</td>
 <td>" . transactions_status_list($item['status'], true) . "</td>
-<td>" . get_user_by_id($item['made_by']) . "</td>
 </tr>";
         }
         if ($kiek_viso_irasu > $limit_key) {
