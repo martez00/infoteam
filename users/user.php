@@ -169,11 +169,13 @@ $files=mfa_kaip_array($mysqli, "SELECT * from users_files where users_id='$id'")
                                     <input type="text" class="form-control" id="user_name" name="user_name" required="required"
                                            value="<?php if(isset($user_arr)) echo $user_arr["user_name"]; ?>" <?php if(isset($rights['pagrindiniai_duomenys'])) echo $rights['pagrindiniai_duomenys']; ?>>
                                 </div>
+                                <?php if(!isset($user_arr)) { ?>
                                 <div class="col-md-2">
                                     <label for="password">Slaptažodis:</label>
                                     <input type="text" class="form-control" id="password" name="password" required="required"
                                            value="<?php if(isset($user_arr)) echo $user_arr["password"]; ?>" <?php if(isset($rights['pagrindiniai_duomenys'])) echo $rights['pagrindiniai_duomenys']; ?>>
                                 </div>
+                                <?php } ?>
                                 <div class="col-md-2">
                                     <label for="role_id">Rolė:</label>
                                     <select name="role_id" id="role_id" form="form"

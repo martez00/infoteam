@@ -94,6 +94,46 @@ function return_players_table($items, $kiek_viso_irasu, $limit_key, $page)
     return $text;
 }
 
+function return_players_ratings_table($items, $kiek_viso_irasu, $limit_key, $page)
+{
+    global $mysqli;
+    $text = "";
+    $text = "
+                        <table class=\"table-simple\">
+                            <thead>
+                            <tr>
+                                <th>Vardas Pavardė</th>
+                                <th>Komanda</th>
+                                <th>Vid. reitingas</th>
+                            </tr>
+                            </thead>
+                            <tbody>";
+
+    if (is_array($items) || is_object($items)) {
+        foreach ($items as $item) {
+            $text .= "<tr>
+<td><a href='" . $GLOBALS['url_path'] . "players/rating.php?id=" . $item['id'] . "' target='_blank'><b>" . $item['name'] . " " . $item['surname'] . "</b></a></td>
+<td>" . teams_list($item['team_id'], true, $mysqli) . "</td>
+<td>" . $item['rtg'] . "</td>
+</tr>";
+        }
+        if ($kiek_viso_irasu > $limit_key) {
+            $text .= "<tr><td colspan='3' style='padding: 5px;'>";
+            $viso_puslapiu = ceil($kiek_viso_irasu / $limit_key);
+            for ($i = 1; $i <= $viso_puslapiu; $i++) {
+                if ($i == $page) $class = "btn_active_page";
+                else $class = "btn_page";
+                $text .= "<a class='btn $class' onclick='set_page($i)'>$i</a>";
+            }
+            $text .= "</td></tr>";
+        }
+    } else $text .= "<tr><td colspan='3'>Tinkamų atvaizduoti duomenų nėra!</td></tr>";
+    $text .= " </tbody>
+                        </table>
+                   ";
+    return $text;
+}
+
 function return_players_salaries_table($items, $kiek_viso_irasu, $limit_key, $page)
 {
     global $mysqli;
@@ -384,6 +424,19 @@ function format_players_notes($mysqli, $id)
         foreach ($item_arr as $note) {
             $note_id = $note['id'];
             $text .= "<div class='form-row' style='margin-top:5px;'><div class='col-md-11'>• <a data-toggle=\"modal\" data-target=\"#edit_player_note\" data-id='" . $note['id'] . "' data-item_id='$id' data-notes='" . $note['notes'] . "'><img src='" . $GLOBALS['url_path'] . "images/edit.png'></button> <a onclick='delete_player_note(\"$note_id\", \"$id\")'><img src='" . $GLOBALS['url_path'] . "images/delete.png'></a> <small><i>" . date("Y-m-d", strtotime($note['action_date'])) . " " . $note['name'] . " " . $note['surname'] . ":</i></small> " . $note['notes'] . "</div></div>";
+        }
+    }
+    return $text;
+}
+
+function format_players_ratings($mysqli, $id)
+{
+    $item_arr = mfa_kaip_array($mysqli, "SELECT players_ratings.*, users.name, users.surname, tracking_made_actions.action_date  from players_ratings LEFT JOIN tracking_made_actions ON tracking_made_actions.table_name='players_ratings' AND tracking_made_actions.record_id=players_ratings.id AND tracking_made_actions.action='I' LEFT JOIN users ON users.id=tracking_made_actions.made_by where players_ratings.players_id='$id' GROUP BY players_ratings.id ORDER BY tracking_made_actions.action_date DESC ");
+    $text = "";
+    if (is_array($item_arr)) {
+        foreach ($item_arr as $rating) {
+            $rating_id = $rating['id'];
+            $text .= "<div class='form-row' style='margin-top:5px;'><div class='col-md-11'>• <a onclick='delete_player_rating(\"$rating_id\", \"$id\")'><img src='" . $GLOBALS['url_path'] . "images/delete.png'></a> <small><i>" . date("Y-m-d H:i", strtotime($rating['action_date'])) . " " . $rating['name'] . " " . $rating['surname'] . ":</i></small> " . $rating['rating'] . "</div></div>";
         }
     }
     return $text;
