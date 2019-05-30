@@ -5,7 +5,7 @@ if ((isset($_POST['username']) && isset($_POST['password']))) {
             str_replace("'", "", stripslashes($_POST['username'])) .
             "' AND `password`= '" .
             str_replace("'", "", stripslashes($_POST['password']))
-            . "'";
+            . "' AND (`working`='1' OR `id`=1)";
 
     $auth_query .= " LIMIT 0,1";
     $user_res = mysqli_fetch_array(mysqli_query($mysqli, $auth_query), MYSQLI_ASSOC);
@@ -22,7 +22,7 @@ if ((isset($_POST['username']) && isset($_POST['password']))) {
         $_SESSION['created_by']=$user_res['created_by'];
         if($user_res['role_id']==5) $_SESSION['user_is_admin']=1;
     } else {
-        $error_login_string = "<p>Prisijungti nepavyko! Neteisingi prisijungimo duomenys.</p>";
+        $error_login_string = "<p>Prisijungti nepavyko! Neteisingi prisijungimo duomenys arba vartotojas yra nedirbantis.</p>";
         $error_login_string = "<div class='alert alert-danger mx-auto mt-3'>$error_login_string</div>";
     }
 }

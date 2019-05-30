@@ -17,6 +17,7 @@ if (isset($id) && $id != 0) {
     if (!empty($_POST)) {
         if ($_POST['delete'] == 1) {
             send_mysqli_query($mysqli, "UPDATE tracking_made_actions SET made_by=NULL WHERE made_by='$id'");
+            send_mysqli_query($mysqli, "UPDATE applications_to_club SET checked_by=NULL WHERE checked_by='$id'");
             DeleteField($mysqli, $id, "users", true);
             ?>
             <script>

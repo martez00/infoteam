@@ -317,7 +317,7 @@ $files=mfa_kaip_array($mysqli, "SELECT * from applications_files where applicati
                             echo "<div class='col-md-4'><a class='btn btn-primary btn-block btn-warning' onclick='set_application_status(\"$id\", 2)'>Atidėti</a></div>";
                             echo "<div class='col-md-4'><a class='btn btn-primary btn-block btn-danger' onclick='set_application_status(\"$id\", 3)'>Atmesti</a></div></div>";
                         } else {
-                            echo "<input class='btn btn-primary btn-block' onclick='toastr.info(\"Informacija atnaujinta!\");' type='submit' value='Išsaugoti'>";
+                            echo "<input class='btn btn-primary btn-block' type='submit' value='Išsaugoti'>";
                         }
                         ?>
                     </div>

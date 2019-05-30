@@ -15,6 +15,20 @@
 <script src="<?php echo $GLOBALS['url_path']; ?>js/demo/datatables-demo.js"></script>
 <script type="text/javascript">
     $( function() {
+        $('.form-control').on('input', function(e){
+            var value = this.value;
+            var exist_quotes_single = value.search("'");
+            var exist_quotes_double = value.search("\"");
+            if(exist_quotes_single!='-1' || exist_quotes_double!='-1'){
+                if(exist_quotes_single!='-1') {
+                    value = value.replace("'", "");
+                }
+                if(exist_quotes_double!='-1')
+                    value = value.replace("\"", "");
+                this.value = value;
+                toastr.error("Kabučių naudojimas programoje negalimas!");
+            }
+        });
 
         toastr.options = {
             positionClass: 'toast-top-center'
