@@ -24,8 +24,14 @@ if (isset($id) && $id!=0) {
             <?php
         }
         else {
+            if(is_array($_POST['delete_file']) || is_object($_POST['delete_file'])){
+                foreach ($_POST['delete_file'] as $key=>$value){
+                    send_mysqli_query($mysqli, "DELETE FROM players_files WHERE id='$key'");
+                }
+            }
             unset($_POST['id']);
             unset($_POST['delete']);
+            unset($_POST['delete_file']);
             unset($_POST['hidden_note_id']);
             unset($_POST['edit_note_content']);
             unset($_POST['item_id']);
@@ -38,6 +44,7 @@ if (isset($id) && $id!=0) {
 } else {
     if (!empty($_POST)) {
         unset($_POST['hidden_note_id']);
+        unset($_POST['delete_file']);
         unset($_POST['edit_note_content']);
         unset($_POST['item_id']);
         unset($_POST['id']);
@@ -278,7 +285,7 @@ $files=mfa_kaip_array($mysqli, "SELECT * from players_files where players_id='$i
                                 <?php
                                 foreach($files as $file){
                                     $file_name=str_replace("uploads/","",$file[file_path]);
-                                    echo "<a href='$GLOBALS[url_path]$file[file_path]' target='_blank' style='float:left; margin-left:5px;'>$file_name</a>";
+                                    echo "<a href='$GLOBALS[url_path]$file[file_path]' target='_blank' style='float:left; margin-left:5px;'>$file_name</a> <span data-toggle='tooltip' title='Uždėjus varnelę ir paspaudus išsaugoti failas bus atkabintas!'><input type='checkbox' id='delete_file' name='delete_file[$file[id]]'></span>";
                                 }
                                 ?>
                             </div>

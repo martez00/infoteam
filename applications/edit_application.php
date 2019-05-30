@@ -16,7 +16,13 @@ if($_POST["create_player_by_application"]==1){
 }
 if (isset($id)) {
     if (!empty($_POST)) {
+        if(is_array($_POST['delete_file']) || is_object($_POST['delete_file'])){
+            foreach ($_POST['delete_file'] as $key=>$value){
+                send_mysqli_query($mysqli, "DELETE FROM applications_files WHERE id='$key'");
+            }
+        }
         unset($_POST['id']);
+        unset($_POST['delete_file']);
         unset($_POST['hidden_note_id']);
         unset($_POST['edit_note_content']);
         unset($_POST['app_id']);
@@ -297,7 +303,7 @@ $files=mfa_kaip_array($mysqli, "SELECT * from applications_files where applicati
                                 <?php
                                 foreach($files as $file){
                                     $file_name=str_replace("uploads/","",$file[file_path]);
-                                    echo "<a href='$GLOBALS[url_path]$file[file_path]' target='_blank' style='float:left; margin-left:5px;'>$file_name</a>";
+                                    echo "<a href='$GLOBALS[url_path]$file[file_path]' target='_blank' style='float:left; margin-left:5px;'>$file_name</a> <span data-toggle='tooltip' title='Uždėjus varnelę ir paspaudus išsaugoti failas bus atkabintas!'><input type='checkbox' id='delete_file' name='delete_file[$file[id]]'></span>";
                                 }
                                 ?>
                             </div>
