@@ -315,7 +315,7 @@ $files = mfa_kaip_array($mysqli, "SELECT * from users_files where users_id='$id'
                             <input class='btn btn-primary btn-block'
                                    style="<?php if (isset($rights['pagrindiniai_duomenys'])) echo 'display:none'; ?>"
                                    id="saveButton" type='submit' value='Išsaugoti'>
-                            <?php if (isset($user_arr) && $id != 1 && $rights['leisti_trinti'] == 1) { ?> <a
+                            <?php if (isset($user_arr) && $user_arr[working]!=1 && $id != 1 && $rights['leisti_trinti'] == 1) { ?> <a
                                     class='btn btn-primary btn-block btn-danger'
                                     onclick="document.getElementById('delete').value=1; document.getElementById('saveButton').click();"
                                     style="color:white">Trinti vartotoją</a> <?php } ?>
