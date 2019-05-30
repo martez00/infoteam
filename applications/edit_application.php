@@ -84,11 +84,11 @@ $files=mfa_kaip_array($mysqli, "SELECT * from applications_files where applicati
                     is_done = data.done;
                     if (is_done == 1) {
                         if (status == 1)
-                            toastr.success("Aplikacija patvirtinta!");
+                            toastr.success("Prašymas patvirtintas!");
                         else if (status == 2)
-                            toastr.warning("Aplikacija atidėta!");
+                            toastr.warning("Prašymas atidėtas!");
                         else if (status == 3)
-                            toastr.error("Aplikacija atmesta!");
+                            toastr.error("Prašymas atmestas!");
                         setTimeout(function () {
                             window.location = "<?php echo $GLOBALS['url_path'] . "applications/edit_application.php?id=" . $id; ?>"
                         }, 350);
@@ -317,7 +317,7 @@ $files=mfa_kaip_array($mysqli, "SELECT * from applications_files where applicati
                             echo "<div class='col-md-4'><a class='btn btn-primary btn-block btn-warning' onclick='set_application_status(\"$id\", 2)'>Atidėti</a></div>";
                             echo "<div class='col-md-4'><a class='btn btn-primary btn-block btn-danger' onclick='set_application_status(\"$id\", 3)'>Atmesti</a></div></div>";
                         } else {
-                            echo "<input class='btn btn-primary btn-block' onclick='toastr.info(\"Aplikacija atnaujinta!\");' type='submit' value='Išsaugoti'>";
+                            echo "<input class='btn btn-primary btn-block' onclick='toastr.info(\"Informacija atnaujinta!\");' type='submit' value='Išsaugoti'>";
                         }
                         ?>
                     </div>

@@ -15,6 +15,7 @@
 <script src="<?php echo $GLOBALS['url_path']; ?>js/demo/datatables-demo.js"></script>
 <script type="text/javascript">
     $( function() {
+
         toastr.options = {
             positionClass: 'toast-top-center'
         };
@@ -33,8 +34,9 @@
                         input[0].setCustomValidity(msg);
                     }
                 }
-
-
+                if(input[0].validity.tooShort){
+                    input[0].setCustomValidity('Privalote įvesti bent 6 skaitmenų slaptažodį.');
+                }
             });
         });
     } );

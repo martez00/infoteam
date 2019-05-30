@@ -190,7 +190,7 @@ $files = mfa_kaip_array($mysqli, "SELECT * from users_files where users_id='$id'
                                     <?php if (!isset($user_arr)) { ?>
                                         <div class="col-md-2">
                                             <label for="password">Slaptažodis:</label>
-                                            <input type="text" class="form-control" id="password" name="password"
+                                            <input type="password" minlength="6" class="form-control" id="password" name="password"
                                                    required="required"
                                                    value="<?php if (isset($user_arr)) echo $user_arr["password"]; ?>" <?php if (isset($rights['pagrindiniai_duomenys'])) echo $rights['pagrindiniai_duomenys']; ?>>
                                         </div>

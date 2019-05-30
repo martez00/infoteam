@@ -45,7 +45,6 @@ if (isset($id)) {
     <input type="hidden" name="id" id="id" value="<?php if(isset($id)) echo $id ;?>">
     <div id="wrapper">
         <?php require($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/view/sidebar.php"); ?>
-        <?php echo "<input type=\"hidden\" name=\"id\" id=\"id\" value=\"$id\">";?>
         <div id="content-wrapper">
 
             <div class="container-fluid">
@@ -74,7 +73,7 @@ if (isset($id)) {
                             <div class="form-row">
                                 <div class="col-md-2">
                                     <label for="password">Naujas slaptažodis:</label>
-                                    <input type="text" class="form-control" id="password" name="password" required="required"
+                                    <input type="password" minlength="6" class="form-control" id="password" name="password" required="required"
                                            value="<?php if(isset($user_arr)) echo $user_arr["password"]; ?>">
                                 </div>
                             </div>
