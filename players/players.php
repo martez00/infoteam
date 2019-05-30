@@ -8,6 +8,9 @@ require_once($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/loader.inc.php");
 $rights=check_player_rights();
 if($rights['leisti_perziureti']!=1) header("Location: $GLOBALS[url_path]main/index.php?redirected=1");
 
+if(!$_POST['page']) $page=1;
+else $page=$_POST['page'];
+
 $sql = "SELECT * from players WHERE 1=1 ";
 $arr_from_search_format = format_sql_from_search($sql, $_POST, NULL, "GROUP BY players.id");
 $search_arr=$arr_from_search_format["search_arr"];

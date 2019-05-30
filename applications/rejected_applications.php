@@ -11,22 +11,11 @@ if($rights['leisti_perziureti']!=1) header("Location: $GLOBALS[url_path]main/ind
 $status=3;
 if(!$_POST['page']) $page=1;
 else $page=$_POST['page'];
-$limit_key=10;
-$end_limit=$page*$limit_key;
-$start_limit=$end_limit-$limit_key;
+
 $sql = "SELECT * from applications_to_club WHERE 1=1 AND status='$status' ";
-if($_POST['search']){
-    $search_arr=$_POST['search'];
-    $sql_where="";
-    foreach($search_arr as $key => $value){
-        if(isset($value) && $value!='0' && $value!=''){
-            $sql_where .=" AND $key='$value' ";
-        }
-    }
-}
-$sql .= $sql_where;
-$sql .=" ORDER BY created_date DESC LIMIT $start_limit, $end_limit ";
-$atmesti_prasymai = mfa_kaip_array($mysqli, $sql);
+$arr_from_search_format = format_sql_from_search($sql, $_POST, NULL, "GROUP BY applications_to_club.id");
+$search_arr=$arr_from_search_format["search_arr"];
+$atmesti_prasymai = mfa_kaip_array($mysqli, $arr_from_search_format["sql"]);
 $kiek_viso_irasu=gor($mysqli,"SELECT COUNT(id) FROM applications_to_club WHERE 1=1 AND status='$status' $sql_where");
 
 ?>

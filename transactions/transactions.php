@@ -8,6 +8,9 @@ require_once($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/loader.inc.php");
 $rights=check_transactions_rights();
 if($rights['leisti_perziureti']!=1) header("Location: $GLOBALS[url_path]main/index.php?redirected=1");
 
+if(!$_POST['page']) $page=1;
+else $page=$_POST['page'];
+
 $sql = "SELECT * from transactions WHERE 1=1 ";
 $arr_from_search_format = format_sql_from_search($sql, $_POST, "ORDER BY transactions.due_date DESC", "GROUP BY transactions.id");
 $search_arr=$arr_from_search_format["search_arr"];
