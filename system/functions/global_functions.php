@@ -124,7 +124,7 @@ function DeleteField($mysqli, $delete_id, $table, $register_for_tracking = false
             $who_made['value'] = "";
             $who_made['name'] = "";
         }
-        $sql_tracking = "INSERT INTO tracking_made_actions (`action`, `action_date`, `table_name`, `record_id` ".$who_made['name'].") VALUES ('U', '".date("Y-m-d H:i:s", strtotime("now"))."', '$table', '$delete_id' ".$who_made['value'].")";
+        $sql_tracking = "INSERT INTO tracking_made_actions (`action`, `action_date`, `table_name`, `record_id` ".$who_made['name'].") VALUES ('D', '".date("Y-m-d H:i:s", strtotime("now"))."', '$table', '$delete_id' ".$who_made['value'].")";
         send_mysqli_query($mysqli, $sql_tracking);
     }
 }
