@@ -172,7 +172,7 @@ $files = mfa_kaip_array($mysqli, "SELECT * from users_files where users_id='$id'
                         <div class="card-header">
                             <i class="fas fa-table"></i>
                             <?php if ($user_exists) { ?> Vartotojas: <b><?php echo $user_arr['user_name'] ?></b>
-                            <?php } else echo "Naujo vartotojo kūrimas"; ?>
+                            <?php if($_SESSION['user_id']==1) echo "<small><a href='$GLOBALS[url_path]users/edit_user_info.php?id=$id'>[keisti slaptažodį]</a></small>";} else echo "Naujo vartotojo kūrimas"; ?>
                         </div>
                         <div class="card-body">
                             <div class="form-group">

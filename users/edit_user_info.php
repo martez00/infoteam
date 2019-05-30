@@ -8,6 +8,10 @@ require_once($_SERVER['DOCUMENT_ROOT'] . "/$folder/system/inc/loader.inc.php");
 if (isset($_GET['id'])) $id = $_GET['id'];
 else if(isset($_POST['id'])) $id = $_POST['id'];
 
+if(!$_SESSION['user_is_admin'] && $_SESSION['user_id']!=$id){
+    header("Location: $GLOBALS[url_path]main/index.php?redirected=1");
+}
+
 if (isset($id)) {
     if (!empty($_POST)) {
         unset($_POST['id']);
@@ -69,12 +73,7 @@ if (isset($id)) {
                         <div class="form-group">
                             <div class="form-row">
                                 <div class="col-md-2">
-                                    <label for="position_name">Slapyvardis:</label>
-                                    <input type="text" class="form-control" id="user_name" name="user_name" required="required"
-                                           value="<?php if(isset($user_arr)) echo $user_arr["user_name"]; ?>">
-                                </div>
-                                <div class="col-md-2">
-                                    <label for="password">Slaptažodis:</label>
+                                    <label for="password">Naujas slaptažodis:</label>
                                     <input type="text" class="form-control" id="password" name="password" required="required"
                                            value="<?php if(isset($user_arr)) echo $user_arr["password"]; ?>">
                                 </div>
