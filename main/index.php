@@ -38,11 +38,87 @@ if($_GET['redirected']==1){
 }
 ?>
             <!-- Page Content -->
-            <h1>Kas yra InfoTeam?</h1>
+            <h1>InfoTeam – pagrindinės funkcijos</h1>
             <hr>
-            <p>Tai inovatyvi sistema, padėsianti jum moderniai, greitai ir patogiai valdyti procesus futbolo klubo viduje!</p>
-
-        </div>
+            <div class="card-deck mb-6 text-center">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">Prašymų valdymo modulis</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>Prašymų pateikimo funkcija</li>
+                            <li>Prašymų ataskaitos pagal statusą</li>
+                            <li>Prašymų peržiūros ir patvirtinimo funkcija</li>
+                            <li>Galimybė sukurti žaidėją pagal prašymo duomenis</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card mb-4 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">Vartotojų valdymo modulis</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>Galimybė kurti naujus vartotojus</li>
+                            <li>Rolės priskyrimas vartotojams</li>
+                            <li>Vartotojų peržiūros ir redagavimo funkcija</li>
+                            <li>Vartotojų ataskaita</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card mb-4 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">Komandų valdymo modulis</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>Klubo komandų vedimas ir redagavimas</li>
+                            <li>Komandų ataskaita</li>
+                            <li>Galimybė žaidėjui priskirti klubo komandą</li>
+                            <li>Komandų žaidėjų sąrašas</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="card-deck mb-6 text-center">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">Žaidėjų valdymo modulis</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>Žaidėjų įvedimas</li>
+                            <li>Žaidėjų peržiūrą ir redagavimas</li>
+                            <li>Žaidėjų ataskaita</li>
+                            <li>Žaidėjų reitingavimo funkcija</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card mb-4 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">Buhalterijos valdymo modulis</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>Atliktų ir būsimų pervedimų vedimas, redagavimas ir peržiūrėjimas</li>
+                            <li>Pervedimų ataskaita</li>
+                            <li>Žaidėjų ir darbuotojų atlyginimų apskaita</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card mb-4 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">Papildomos funkcijos</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>Atliktų vartotojų veiksmų sekimas</li>
+                            <li>Galimybė prikabinti failus ir pastabas prie žaidėjų, komandų ir pervedimų</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         <!-- /.container-fluid -->
 
         <?php require ($_SERVER['DOCUMENT_ROOT']."/$folder/system/view/footer.php"); ?>
