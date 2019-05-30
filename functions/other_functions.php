@@ -94,6 +94,46 @@ function return_players_table($items, $kiek_viso_irasu, $limit_key, $page)
     return $text;
 }
 
+function return_team_players_table($items)
+{
+    global $mysqli;
+    $text = "";
+    $text = "
+                        <table class=\"table-simple\">
+                            <thead>
+                            <tr>
+                                <th>Vardas Pavardė</th>
+                                <th>Komanda</th>
+                                <th>Stebėti?</th>
+                                <th>Šalis</th>
+                                <th>Pozicija</th>
+                                <th>Gimimo data</th>
+                                <th>El. paštas</th>
+                                <th>Mob. nr.</th>
+                            </tr>
+                            </thead>
+                            <tbody>";
+
+    if (is_array($items) || is_object($items)) {
+        foreach ($items as $item) {
+            $text .= "<tr>
+<td><a href='" . $GLOBALS['url_path'] . "players/player.php?id=" . $item['id'] . "' target='_blank'><b>" . $item['name'] . " " . $item['surname'] . "</b></a></td>
+<td>" . teams_list($item['team_id'], true, $mysqli) . "</td>
+<td>" . taip_ne_list($item['need_to_scout'], true, NULL) . "</td>
+<td>" . $item['country'] . "</td>
+<td>" . positions_list($item['position_in_field'], true) . "</td>
+<td>" . $item['birth_date'] . "</td>
+<td>" . $item['email'] . "</td>
+<td>" . $item['mob_number'] . "</td>
+</tr>";
+        }
+    }
+    $text .= " </tbody>
+                        </table>
+                   ";
+    return $text;
+}
+
 function return_players_ratings_table($items, $kiek_viso_irasu, $limit_key, $page)
 {
     global $mysqli;

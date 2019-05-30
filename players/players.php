@@ -91,6 +91,11 @@ $kiek_viso_irasu=gor($mysqli,"SELECT COUNT(id) FROM players WHERE 1=1 $arr_from_
                             Mob. nr:
                             <input type="text" class="form-control" id="mob_number" name="search[mob_number]" value="<?php echo $search_arr['mob_number'] ?>">
                         </div>
+                        <div class="col-md-2">
+                            Ar stebėti
+                            <select name="search[need_to_scout]" id="need_to_scout" form="form"
+                                    class="form-control"><?php echo taip_ne_list($search_arr['need_to_scout'], false, 1); ?></select>
+                        </div>
                     </div>
                     <hr>
                     <input class="btn btn-block search_btn" type="submit" value="Vykdyti paiešką">

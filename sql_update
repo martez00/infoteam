@@ -3,3 +3,59 @@ DROP FOREIGN KEY fk_users_actions;
 
 ALTER TABLE `tracking_made_actions`
   ADD CONSTRAINT `fk_users_actions` FOREIGN KEY (`made_by`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+ ----------
+
+ALTER TABLE players_files
+DROP FOREIGN KEY fk_players_files;
+
+ALTER TABLE `players_files`
+  ADD CONSTRAINT `fk_players_files` FOREIGN KEY (`players_id`) REFERENCES `players` (`id`) ON DELETE CASCADE;
+
+ ----------
+
+ALTER TABLE players_notes
+DROP FOREIGN KEY fk_players_notes;
+
+ALTER TABLE `players_notes`
+  ADD CONSTRAINT `fk_players_notes` FOREIGN KEY (`players_id`) REFERENCES `players` (`id`) ON DELETE CASCADE;
+
+   ----------
+
+  ALTER TABLE players_ratings
+  DROP FOREIGN KEY fk_players_ratings;
+
+  ALTER TABLE `players_ratings`
+    ADD CONSTRAINT `fk_players_ratings` FOREIGN KEY (`players_id`) REFERENCES `players` (`id`) ON DELETE CASCADE;
+
+
+    ----------iki cia sudeta-------------
+
+     ALTER TABLE users_files
+      DROP FOREIGN KEY fk_users_files;
+
+      ALTER TABLE `users_files`
+        ADD CONSTRAINT `fk_users_files` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+        ---
+         ALTER TABLE users_notes
+              DROP FOREIGN KEY fk_users_notes;
+
+              ALTER TABLE `users_notes`
+                ADD CONSTRAINT `fk_users_notes` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+
+                --------
+
+       ALTER TABLE transactions_files
+                     DROP FOREIGN KEY fk_trans_files;
+
+                     ALTER TABLE `transactions_files`
+                       ADD CONSTRAINT `fk_trans_files` FOREIGN KEY (`transactions_id`) REFERENCES `transactions` (`id`) ON DELETE CASCADE;
+
+        ----
+         ALTER TABLE transactions_notes
+                             DROP FOREIGN KEY fk_trans_notes;
+
+                             ALTER TABLE `transactions_notes`
+                               ADD CONSTRAINT `fk_trans_notes` FOREIGN KEY (`transactions_id`) REFERENCES `transactions` (`id`) ON DELETE CASCADE;
+----------iki cia sudeta-------------
