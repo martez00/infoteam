@@ -228,6 +228,7 @@ function applications_status_list($value, $get_value = false){
 
 function countries_list($value){
     $country_array = array(
+        "LT" => "Lithuania",
         "AF" => "Afghanistan",
         "AL" => "Albania",
         "DZ" => "Algeria",
@@ -357,7 +358,6 @@ function countries_list($value){
         "LR" => "Liberia",
         "LY" => "Libya",
         "LI" => "Liechtenstein",
-        "LT" => "Lithuania",
         "LU" => "Luxembourg",
         "MO" => "Macau SAR China",
         "MK" => "Macedonia",

@@ -180,7 +180,7 @@ $files=mfa_kaip_array($mysqli, "SELECT * from applications_files where applicati
                 <div class="card mb-3">
                     <div class="card-header">
                         <i class="fas fa-table"></i>
-                        Žaidėjo prašymas: <b><?php echo $prasymo_arr['name'] . " " . $prasymo_arr['surname']; ?></b> <small><?php echo $create_show_player_text; ?></small>
+                        Žaidėjo prašymas: <b><?php echo $prasymo_arr['name'] . " " . $prasymo_arr['surname']; ?></b> <small><?php echo $create_show_player_text; ?></small> <?php if($prasymo_arr['checked_by']) echo "<small>| Pirmą kart patvirtino: <b>".get_user_by_id($prasymo_arr['checked_by'])."</b></small>"; ?>
                     </div>
                     <div class="card-body">
                         <div class="form-group">

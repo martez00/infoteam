@@ -12,6 +12,7 @@ switch ($_POST['do']) {
         if (isset($_POST['status'])) {
             $status=$_POST['status'];
             $application_arr['status'] = $status;
+            $application_arr['checked_by'] = $_SESSION['user_id'];
         }
         UpdateField($mysqli, $application_arr, "applications_to_club", true, $id);
         echo json_encode(array("done" => "1"));

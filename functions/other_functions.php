@@ -320,6 +320,7 @@ function return_actions_table($items, $kiek_viso_irasu, $limit_key, $page)
     if (is_array($items) || is_object($items)) {
         foreach ($items as $item) {
             if($item['table_name']=='teams') $href="<a href='$GLOBALS[url_path]teams/team.php?id=$item[record_id]' target='_blank'>$item[record_name]</a>";
+            else if($item['table_name']=='applications_to_club') $href="<a href='$GLOBALS[url_path]applications/edit_application.php?id=$item[record_id]' target='_blank'>$item[record_name]</a>";
             $text .= "<tr>
 <td>" . $item['id'] . "</td>
 <td>" . $href . "</td>

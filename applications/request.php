@@ -64,7 +64,7 @@ require_once ($_SERVER['DOCUMENT_ROOT']."/$folder/system/inc/loader.inc.php");
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="birth_date" class="font-weight-bold">Gimimo data</label>
-                                <input type="text" id="datepicker" name="birth_date" class="form-control" placeholder="Gimimo data" required="required" autofocus="autofocus">
+                                <input type="text" name="birth_date" class="form-control datepicker" placeholder="Gimimo data" required="required" autofocus="autofocus">
                             </div>
                         </div>
                         <div class="col-md-6">
