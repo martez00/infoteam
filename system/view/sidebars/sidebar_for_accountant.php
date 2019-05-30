@@ -14,7 +14,7 @@ else $not_reviewed_applications="<span class='badge-pill badge-danger' data-togg
     </li>
     <li class="nav-item">
         <a class="nav-link" href="<?php echo $GLOBALS['url_path']."users/users.php"; ?>">
-            <i class="fas fa-fw fa-layer-group"></i>
+            <i class="fas fa-fw fa-users"></i>
             <span>Vartotojai</span>
         </a>
     </li>
