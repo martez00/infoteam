@@ -364,7 +364,7 @@ function return_actions_table($items, $kiek_viso_irasu, $limit_key, $page)
                 else if ($item['table_name'] == 'applications_to_club') $href = "<a href='$GLOBALS[url_path]applications/edit_application.php?id=$item[record_id]' target='_blank'>$item[record_name]</a>";
                 else if ($item['table_name'] == 'users') $href = "<a href='$GLOBALS[url_path]users/user.php?id=$item[record_id]' target='_blank'>$item[record_name]</a>";
             }
-            else $href = "ID: $item[record_id]";
+            else $href = "ID: $item[record_id] <small>(nebeegzistuoja)</small>";
             $text .= "<tr>
 <td>" . $item['id'] . "</td>
 <td>" . $href . "</td>
