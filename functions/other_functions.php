@@ -363,6 +363,7 @@ function return_actions_table($items, $kiek_viso_irasu, $limit_key, $page)
                 if ($item['table_name'] == 'teams') $href = "<a href='$GLOBALS[url_path]teams/team.php?id=$item[record_id]' target='_blank'>$item[record_name]</a>";
                 else if ($item['table_name'] == 'applications_to_club') $href = "<a href='$GLOBALS[url_path]applications/edit_application.php?id=$item[record_id]' target='_blank'>$item[record_name]</a>";
                 else if ($item['table_name'] == 'users') $href = "<a href='$GLOBALS[url_path]users/user.php?id=$item[record_id]' target='_blank'>$item[record_name]</a>";
+                else if ($item['table_name'] == 'transactions') $href = "<a href='$GLOBALS[url_path]transactions/transaction.php?id=$item[record_id]' target='_blank'>$item[record_name]</a>";
             }
             else $href = "ID: $item[record_id] <small>(nebeegzistuoja)</small>";
             $text .= "<tr>

@@ -15,6 +15,7 @@ if(!isset($table)) exit;
 if($table=="teams") $select_name=", teams.name as record_name";
 else if($table=="applications_to_club") $select_name=", CONCAT(applications_to_club.name, ' ', applications_to_club.surname) as record_name";
 else if($table=="users") $select_name=", users.user_name as record_name";
+else if($table=="transactions") $select_name=", transactions.id as record_name";
 
 $sql = "SELECT tracking_made_actions.* $select_name from tracking_made_actions LEFT JOIN $table ON $table.id=tracking_made_actions.record_id WHERE 1=1 AND table_name='$table' ";
 $arr_from_search_format = format_sql_from_search($sql, $_POST, 'ORDER BY tracking_made_actions.id DESC', "GROUP BY tracking_made_actions.id");
