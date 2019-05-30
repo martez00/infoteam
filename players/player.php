@@ -16,6 +16,7 @@ if(!isset($id) && $rights['leisti_kurti']!=1) header("Location: $GLOBALS[url_pat
 if (isset($id) && $id!=0) {
     if (!empty($_POST)) {
         if($_POST['delete']==1) {
+            send_mysqli_query($mysqli,"UPDATE transactions SET assigned_to_other='Ištrintam žaidėjui: $_POST[name] $_POST[surname]', type='3', assigned_to_player_id=NULL, assigned_to_user_id=NULL WHERE assigned_to_player_id='$id'");
             DeleteField($mysqli, $id, "players", true);
             ?>
             <script>
