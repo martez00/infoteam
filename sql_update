@@ -1,38 +1,5 @@
-2018-05-13
-22:00
-ALTER TABLE `applications_notes` CHANGE `note` `notes` VARCHAR(250) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE tracking_made_actions
+DROP FOREIGN KEY fk_users_actions;
 
-22:44
-ALTER TABLE `users` ADD `mob_number` VARCHAR(15) NOT NULL AFTER `created_by`, ADD `email` VARCHAR(150) NOT NULL AFTER `mob_number`;
-
-22:53
-ALTER TABLE `users` CHANGE `not_working` `working` TINYINT(4) NOT NULL DEFAULT '0';
-
-
-2018-05-14
-20:39
-CREATE TABLE `teams` (
-  `id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `short_name` varchar(5) NOT NULL,
-  `main_team` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-ALTER TABLE `teams`
-  ADD PRIMARY KEY (`id`);
-
-ALTER TABLE `teams`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
-21:55
-ALTER TABLE `players` ADD `email` VARCHAR(150) NOT NULL AFTER `salary`, ADD `mob_number` VARCHAR(15) NOT NULL AFTER `email`;
-
-2018-05-15
-01:52
-ALTER TABLE `players` ADD `team_id` INT NOT NULL AFTER `mob_number`;
-
-ALTER TABLE `players`
-  ADD KEY `players_teams` (`team_id`);
-
-ALTER TABLE `players`
-    ADD CONSTRAINT `players_teams` FOREIGN KEY (`team_id`) REFERENCES `teams` (`id`);
+ALTER TABLE `tracking_made_actions`
+  ADD CONSTRAINT `fk_users_actions` FOREIGN KEY (`made_by`) REFERENCES `users` (`id`) ON DELETE CASCADE;

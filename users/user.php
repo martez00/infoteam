@@ -16,6 +16,7 @@ if (!isset($id) && $rights['leisti_kurti'] != 1) header("Location: $GLOBALS[url_
 if (isset($id) && $id != 0) {
     if (!empty($_POST)) {
         if ($_POST['delete'] == 1) {
+            send_mysqli_query($mysqli, "UPDATE tracking_made_actions SET made_by=NULL WHERE made_by='$id'");
             DeleteField($mysqli, $id, "users", true);
             ?>
             <script>
