@@ -43,7 +43,7 @@ if (isset($id) && $id != 0) {
                     $user_arr['working'] = 1;
                     $message = "Pagrindinis admin vartotojas negali būti nedirbantis. ";
                 }
-            if ($id == 1 && $user_arr['role_id'] != 51) {
+            if ($id == 1 && $user_arr['role_id'] != 5) {
                 $user_arr['role_id'] = 5;
                 $message .= "Pagrindinis admin vartotojas negali būti ne administratoriaus rolės. ";
             }
