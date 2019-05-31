@@ -63,8 +63,10 @@ if (isset($id) && $id != 0) {
         header("Location: $GLOBALS[url_path]users/user.php?id=$id");
     }
 }
-if (isset($id))
+if (isset($id)){
     $user_arr = mfa($mysqli, "SELECT * from users where id='$id'");
+    $applications = mfa_kaip_array($mysqli, "SELECT * from applications_to_club where checked_by='$id'");
+}
 if (isset($user_arr)) $user_exists = 1;
 else $user_exists = 0;
 
@@ -325,10 +327,10 @@ $files = mfa_kaip_array($mysqli, "SELECT * from users_files where users_id='$id'
                             <input class='btn btn-primary btn-block'
                                    style="<?php if (isset($rights['pagrindiniai_duomenys'])) echo 'display:none'; ?>"
                                    id="saveButton" type='submit' value='Išsaugoti'>
-                            <?php if (isset($user_arr) && $user_arr[working]!=1 && $id != 1 && $rights['leisti_trinti'] == 1) { ?> <a
+                            <?php if (isset($user_arr) && $user_arr[working]!=1 && $id != 1 && $rights['leisti_trinti'] == 1) { if(!is_array($applications) && !is_object($applications)) {?> <a
                                     class='btn btn-primary btn-block btn-danger'
                                     onclick="document.getElementById('delete').value=1; document.getElementById('saveButton').click();"
-                                    style="color:white">Trinti vartotoją</a> <?php } ?>
+                                    style="color:white">Trinti vartotoją</a> <?php } else echo "<div class='alert alert-danger text-center' style='margin-top:5px' role='alert'>Vartotojo ištrinti negalite, kadangi jis turi patvirtintų prašymų!</div>"; } ?>
                         </div>
                         <!-- /.content-wrapper -->
                         <div class="modal fade" id="edit_user_note" tabindex="-1" role="dialog"

@@ -1,2 +1,2 @@
 <?php
-$limit_key=10;
+$limit_key=50;
